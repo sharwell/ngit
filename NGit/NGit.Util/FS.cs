@@ -64,7 +64,7 @@ namespace NGit.Util
 		/// <returns>detected file system abstraction</returns>
 		public static NGit.Util.FS Detect()
 		{
-			return Detect(null);
+			return Detect(false);
 		}
 
 		/// <summary>
