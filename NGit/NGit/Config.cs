@@ -1748,15 +1748,13 @@ namespace NGit
 
 			internal virtual int Read()
 			{
-				try
-				{
-					return buf[pos++];
-				}
-				catch (IndexOutOfRangeException)
+				if (pos >= buf.Length)
 				{
 					pos = buf.Length;
 					return -1;
 				}
+
+				return buf[pos++];
 			}
 
 			internal virtual void Reset()
