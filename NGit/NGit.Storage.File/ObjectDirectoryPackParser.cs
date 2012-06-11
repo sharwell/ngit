@@ -46,6 +46,8 @@ using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using NGit;
+using NGit.Errors;
+using NGit.Internal;
 using NGit.Storage.File;
 using NGit.Transport;
 using NGit.Util;
@@ -510,8 +512,8 @@ namespace NGit.Storage.File
 				{
 					if (!keep.Lock(lockMessage))
 					{
-						throw new IOException(MessageFormat.Format(JGitText.Get().cannotLockPackIn, finalPack
-							));
+						throw new LockFailedException(finalPack, MessageFormat.Format(JGitText.Get().cannotLockPackIn
+							, finalPack));
 					}
 				}
 				catch (IOException e)

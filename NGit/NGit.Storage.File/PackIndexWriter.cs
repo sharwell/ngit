@@ -44,9 +44,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.Collections.Generic;
 using NGit;
+using NGit.Internal;
 using NGit.Storage.File;
 using NGit.Transport;
 using NGit.Util;
+using NGit.Util.IO;
 using Sharpen;
 
 namespace NGit.Storage.File
@@ -192,7 +194,7 @@ LOOP_break: ;
 		/// </param>
 		protected internal PackIndexWriter(OutputStream dst)
 		{
-			@out = new DigestOutputStream(dst is BufferedOutputStream ? dst : new BufferedOutputStream
+			@out = new DigestOutputStream(dst is BufferedOutputStream ? dst : new SafeBufferedOutputStream
 				(dst), Constants.NewMessageDigest());
 			tmp = new byte[4 + Constants.OBJECT_ID_LENGTH];
 		}

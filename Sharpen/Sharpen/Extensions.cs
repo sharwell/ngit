@@ -32,6 +32,22 @@ namespace Sharpen
 		{
 			list.Insert (index, item);
 		}
+		
+		public static void AddFirst<T> (this IList<T> list, T item)
+		{
+			list.Insert (0, item);
+		}
+		
+		public static void AddLast<T> (this IList<T> list, T item)
+		{
+			list.Add (item);
+		}
+		
+		public static void RemoveLast<T> (this IList<T> list)
+		{
+			if (list.Count > 0)
+				list.Remove (list.Count - 1);
+		}
 
 		public static StringBuilder AppendRange (this StringBuilder sb, string str, int start, int end)
 		{
@@ -125,13 +141,14 @@ namespace Sharpen
 			return ByteBuffer.Wrap (e.GetBytes (str));
 		}
 		
+		static UTF8Encoding UTF8Encoder = new UTF8Encoding (false, true);
 		public static Encoding GetEncoding (string name)
 		{
 //			Encoding e = Encoding.GetEncoding (name, EncoderFallback.ExceptionFallback, DecoderFallback.ExceptionFallback);
 			try {
 				Encoding e = Encoding.GetEncoding (name.Replace ('_','-'));
 				if (e is UTF8Encoding)
-					return new UTF8Encoding (false, true);
+					return UTF8Encoder;
 				return e;
 			} catch (ArgumentException) {
 				throw new UnsupportedCharsetException (name);
@@ -173,7 +190,7 @@ namespace Sharpen
 			d [key] = value;
 			return old;
 		}
-
+		
 		public static void PutAll<T, U> (this IDictionary<T, U> d, IDictionary<T, U> values)
 		{
 			foreach (KeyValuePair<T,U> val in values)

@@ -46,9 +46,11 @@ using System.IO;
 using NGit;
 using NGit.Dircache;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Treewalk;
 using NGit.Treewalk.Filter;
 using NGit.Util;
+using NGit.Util.IO;
 using Sharpen;
 
 namespace NGit.Dircache
@@ -156,7 +158,7 @@ namespace NGit.Dircache
 		/// <param name="repo">the repository in which we do the checkout</param>
 		/// <param name="headCommitTree">the id of the tree of the head commit</param>
 		/// <param name="dc">the (already locked) Dircache for this repo</param>
-		/// <param name="mergeCommitTree">the id of the tree of the</param>
+		/// <param name="mergeCommitTree">the id of the tree we want to fast-forward to</param>
 		/// <exception cref="System.IO.IOException">System.IO.IOException</exception>
 		public DirCacheCheckout(Repository repo, ObjectId headCommitTree, DirCache dc, ObjectId
 			 mergeCommitTree) : this(repo, headCommitTree, dc, mergeCommitTree, new FileTreeIterator
@@ -296,6 +298,10 @@ namespace NGit.Dircache
 		{
 			if (m != null)
 			{
+				if (!IsValidPath(m))
+				{
+					throw new InvalidPathException(m.EntryPathString);
+				}
 				// There is an entry in the merge commit. Means: we want to update
 				// what's currently in the index and working-tree to that one
 				if (i == null)
@@ -368,22 +374,15 @@ namespace NGit.Dircache
 						}
 					}
 				}
-				else
-				{
-					// untracked file, neither contained in tree to merge
-					// nor in index
-					// There is no file/folder for that path in the working tree.
-					// The only entry we have is the index entry. If that entry is a
-					// conflict simply remove it. Otherwise keep that entry in the
-					// index
-					if (i.GetDirCacheEntry().Stage == 0)
-					{
-						Keep(i.GetDirCacheEntry());
-					}
-				}
 			}
 		}
 
+		// untracked file, neither contained in tree to merge
+		// nor in index
+		// There is no file/folder for that path in the working tree,
+		// nor in the merge head.
+		// The only entry we have is the index entry. Like the case
+		// where there is a file with the same name, remove it,
 		/// <summary>Execute this checkout</summary>
 		/// <returns>
 		/// <code>false</code> if this method could not delete all the files
@@ -399,77 +398,109 @@ namespace NGit.Dircache
 		/// <exception cref="System.IO.IOException">System.IO.IOException</exception>
 		public virtual bool Checkout()
 		{
-			toBeDeleted.Clear();
-			if (headCommitTree != null)
+			try
 			{
-				PreScanTwoTrees();
+				return DoCheckout();
 			}
-			else
-			{
-				PrescanOneTree();
-			}
-			if (!conflicts.IsEmpty())
-			{
-				if (failOnConflict)
-				{
-					dc.Unlock();
-					throw new NGit.Errors.CheckoutConflictException(Sharpen.Collections.ToArray(conflicts
-						, new string[conflicts.Count]));
-				}
-				else
-				{
-					CleanUpConflicts();
-				}
-			}
-			// update our index
-			builder.Finish();
-			FilePath file = null;
-			string last = string.Empty;
-			// when deleting files process them in the opposite order as they have
-			// been reported. This ensures the files are deleted before we delete
-			// their parent folders
-			for (int i = removed.Count - 1; i >= 0; i--)
-			{
-				string r = removed[i];
-				file = new FilePath(repo.WorkTree, r);
-				if (!file.Delete() && file.Exists())
-				{
-					toBeDeleted.AddItem(r);
-				}
-				else
-				{
-					if (!IsSamePrefix(r, last))
-					{
-						RemoveEmptyParents(file);
-					}
-					last = r;
-				}
-			}
-			if (file != null)
-			{
-				RemoveEmptyParents(file);
-			}
-			foreach (string path in updated.Keys)
-			{
-				// ... create/overwrite this file ...
-				file = new FilePath(repo.WorkTree, path);
-				if (!file.GetParentFile().Mkdirs())
-				{
-				}
-				// ignore
-				DirCacheEntry entry = dc.GetEntry(path);
-				// submodules are handled with separate operations
-				if (FileMode.GITLINK.Equals(entry.RawMode))
-				{
-					continue;
-				}
-				CheckoutEntry(repo, file, entry);
-			}
-			// commit the index builder - a new index is persisted
-			if (!builder.Commit())
+			finally
 			{
 				dc.Unlock();
-				throw new IndexWriteException();
+			}
+		}
+
+		/// <exception cref="NGit.Errors.CorruptObjectException"></exception>
+		/// <exception cref="System.IO.IOException"></exception>
+		/// <exception cref="NGit.Errors.MissingObjectException"></exception>
+		/// <exception cref="NGit.Errors.IncorrectObjectTypeException"></exception>
+		/// <exception cref="NGit.Errors.CheckoutConflictException"></exception>
+		/// <exception cref="NGit.Errors.IndexWriteException"></exception>
+		private bool DoCheckout()
+		{
+			toBeDeleted.Clear();
+			ObjectReader objectReader = repo.ObjectDatabase.NewReader();
+			try
+			{
+				if (headCommitTree != null)
+				{
+					PreScanTwoTrees();
+				}
+				else
+				{
+					PrescanOneTree();
+				}
+				if (!conflicts.IsEmpty())
+				{
+					if (failOnConflict)
+					{
+						throw new NGit.Errors.CheckoutConflictException(Sharpen.Collections.ToArray(conflicts
+							, new string[conflicts.Count]));
+					}
+					else
+					{
+						CleanUpConflicts();
+					}
+				}
+				// update our index
+				builder.Finish();
+				FilePath file = null;
+				string last = string.Empty;
+				// when deleting files process them in the opposite order as they have
+				// been reported. This ensures the files are deleted before we delete
+				// their parent folders
+				for (int i = removed.Count - 1; i >= 0; i--)
+				{
+					string r = removed[i];
+					file = new FilePath(repo.WorkTree, r);
+					if (!file.Delete() && file.Exists())
+					{
+						// The list of stuff to delete comes from the index
+						// which will only contain a directory if it is
+						// a submodule, in which case we shall not attempt
+						// to delete it. A submodule is not empty, so it
+						// is safe to check this after a failed delete.
+						if (!file.IsDirectory())
+						{
+							toBeDeleted.AddItem(r);
+						}
+					}
+					else
+					{
+						if (!IsSamePrefix(r, last))
+						{
+							RemoveEmptyParents(new FilePath(repo.WorkTree, last));
+						}
+						last = r;
+					}
+				}
+				if (file != null)
+				{
+					RemoveEmptyParents(file);
+				}
+				foreach (string path in updated.Keys)
+				{
+					// ... create/overwrite this file ...
+					file = new FilePath(repo.WorkTree, path);
+					if (!file.GetParentFile().Mkdirs())
+					{
+					}
+					// ignore
+					DirCacheEntry entry = dc.GetEntry(path);
+					// submodules are handled with separate operations
+					if (FileMode.GITLINK.Equals(entry.RawMode))
+					{
+						continue;
+					}
+					CheckoutEntry(repo, file, entry, objectReader);
+				}
+				// commit the index builder - a new index is persisted
+				if (!builder.Commit())
+				{
+					throw new IndexWriteException();
+				}
+			}
+			finally
+			{
+				objectReader.Release();
 			}
 			return toBeDeleted.Count == 0;
 		}
@@ -495,6 +526,26 @@ namespace NGit.Dircache
 			}
 		}
 
+		/// <summary>Compares whether two pairs of ObjectId and FileMode are equal.</summary>
+		/// <remarks>Compares whether two pairs of ObjectId and FileMode are equal.</remarks>
+		/// <param name="id1"></param>
+		/// <param name="mode1"></param>
+		/// <param name="id2"></param>
+		/// <param name="mode2"></param>
+		/// <returns>
+		/// <code>true</code> if FileModes and ObjectIds are equal.
+		/// <code>false</code> otherwise
+		/// </returns>
+		private bool EqualIdAndMode(ObjectId id1, FileMode mode1, ObjectId id2, FileMode 
+			mode2)
+		{
+			if (!mode1.Equals(mode2))
+			{
+				return false;
+			}
+			return id1 != null ? id1.Equals(id2) : id2 == null;
+		}
+
 		/// <summary>Here the main work is done.</summary>
 		/// <remarks>
 		/// Here the main work is done. This method is called for each existing path
@@ -507,11 +558,15 @@ namespace NGit.Dircache
 		/// <param name="i">the entry for the index</param>
 		/// <param name="f">the file in the working tree</param>
 		/// <exception cref="System.IO.IOException">System.IO.IOException</exception>
-		internal virtual void ProcessEntry(AbstractTreeIterator h, AbstractTreeIterator m
-			, DirCacheBuildIterator i, WorkingTreeIterator f)
+		internal virtual void ProcessEntry(CanonicalTreeParser h, CanonicalTreeParser m, 
+			DirCacheBuildIterator i, WorkingTreeIterator f)
 		{
-			DirCacheEntry dce;
+			DirCacheEntry dce = i != null ? i.GetDirCacheEntry() : null;
 			string name = walk.PathString;
+			if (m != null && !IsValidPath(m))
+			{
+				throw new InvalidPathException(m.EntryPathString);
+			}
 			if (i == null && m == null && h == null)
 			{
 				// File/Directory conflict case #20
@@ -526,6 +581,9 @@ namespace NGit.Dircache
 			ObjectId iId = (i == null ? null : i.EntryObjectId);
 			ObjectId mId = (m == null ? null : m.EntryObjectId);
 			ObjectId hId = (h == null ? null : h.EntryObjectId);
+			FileMode iMode = (i == null ? null : i.EntryFileMode);
+			FileMode mMode = (m == null ? null : m.EntryFileMode);
+			FileMode hMode = (h == null ? null : h.EntryFileMode);
 			// The information whether head,index,merge iterators are currently
 			// pointing to file/folder/non-existing is encoded into this variable.
 			//
@@ -543,18 +601,18 @@ namespace NGit.Dircache
 			int ffMask = 0;
 			if (h != null)
 			{
-				ffMask = FileMode.TREE.Equals(h.EntryFileMode) ? unchecked((int)(0xD00)) : unchecked(
-					(int)(0xF00));
+				ffMask = FileMode.TREE.Equals(hMode) ? unchecked((int)(0xD00)) : unchecked((int)(
+					0xF00));
 			}
 			if (i != null)
 			{
-				ffMask |= FileMode.TREE.Equals(i.EntryFileMode) ? unchecked((int)(0x0D0)) : unchecked(
-					(int)(0x0F0));
+				ffMask |= FileMode.TREE.Equals(iMode) ? unchecked((int)(0x0D0)) : unchecked((int)
+					(0x0F0));
 			}
 			if (m != null)
 			{
-				ffMask |= FileMode.TREE.Equals(m.EntryFileMode) ? unchecked((int)(0x00D)) : unchecked(
-					(int)(0x00F));
+				ffMask |= FileMode.TREE.Equals(mMode) ? unchecked((int)(0x00D)) : unchecked((int)
+					(0x00F));
 			}
 			// Check whether we have a possible file/folder conflict. Therefore we
 			// need a least one file and one folder.
@@ -574,12 +632,12 @@ namespace NGit.Dircache
 						// 1 2
 						if (IsModified(name))
 						{
-							Conflict(name, i.GetDirCacheEntry(), h, m);
+							Conflict(name, dce, h, m);
 						}
 						else
 						{
 							// 1
-							Update(name, m.EntryObjectId, m.EntryFileMode);
+							Update(name, mId, mMode);
 						}
 						// 2
 						break;
@@ -609,7 +667,7 @@ namespace NGit.Dircache
 						// 10 11
 						// TODO: make use of tree extension as soon as available in jgit
 						// we would like to do something like
-						// if (!iId.equals(mId))
+						// if (!equalIdAndMode(iId, iMode, mId, mMode)
 						//   conflict(name, i.getDirCacheEntry(), h, m);
 						// But since we don't know the id of a tree in the index we do
 						// nothing here and wait that conflicts between index and merge
@@ -620,7 +678,7 @@ namespace NGit.Dircache
 					case unchecked((int)(0xD0F)):
 					{
 						// 19
-						Update(name, mId, m.EntryFileMode);
+						Update(name, mId, mMode);
 						break;
 					}
 
@@ -629,23 +687,23 @@ namespace NGit.Dircache
 					{
 						// conflict without a rule
 						// 15
-						Conflict(name, (i != null) ? i.GetDirCacheEntry() : null, h, m);
+						Conflict(name, dce, h, m);
 						break;
 					}
 
 					case unchecked((int)(0xFDF)):
 					{
 						// 7 8 9
-						if (hId.Equals(mId))
+						if (EqualIdAndMode(hId, hMode, mId, mMode))
 						{
 							if (IsModified(name))
 							{
-								Conflict(name, i.GetDirCacheEntry(), h, m);
+								Conflict(name, dce, h, m);
 							}
 							else
 							{
 								// 8
-								Update(name, mId, m.EntryFileMode);
+								Update(name, mId, mMode);
 							}
 						}
 						else
@@ -653,13 +711,13 @@ namespace NGit.Dircache
 							// 7
 							if (!IsModified(name))
 							{
-								Update(name, mId, m.EntryFileMode);
+								Update(name, mId, mMode);
 							}
 							else
 							{
 								// 9
 								// To be confirmed - this case is not in the table.
-								Conflict(name, i.GetDirCacheEntry(), h, m);
+								Conflict(name, dce, h, m);
 							}
 						}
 						break;
@@ -668,19 +726,18 @@ namespace NGit.Dircache
 					case unchecked((int)(0xFD0)):
 					{
 						// keep without a rule
-						Keep(i.GetDirCacheEntry());
+						Keep(dce);
 						break;
 					}
 
 					case unchecked((int)(0xFFD)):
 					{
 						// 12 13 14
-						if (hId.Equals(iId))
+						if (EqualIdAndMode(hId, hMode, iId, iMode))
 						{
-							dce = i.GetDirCacheEntry();
 							if (f == null || f.IsModified(dce, true))
 							{
-								Conflict(name, i.GetDirCacheEntry(), h, m);
+								Conflict(name, dce, h, m);
 							}
 							else
 							{
@@ -689,7 +746,7 @@ namespace NGit.Dircache
 						}
 						else
 						{
-							Conflict(name, i.GetDirCacheEntry(), h, m);
+							Conflict(name, dce, h, m);
 						}
 						break;
 					}
@@ -699,18 +756,18 @@ namespace NGit.Dircache
 						// 16 17
 						if (!IsModified(name))
 						{
-							Update(name, mId, m.EntryFileMode);
+							Update(name, mId, mMode);
 						}
 						else
 						{
-							Conflict(name, i.GetDirCacheEntry(), h, m);
+							Conflict(name, dce, h, m);
 						}
 						break;
 					}
 
 					default:
 					{
-						Keep(i.GetDirCacheEntry());
+						Keep(dce);
 						break;
 					}
 				}
@@ -732,17 +789,21 @@ namespace NGit.Dircache
 				// make sure not to overwrite untracked files
 				if (f != null)
 				{
-					// a dirty worktree: the index is empty but we have a
-					// workingtree-file
-					if (mId == null || !mId.Equals(f.EntryObjectId))
+					// A submodule is not a file. We should ignore it
+					if (!FileMode.GITLINK.Equals(mMode))
 					{
-						Conflict(name, null, h, m);
-						return;
+						// a dirty worktree: the index is empty but we have a
+						// workingtree-file
+						if (mId == null || !EqualIdAndMode(mId, mMode, f.EntryObjectId, f.EntryFileMode))
+						{
+							Conflict(name, null, h, m);
+							return;
+						}
 					}
 				}
 				if (h == null)
 				{
-					Update(name, mId, m.EntryFileMode);
+					Update(name, mId, mMode);
 				}
 				else
 				{
@@ -754,23 +815,22 @@ namespace NGit.Dircache
 					else
 					{
 						// 2
-						Update(name, mId, m.EntryFileMode);
+						Update(name, mId, mMode);
 					}
 				}
 			}
 			else
 			{
 				// 3
-				dce = i.GetDirCacheEntry();
 				if (h == null)
 				{
-					if (m == null || mId.Equals(iId))
+					if (m == null || EqualIdAndMode(mId, mMode, iId, iMode))
 					{
 						if (m == null && walk.IsDirectoryFileConflict())
 						{
 							if (dce != null && (f == null || f.IsModified(dce, true)))
 							{
-								Conflict(name, i.GetDirCacheEntry(), h, m);
+								Conflict(name, dce, h, m);
 							}
 							else
 							{
@@ -779,56 +839,75 @@ namespace NGit.Dircache
 						}
 						else
 						{
-							Keep(i.GetDirCacheEntry());
+							Keep(dce);
 						}
 					}
 					else
 					{
-						Conflict(name, i.GetDirCacheEntry(), h, m);
+						Conflict(name, dce, h, m);
 					}
 				}
 				else
 				{
 					if (m == null)
 					{
-						if (hId.Equals(iId))
+						if (iMode == FileMode.GITLINK)
 						{
-							if (f == null || f.IsModified(dce, true))
-							{
-								Conflict(name, i.GetDirCacheEntry(), h, m);
-							}
-							else
-							{
-								Remove(name);
-							}
+							// Submodules that disappear from the checkout must
+							// be removed from the index, but not deleted from disk.
+							Remove(name);
 						}
 						else
 						{
-							Conflict(name, i.GetDirCacheEntry(), h, m);
+							if (EqualIdAndMode(hId, hMode, iId, iMode))
+							{
+								if (f == null || f.IsModified(dce, true))
+								{
+									Conflict(name, dce, h, m);
+								}
+								else
+								{
+									Remove(name);
+								}
+							}
+							else
+							{
+								Conflict(name, dce, h, m);
+							}
 						}
 					}
 					else
 					{
-						if (!hId.Equals(mId) && !hId.Equals(iId) && !mId.Equals(iId))
+						if (!EqualIdAndMode(hId, hMode, mId, mMode) && !EqualIdAndMode(hId, hMode, iId, iMode
+							) && !EqualIdAndMode(mId, mMode, iId, iMode))
 						{
-							Conflict(name, i.GetDirCacheEntry(), h, m);
+							Conflict(name, dce, h, m);
 						}
 						else
 						{
-							if (hId.Equals(iId) && !mId.Equals(iId))
+							if (EqualIdAndMode(hId, hMode, iId, iMode) && !EqualIdAndMode(mId, mMode, iId, iMode
+								))
 							{
-								if (dce != null && (f == null || f.IsModified(dce, true)))
+								// For submodules just update the index with the new SHA-1
+								if (dce != null && FileMode.GITLINK.Equals(dce.FileMode))
 								{
-									Conflict(name, i.GetDirCacheEntry(), h, m);
+									Update(name, mId, mMode);
 								}
 								else
 								{
-									Update(name, mId, m.EntryFileMode);
+									if (dce != null && (f == null || f.IsModified(dce, true)))
+									{
+										Conflict(name, dce, h, m);
+									}
+									else
+									{
+										Update(name, mId, mMode);
+									}
 								}
 							}
 							else
 							{
-								Keep(i.GetDirCacheEntry());
+								Keep(dce);
 							}
 						}
 					}
@@ -849,7 +928,7 @@ namespace NGit.Dircache
 			if (e != null)
 			{
 				entry = new DirCacheEntry(e.PathString, DirCacheEntry.STAGE_1);
-				entry.CopyMetaData(e);
+				entry.CopyMetaData(e, true);
 				builder.Add(entry);
 			}
 			if (h != null && !FileMode.TREE.Equals(h.EntryFileMode))
@@ -974,10 +1053,54 @@ namespace NGit.Dircache
 		/// Updates the file in the working tree with content and mode from an entry
 		/// in the index. The new content is first written to a new temporary file in
 		/// the same directory as the real file. Then that new file is renamed to the
-		/// final filename.
+		/// final filename. Use this method only for checkout of a single entry.
+		/// Otherwise use
+		/// <code>checkoutEntry(Repository, File f, DirCacheEntry, ObjectReader)</code>
+		/// instead which allows to reuse one
+		/// <code>ObjectReader</code>
+		/// for multiple
+		/// entries.
+		/// <p>
 		/// TODO: this method works directly on File IO, we may need another
 		/// abstraction (like WorkingTreeIterator). This way we could tell e.g.
 		/// Eclipse that Files in the workspace got changed
+		/// </p>
+		/// </remarks>
+		/// <param name="repository"></param>
+		/// <param name="f">
+		/// the file to be modified. The parent directory for this file
+		/// has to exist already
+		/// </param>
+		/// <param name="entry">the entry containing new mode and content</param>
+		/// <exception cref="System.IO.IOException">System.IO.IOException</exception>
+		public static void CheckoutEntry(Repository repository, FilePath f, DirCacheEntry
+			 entry)
+		{
+			ObjectReader or = repository.NewObjectReader();
+			try
+			{
+				CheckoutEntry(repository, f, entry, repository.NewObjectReader());
+			}
+			finally
+			{
+				or.Release();
+			}
+		}
+
+		/// <summary>
+		/// Updates the file in the working tree with content and mode from an entry
+		/// in the index.
+		/// </summary>
+		/// <remarks>
+		/// Updates the file in the working tree with content and mode from an entry
+		/// in the index. The new content is first written to a new temporary file in
+		/// the same directory as the real file. Then that new file is renamed to the
+		/// final filename.
+		/// <p>
+		/// TODO: this method works directly on File IO, we may need another
+		/// abstraction (like WorkingTreeIterator). This way we could tell e.g.
+		/// Eclipse that Files in the workspace got changed
+		/// </p>
 		/// </remarks>
 		/// <param name="repo"></param>
 		/// <param name="f">
@@ -985,14 +1108,25 @@ namespace NGit.Dircache
 		/// has to exist already
 		/// </param>
 		/// <param name="entry">the entry containing new mode and content</param>
+		/// <param name="or">object reader to use for checkout</param>
 		/// <exception cref="System.IO.IOException">System.IO.IOException</exception>
 		public static void CheckoutEntry(Repository repo, FilePath f, DirCacheEntry entry
-			)
+			, ObjectReader or)
 		{
-			ObjectLoader ol = repo.Open(entry.GetObjectId());
+			ObjectLoader ol = or.Open(entry.GetObjectId());
 			FilePath parentDir = f.GetParentFile();
 			FilePath tmpFile = FilePath.CreateTempFile("._" + f.GetName(), null, parentDir);
-			FileOutputStream channel = new FileOutputStream(tmpFile);
+			WorkingTreeOptions opt = repo.GetConfig().Get(WorkingTreeOptions.KEY);
+			FileOutputStream rawChannel = new FileOutputStream(tmpFile);
+			OutputStream channel;
+			if (opt.GetAutoCRLF() == CoreConfig.AutoCRLF.TRUE)
+			{
+				channel = new AutoCRLFOutputStream(rawChannel);
+			}
+			else
+			{
+				channel = rawChannel;
+			}
 			try
 			{
 				ol.CopyTo(channel);
@@ -1002,7 +1136,6 @@ namespace NGit.Dircache
 				channel.Close();
 			}
 			FS fs = repo.FileSystem;
-			WorkingTreeOptions opt = repo.GetConfig().Get(WorkingTreeOptions.KEY);
 			if (opt.IsFileMode() && fs.SupportsExecute())
 			{
 				if (FileMode.EXECUTABLE_FILE.Equals(entry.RawMode))
@@ -1032,7 +1165,169 @@ namespace NGit.Dircache
 				}
 			}
 			entry.LastModified = f.LastModified();
-			entry.SetLength((int)ol.GetSize());
+			if (opt.GetAutoCRLF() != CoreConfig.AutoCRLF.FALSE)
+			{
+				entry.SetLength(f.Length());
+			}
+			else
+			{
+				// AutoCRLF wants on-disk-size
+				entry.SetLength((int)ol.GetSize());
+			}
+		}
+
+		private static byte[][] forbidden;
+
+		static DirCacheCheckout()
+		{
+			string[] list = new string[] { "AUX", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6"
+				, "COM7", "COM8", "COM9", "CON", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", 
+				"LPT7", "LPT8", "LPT9", "NUL", "PRN" };
+			forbidden = new byte[list.Length][];
+			for (int i = 0; i < list.Length; ++i)
+			{
+				forbidden[i] = Constants.EncodeASCII(list[i]);
+			}
+		}
+
+		private static bool IsValidPath(CanonicalTreeParser t)
+		{
+			for (CanonicalTreeParser i = t; i != null; i = i.GetParent())
+			{
+				if (!IsValidPathSegment(i))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private static bool IsValidPathSegment(CanonicalTreeParser t)
+		{
+			bool isWindows = "Windows".Equals(SystemReader.GetInstance().GetProperty("os.name"
+				));
+			bool isOSX = "Mac OS X".Equals(SystemReader.GetInstance().GetProperty("os.name"));
+			bool ignCase = isOSX || isWindows;
+			int ptr = t.GetNameOffset();
+			byte[] raw = t.GetEntryPathBuffer();
+			int end = ptr + t.NameLength;
+			// Validate path component at this level of the tree
+			int start = ptr;
+			while (ptr < end)
+			{
+				if (raw[ptr] == '/')
+				{
+					return false;
+				}
+				if (isWindows)
+				{
+					if (raw[ptr] == '\\')
+					{
+						return false;
+					}
+					if (raw[ptr] == ':')
+					{
+						return false;
+					}
+				}
+				ptr++;
+			}
+			// '.' and '.'' are invalid here
+			if (ptr - start == 1)
+			{
+				if (raw[start] == '.')
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (ptr - start == 2)
+				{
+					if (raw[start] == '.')
+					{
+						if (raw[start + 1] == '.')
+						{
+							return false;
+						}
+					}
+				}
+				else
+				{
+					if (ptr - start == 4)
+					{
+						// .git (possibly case insensitive) is disallowed
+						if (raw[start] == '.')
+						{
+							if (raw[start + 1] == 'g' || (ignCase && raw[start + 1] == 'G'))
+							{
+								if (raw[start + 2] == 'i' || (ignCase && raw[start + 2] == 'I'))
+								{
+									if (raw[start + 3] == 't' || (ignCase && raw[start + 3] == 'T'))
+									{
+										return false;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (isWindows)
+			{
+				// Space or period at end of file name is ignored by Windows.
+				// Treat this as a bad path for now. We may want to handle
+				// this as case insensitivity in the future.
+				if (raw[ptr - 1] == '.' || raw[ptr - 1] == ' ')
+				{
+					return false;
+				}
+				int i;
+				// Bad names, eliminate suffix first
+				for (i = start; i < ptr; ++i)
+				{
+					if (raw[i] == '.')
+					{
+						break;
+					}
+				}
+				int len = i - start;
+				if (len == 3 || len == 4)
+				{
+					for (int j = 0; j < forbidden.Length; ++j)
+					{
+						if (forbidden[j].Length == len)
+						{
+							if (((sbyte)ToUpper(raw[start])) < forbidden[j][0])
+							{
+								break;
+							}
+							int k;
+							for (k = 0; k < len; ++k)
+							{
+								if (ToUpper(raw[start + k]) != forbidden[j][k])
+								{
+									break;
+								}
+							}
+							if (k == len)
+							{
+								return false;
+							}
+						}
+					}
+				}
+			}
+			return true;
+		}
+
+		private static byte ToUpper(byte b)
+		{
+			if (b >= 'a' && ((sbyte)b) <= 'z')
+			{
+				return unchecked((byte)(b - ('a' - 'A')));
+			}
+			return b;
 		}
 	}
 }

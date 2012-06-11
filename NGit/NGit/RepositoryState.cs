@@ -42,6 +42,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using NGit;
+using NGit.Internal;
 using Sharpen;
 
 namespace NGit
@@ -79,6 +80,11 @@ namespace NGit
 				return false;
 			}
 
+			public override bool CanAmend()
+			{
+				return false;
+			}
+
 			public override string GetDescription()
 			{
 				return "Bare";
@@ -106,6 +112,11 @@ namespace NGit
 			}
 
 			public override bool CanCommit()
+			{
+				return true;
+			}
+
+			public override bool CanAmend()
 			{
 				return true;
 			}
@@ -138,6 +149,11 @@ namespace NGit
 			}
 
 			public override bool CanCommit()
+			{
+				return false;
+			}
+
+			public override bool CanAmend()
 			{
 				return false;
 			}
@@ -178,6 +194,11 @@ namespace NGit
 				return true;
 			}
 
+			public override bool CanAmend()
+			{
+				return false;
+			}
+
 			public override string GetDescription()
 			{
 				return JGitText.Get().repositoryState_merged;
@@ -208,6 +229,11 @@ namespace NGit
 			}
 
 			public override bool CanCommit()
+			{
+				return false;
+			}
+
+			public override bool CanAmend()
 			{
 				return false;
 			}
@@ -248,6 +274,11 @@ namespace NGit
 				return true;
 			}
 
+			public override bool CanAmend()
+			{
+				return false;
+			}
+
 			public override string GetDescription()
 			{
 				return JGitText.Get().repositoryState_merged;
@@ -277,6 +308,11 @@ namespace NGit
 			}
 
 			public override bool CanCommit()
+			{
+				return true;
+			}
+
+			public override bool CanAmend()
 			{
 				return true;
 			}
@@ -315,6 +351,11 @@ namespace NGit
 				return true;
 			}
 
+			public override bool CanAmend()
+			{
+				return true;
+			}
+
 			public override string GetDescription()
 			{
 				return JGitText.Get().repositoryState_rebase;
@@ -344,6 +385,11 @@ namespace NGit
 			}
 
 			public override bool CanCommit()
+			{
+				return true;
+			}
+
+			public override bool CanAmend()
 			{
 				return true;
 			}
@@ -382,6 +428,11 @@ namespace NGit
 				return true;
 			}
 
+			public override bool CanAmend()
+			{
+				return true;
+			}
+
 			public override string GetDescription()
 			{
 				return JGitText.Get().repositoryState_rebaseWithMerge;
@@ -412,6 +463,11 @@ namespace NGit
 			}
 
 			public override bool CanCommit()
+			{
+				return true;
+			}
+
+			public override bool CanAmend()
 			{
 				return true;
 			}
@@ -448,6 +504,11 @@ namespace NGit
 				return true;
 			}
 
+			public override bool CanAmend()
+			{
+				return false;
+			}
+
 			public override string GetDescription()
 			{
 				return JGitText.Get().repositoryState_bisecting;
@@ -467,6 +528,9 @@ namespace NGit
 
 		/// <returns>true if reset to another HEAD is considered SAFE</returns>
 		public abstract bool CanResetHead();
+
+		/// <returns>true if amending is considered SAFE</returns>
+		public abstract bool CanAmend();
 
 		/// <returns>a human readable description of the state.</returns>
 		public abstract string GetDescription();

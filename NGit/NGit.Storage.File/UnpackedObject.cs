@@ -46,6 +46,7 @@ using ICSharpCode.SharpZipLib;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Storage.File;
 using NGit.Util;
 using Sharpen;
@@ -144,7 +145,7 @@ namespace NGit.Storage.File
 					while ((c & unchecked((int)(0x80))) != 0)
 					{
 						c = hdr[p++] & unchecked((int)(0xff));
-						size += (c & unchecked((int)(0x7f))) << shift;
+						size += ((long)(c & unchecked((int)(0x7f)))) << shift;
 						shift += 7;
 					}
 					switch (type)
@@ -228,7 +229,7 @@ namespace NGit.Storage.File
 					while ((c & unchecked((int)(0x80))) != 0)
 					{
 						c = hdr[p++] & unchecked((int)(0xff));
-						size += (c & unchecked((int)(0x7f))) << shift;
+						size += ((long)(c & unchecked((int)(0x7f)))) << shift;
 						shift += 7;
 					}
 					return size;
@@ -283,26 +284,20 @@ namespace NGit.Storage.File
 
 		private static bool IsStandardFormat(byte[] hdr)
 		{
-			// Try to determine if this is a standard format loose object or
-			// a pack style loose object. The standard format is completely
-			// compressed with zlib so the first byte must be 0x78 (15-bit
-			// window size, deflated) and the first 16 bit word must be
-			// evenly divisible by 31. Otherwise its a pack style object.
-			//
 			int fb = hdr[0] & unchecked((int)(0xff));
-			return fb == unchecked((int)(0x78)) && (((fb << 8) | hdr[1] & unchecked((int)(0xff
-				))) % 31) == 0;
+			return (fb & unchecked((int)(0x8f))) == unchecked((int)(0x08)) && (((fb << 8) | hdr
+				[1] & unchecked((int)(0xff))) % 31) == 0;
 		}
 
 		private static InputStream Inflate(InputStream @in, long size, ObjectId id)
 		{
 			Inflater inf = InflaterCache.Get();
-			return new _InflaterInputStream_286(size, id, @in, inf);
+			return new _InflaterInputStream_307(size, id, @in, inf);
 		}
 
-		private sealed class _InflaterInputStream_286 : InflaterInputStream
+		private sealed class _InflaterInputStream_307 : InflaterInputStream
 		{
-			public _InflaterInputStream_286(long size, ObjectId id, InputStream baseArg1, Inflater
+			public _InflaterInputStream_307(long size, ObjectId id, InputStream baseArg1, Inflater
 				 baseArg2) : base(baseArg1, baseArg2)
 			{
 				this.size = size;

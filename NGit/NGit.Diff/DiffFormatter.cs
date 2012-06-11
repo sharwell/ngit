@@ -48,6 +48,7 @@ using NGit;
 using NGit.Diff;
 using NGit.Dircache;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Patch;
 using NGit.Revwalk;
 using NGit.Storage.Pack;
@@ -239,6 +240,14 @@ namespace NGit.Diff
 			oldPrefix = prefix;
 		}
 
+		/// <summary>Get the prefix applied in front of old file paths.</summary>
+		/// <remarks>Get the prefix applied in front of old file paths.</remarks>
+		/// <returns>the prefix</returns>
+		public virtual string GetOldPrefix()
+		{
+			return this.oldPrefix;
+		}
+
 		/// <summary>Set the prefix applied in front of new file paths.</summary>
 		/// <remarks>Set the prefix applied in front of new file paths.</remarks>
 		/// <param name="prefix">
@@ -252,6 +261,14 @@ namespace NGit.Diff
 		public virtual void SetNewPrefix(string prefix)
 		{
 			newPrefix = prefix;
+		}
+
+		/// <summary>Get the prefix applied in front of new file paths.</summary>
+		/// <remarks>Get the prefix applied in front of new file paths.</remarks>
+		/// <returns>the prefix</returns>
+		public virtual string GetNewPrefix()
+		{
+			return this.newPrefix;
 		}
 
 		/// <returns>true if rename detection is enabled.</returns>
@@ -594,7 +611,13 @@ namespace NGit.Diff
 		}
 
 		/// <summary>Format a patch script from a list of difference entries.</summary>
-		/// <remarks>Format a patch script from a list of difference entries.</remarks>
+		/// <remarks>
+		/// Format a patch script from a list of difference entries. Requires
+		/// <see cref="Scan(NGit.Treewalk.AbstractTreeIterator, NGit.Treewalk.AbstractTreeIterator)
+		/// 	">Scan(NGit.Treewalk.AbstractTreeIterator, NGit.Treewalk.AbstractTreeIterator)</see>
+		/// to have been
+		/// called first.
+		/// </remarks>
 		/// <param name="entries">entries describing the affected files.</param>
 		/// <exception cref="System.IO.IOException">
 		/// a file's content cannot be read, or the output stream cannot
@@ -1170,6 +1193,10 @@ namespace NGit.Diff
 		/// <exception cref="System.IO.IOException"></exception>
 		private void FormatOldNewPaths(ByteArrayOutputStream o, DiffEntry ent)
 		{
+			if (ent.oldId.Equals(ent.newId))
+			{
+				return;
+			}
 			string oldp;
 			string newp;
 			switch (ent.GetChangeType())

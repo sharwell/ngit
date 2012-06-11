@@ -45,6 +45,7 @@ using System;
 using System.Text;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Util;
 using Sharpen;
 
@@ -261,6 +262,9 @@ namespace NGit
 		/// <summary>Default main branch name</summary>
 		public static readonly string MASTER = "master";
 
+		/// <summary>Default stash branch name</summary>
+		public static readonly string STASH = "stash";
+
 		/// <summary>Prefix for branch refs</summary>
 		public static readonly string R_HEADS = "refs/heads/";
 
@@ -278,6 +282,9 @@ namespace NGit
 
 		/// <summary>Prefix for any ref</summary>
 		public static readonly string R_REFS = "refs/";
+
+		/// <summary>Standard stash ref</summary>
+		public static readonly string R_STASH = R_REFS + STASH;
 
 		/// <summary>Logs folder name</summary>
 		public static readonly string LOGS = "logs";
@@ -361,11 +368,17 @@ namespace NGit
 		/// <summary>Default name for the Git repository directory</summary>
 		public static readonly string DOT_GIT = ".git";
 
+		/// <summary>Default name for the Git repository configuration</summary>
+		public static readonly string CONFIG = "config";
+
 		/// <summary>A bare repository typically ends with this string</summary>
 		public static readonly string DOT_GIT_EXT = ".git";
 
 		/// <summary>Name of the ignore file</summary>
 		public static readonly string DOT_GIT_IGNORE = ".gitignore";
+
+		/// <summary>Name of the submodules file</summary>
+		public static readonly string DOT_GIT_MODULES = ".gitmodules";
 
 		/// <summary>Create a new digest function for objects.</summary>
 		/// <remarks>Create a new digest function for objects.</remarks>

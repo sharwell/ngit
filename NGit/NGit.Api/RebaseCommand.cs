@@ -49,6 +49,7 @@ using NGit.Api;
 using NGit.Api.Errors;
 using NGit.Diff;
 using NGit.Dircache;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Treewalk;
 using NGit.Treewalk.Filter;
@@ -193,6 +194,15 @@ namespace NGit.Api
 				if (operation == RebaseCommand.Operation.CONTINUE)
 				{
 					newHead = ContinueRebase();
+					if (newHead == null)
+					{
+						// continueRebase() returns null only if no commit was
+						// neccessary. This means that no changes where left over
+						// after resolving all conflicts. In this case, cgit stops
+						// and displays a nice message to the user, telling him to
+						// either do changes or skip the commit instead of continue.
+						return RebaseResult.NOTHING_TO_COMMIT_RESULT;
+					}
 				}
 				if (operation == RebaseCommand.Operation.SKIP)
 				{
@@ -611,8 +621,8 @@ namespace NGit.Api
 			{
 				if (commit.ParentCount != 1)
 				{
-					throw new JGitInternalException(JGitText.Get().canOnlyCherryPickCommitsWithOneParent
-						);
+					throw new JGitInternalException(MessageFormat.Format(JGitText.Get().canOnlyCherryPickCommitsWithOneParent
+						, commit.Name, Sharpen.Extensions.ValueOf(commit.ParentCount)));
 				}
 				cherryPickList.AddItem(commit);
 			}
@@ -762,6 +772,10 @@ namespace NGit.Api
 				throw new JGitInternalException(e.Message, e);
 			}
 			catch (InvalidRefNameException e)
+			{
+				throw new JGitInternalException(e.Message, e);
+			}
+			catch (NGit.Api.Errors.CheckoutConflictException e)
 			{
 				throw new JGitInternalException(e.Message, e);
 			}
@@ -1100,8 +1114,8 @@ namespace NGit.Api
 				{
 					return PICK;
 				}
-				throw new JGitInternalException(MessageFormat.Format("Unknown or unsupported command \"{0}\", only  \"pick\" is allowed"
-					, token));
+				throw new JGitInternalException(MessageFormat.Format(JGitText.Get().unsupportedCommand0
+					, token, PICK.ToToken()));
 			}
 		}
 

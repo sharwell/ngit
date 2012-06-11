@@ -45,6 +45,7 @@ using System.Collections.Generic;
 using System.IO;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Storage.File;
 using NGit.Transport;
@@ -207,6 +208,11 @@ namespace NGit.Transport
 			RevWalk walk = new RevWalk(transport.local);
 			try
 			{
+				if (monitor is BatchingProgressMonitor)
+				{
+					((BatchingProgressMonitor)monitor).SetDelayStart(250, TimeUnit.MILLISECONDS);
+				}
+				monitor.BeginTask(JGitText.Get().updatingReferences, localUpdates.Count);
 				if (transport.IsRemoveDeletedRefs())
 				{
 					DeleteStaleTrackingRefs(result, walk);
@@ -215,6 +221,7 @@ namespace NGit.Transport
 				{
 					try
 					{
+						monitor.Update(1);
 						u.Update(walk);
 						result.Add(u);
 					}
@@ -224,6 +231,7 @@ namespace NGit.Transport
 							, u.GetLocalName(), err.Message), err);
 					}
 				}
+				monitor.EndTask();
 			}
 			finally
 			{

@@ -45,6 +45,7 @@ using System.IO;
 using NGit;
 using NGit.Api;
 using NGit.Api.Errors;
+using NGit.Internal;
 using NGit.Transport;
 using Sharpen;
 
@@ -53,27 +54,15 @@ namespace NGit.Api
 	/// <summary>The Pull command</summary>
 	/// <seealso><a href="http://www.kernel.org/pub/software/scm/git/docs/git-pull.html"
 	/// *      >Git documentation about Pull</a></seealso>
-	public class PullCommand : GitCommand<PullResult>
+	public class PullCommand : TransportCommand<NGit.Api.PullCommand, PullResult>
 	{
-		private int timeout = 0;
-
 		private static readonly string DOT = ".";
 
 		private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
-		private CredentialsProvider credentialsProvider;
-
 		/// <param name="repo"></param>
 		protected internal PullCommand(Repository repo) : base(repo)
 		{
-		}
-
-		/// <param name="timeout">in seconds</param>
-		/// <returns>this instance</returns>
-		public virtual NGit.Api.PullCommand SetTimeout(int timeout)
-		{
-			this.timeout = timeout;
-			return this;
 		}
 
 		/// <param name="monitor">a progress monitor</param>
@@ -81,21 +70,6 @@ namespace NGit.Api
 		public virtual NGit.Api.PullCommand SetProgressMonitor(ProgressMonitor monitor)
 		{
 			this.monitor = monitor;
-			return this;
-		}
-
-		/// <param name="credentialsProvider">
-		/// the
-		/// <see cref="NGit.Transport.CredentialsProvider">NGit.Transport.CredentialsProvider
-		/// 	</see>
-		/// to use
-		/// </param>
-		/// <returns>this instance</returns>
-		public virtual NGit.Api.PullCommand SetCredentialsProvider(CredentialsProvider credentialsProvider
-			)
-		{
-			CheckCallable();
-			this.credentialsProvider = credentialsProvider;
 			return this;
 		}
 
@@ -117,6 +91,7 @@ namespace NGit.Api
 		/// <exception cref="NGit.Api.Errors.InvalidRemoteException"></exception>
 		/// <exception cref="NGit.Api.Errors.CanceledException"></exception>
 		/// <exception cref="NGit.Api.Errors.RefNotFoundException"></exception>
+		/// <exception cref="NGit.Api.Errors.NoHeadException"></exception>
 		public override PullResult Call()
 		{
 			CheckCallable();
@@ -125,6 +100,11 @@ namespace NGit.Api
 			try
 			{
 				string fullBranch = repo.GetFullBranch();
+				if (fullBranch == null)
+				{
+					throw new NoHeadException(JGitText.Get().pullOnRepoWithoutHEADCurrentlyNotSupported
+						);
+				}
 				if (!fullBranch.StartsWith(Constants.R_HEADS))
 				{
 					// we can not pull if HEAD is detached and branch is not
@@ -172,8 +152,8 @@ namespace NGit.Api
 			FetchResult fetchRes;
 			if (isRemote)
 			{
-				remoteUri = repoConfig.GetString("remote", remote, ConfigConstants.CONFIG_KEY_URL
-					);
+				remoteUri = repoConfig.GetString(ConfigConstants.CONFIG_REMOTE_SECTION, remote, ConfigConstants
+					.CONFIG_KEY_URL);
 				if (remoteUri == null)
 				{
 					string missingKey = ConfigConstants.CONFIG_REMOTE_SECTION + DOT + remote + DOT + 
@@ -189,8 +169,7 @@ namespace NGit.Api
 				FetchCommand fetch = new FetchCommand(repo);
 				fetch.SetRemote(remote);
 				fetch.SetProgressMonitor(monitor);
-				fetch.SetTimeout(this.timeout);
-				fetch.SetCredentialsProvider(credentialsProvider);
+				Configure(fetch);
 				fetchRes = fetch.Call();
 			}
 			else

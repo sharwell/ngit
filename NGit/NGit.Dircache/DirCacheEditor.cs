@@ -45,6 +45,7 @@ using System;
 using System.Collections.Generic;
 using NGit;
 using NGit.Dircache;
+using NGit.Internal;
 using Sharpen;
 
 namespace NGit.Dircache
@@ -297,9 +298,10 @@ namespace NGit.Dircache
 			/// path of the subtree within the repository. If the path
 			/// does not end with "/" a "/" is implicitly added to ensure
 			/// only the subtree's contents are matched by the command.
+			/// The special case "" (not "/"!) deletes all entries.
 			/// </param>
-			public DeleteTree(string entryPath) : base(entryPath.EndsWith("/") ? entryPath : 
-				entryPath + "/")
+			public DeleteTree(string entryPath) : base((entryPath.EndsWith("/") || entryPath.
+				Length == 0) ? entryPath : entryPath + "/")
 			{
 			}
 

@@ -44,6 +44,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System.Text;
 using NGit;
 using NGit.Diff;
+using NGit.Internal;
 using NGit.Patch;
 using NGit.Util;
 using Sharpen;
@@ -541,6 +542,19 @@ SCAN_break: ;
 			string s = text[fileIdx];
 			int end = s.IndexOf('\n', offsets[fileIdx]);
 			offsets[fileIdx] = end < 0 ? s.Length : end + 1;
+		}
+
+		public override string ToString()
+		{
+			StringBuilder buf = new StringBuilder();
+			buf.Append("HunkHeader[");
+			buf.Append(GetOldImage().GetStartLine());
+			buf.Append(',');
+			buf.Append(GetOldImage().GetLineCount());
+			buf.Append("->");
+			buf.Append(GetNewStartLine()).Append(',').Append(GetNewLineCount());
+			buf.Append(']');
+			return buf.ToString();
 		}
 	}
 }

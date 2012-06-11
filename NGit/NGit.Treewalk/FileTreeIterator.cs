@@ -162,7 +162,7 @@ namespace NGit.Treewalk
 				file = f;
 				if (f.IsDirectory())
 				{
-					if (new FilePath(f, Constants.DOT_GIT).IsDirectory())
+					if (new FilePath(f, Constants.DOT_GIT).Exists())
 					{
 						mode = FileMode.GITLINK;
 					}
@@ -245,6 +245,15 @@ namespace NGit.Treewalk
 		public virtual FilePath GetEntryFile()
 		{
 			return ((FileTreeIterator.FileEntry)Current()).GetFile();
+		}
+
+		protected internal override byte[] IdSubmodule(WorkingTreeIterator.Entry e)
+		{
+			if (repository == null)
+			{
+				return IdSubmodule(GetDirectory(), e);
+			}
+			return base.IdSubmodule(e);
 		}
 	}
 }

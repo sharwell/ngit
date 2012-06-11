@@ -47,6 +47,7 @@ using NGit;
 using NGit.Api;
 using NGit.Api.Errors;
 using NGit.Dircache;
+using NGit.Internal;
 using NGit.Treewalk;
 using NGit.Treewalk.Filter;
 using Sharpen;
@@ -177,17 +178,26 @@ namespace NGit.Api
 									DirCacheEntry entry = new DirCacheEntry(path);
 									if (c == null || c.GetDirCacheEntry() == null || !c.GetDirCacheEntry().IsAssumeValid)
 									{
-										entry.SetLength(sz);
-										entry.LastModified = f.GetEntryLastModified();
-										entry.FileMode = f.EntryFileMode;
-										InputStream @in = f.OpenEntryStream();
-										try
+										FileMode mode = f.GetIndexFileMode(c);
+										entry.FileMode = mode;
+										if (FileMode.GITLINK != mode)
 										{
-											entry.SetObjectId(inserter.Insert(Constants.OBJ_BLOB, sz, @in));
+											entry.SetLength(sz);
+											entry.LastModified = f.GetEntryLastModified();
+											long contentSize = f.GetEntryContentLength();
+											InputStream @in = f.OpenEntryStream();
+											try
+											{
+												entry.SetObjectId(inserter.Insert(Constants.OBJ_BLOB, contentSize, @in));
+											}
+											finally
+											{
+												@in.Close();
+											}
 										}
-										finally
+										else
 										{
-											@in.Close();
+											entry.SetObjectId(f.EntryObjectId);
 										}
 										builder.Add(entry);
 										lastAddedFile = path;
@@ -199,7 +209,7 @@ namespace NGit.Api
 								}
 								else
 								{
-									if (!update)
+									if (c != null && (!update || FileMode.GITLINK == c.EntryFileMode))
 									{
 										builder.Add(c.GetDirCacheEntry());
 									}

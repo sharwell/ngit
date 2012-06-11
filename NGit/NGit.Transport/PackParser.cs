@@ -48,6 +48,7 @@ using ICSharpCode.SharpZipLib;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Storage.File;
 using NGit.Storage.Pack;
 using NGit.Transport;
@@ -174,6 +175,9 @@ namespace NGit.Transport
 		/// <summary>Message to protect the pack data from garbage collection.</summary>
 		/// <remarks>Message to protect the pack data from garbage collection.</remarks>
 		private string lockMessage;
+
+		/// <summary>Git object size limit</summary>
+		private long maxObjectSizeLimit;
 
 		/// <summary>Initialize a pack parser.</summary>
 		/// <remarks>Initialize a pack parser.</remarks>
@@ -384,6 +388,19 @@ namespace NGit.Transport
 			lockMessage = msg;
 		}
 
+		/// <summary>Set the maximum allowed Git object size.</summary>
+		/// <remarks>
+		/// Set the maximum allowed Git object size.
+		/// <p>
+		/// If an object is larger than the given size the pack-parsing will throw an
+		/// exception aborting the parsing.
+		/// </remarks>
+		/// <param name="limit">the Git object size limit. If zero then there is not limit.</param>
+		public virtual void SetMaxObjectSizeLimit(long limit)
+		{
+			maxObjectSizeLimit = limit;
+		}
+
 		/// <summary>Get the number of objects in the stream.</summary>
 		/// <remarks>
 		/// Get the number of objects in the stream.
@@ -530,6 +547,11 @@ namespace NGit.Transport
 				}
 				if (deltaCount > 0)
 				{
+					if (resolving is BatchingProgressMonitor)
+					{
+						((BatchingProgressMonitor)resolving).SetDelayStart(1000, TimeUnit.MILLISECONDS);
+					}
+					resolving.BeginTask(JGitText.Get().resolvingDeltas, deltaCount);
 					ResolveDeltas(resolving);
 					if (entryCount < objectCount)
 					{
@@ -545,6 +567,7 @@ namespace NGit.Transport
 								, (objectCount - entryCount)));
 						}
 					}
+					resolving.EndTask();
 				}
 				packDigest = null;
 				baseById = null;
@@ -570,7 +593,6 @@ namespace NGit.Transport
 				finally
 				{
 					inflater = null;
-					objectDatabase.Close();
 				}
 			}
 			return null;
@@ -580,23 +602,19 @@ namespace NGit.Transport
 		/// <exception cref="System.IO.IOException"></exception>
 		private void ResolveDeltas(ProgressMonitor progress)
 		{
-			progress.BeginTask(JGitText.Get().resolvingDeltas, deltaCount);
 			int last = entryCount;
 			for (int i = 0; i < last; i++)
 			{
-				int before = entryCount;
-				ResolveDeltas(entries[i]);
-				progress.Update(entryCount - before);
+				ResolveDeltas(entries[i], progress);
 				if (progress.IsCancelled())
 				{
 					throw new IOException(JGitText.Get().downloadCancelledDuringIndexing);
 				}
 			}
-			progress.EndTask();
 		}
 
 		/// <exception cref="System.IO.IOException"></exception>
-		private void ResolveDeltas(PackedObjectInfo oe)
+		private void ResolveDeltas(PackedObjectInfo oe, ProgressMonitor progress)
 		{
 			PackParser.UnresolvedDelta children = FirstChildOf(oe);
 			if (children == null)
@@ -630,15 +648,16 @@ namespace NGit.Transport
 				throw new IOException(MessageFormat.Format(JGitText.Get().corruptionDetectedReReadingAt
 					, oe.GetOffset()));
 			}
-			ResolveDeltas(visit.Next(), info.type, info);
+			ResolveDeltas(visit.Next(), info.type, info, progress);
 		}
 
 		/// <exception cref="System.IO.IOException"></exception>
 		private void ResolveDeltas(PackParser.DeltaVisit visit, int type, PackParser.ObjectTypeAndSize
-			 info)
+			 info, ProgressMonitor progress)
 		{
 			do
 			{
+				progress.Update(1);
 				info = OpenDatabase(visit.delta, info);
 				switch (info.type)
 				{
@@ -654,9 +673,10 @@ namespace NGit.Transport
 							.type));
 					}
 				}
-				visit.data = BinaryDelta.Apply(visit.parent.data, InflateAndReturn(PackParser.Source
-					.DATABASE, info.size));
-				//
+				byte[] delta = InflateAndReturn(PackParser.Source.DATABASE, info.size);
+				CheckIfTooLarge(type, BinaryDelta.GetResultSize(delta));
+				visit.data = BinaryDelta.Apply(visit.parent.data, delta);
+				delta = null;
 				if (!CheckCRC(visit.delta.crc))
 				{
 					throw new IOException(MessageFormat.Format(JGitText.Get().corruptionDetectedReReadingAt
@@ -679,6 +699,36 @@ namespace NGit.Transport
 				visit = visit.Next();
 			}
 			while (visit != null);
+		}
+
+		/// <exception cref="System.IO.IOException"></exception>
+		private void CheckIfTooLarge(int typeCode, long size)
+		{
+			if (0 < maxObjectSizeLimit && maxObjectSizeLimit < size)
+			{
+				switch (typeCode)
+				{
+					case Constants.OBJ_COMMIT:
+					case Constants.OBJ_TREE:
+					case Constants.OBJ_BLOB:
+					case Constants.OBJ_TAG:
+					{
+						throw new TooLargeObjectInPackException(size, maxObjectSizeLimit);
+					}
+
+					case Constants.OBJ_OFS_DELTA:
+					case Constants.OBJ_REF_DELTA:
+					{
+						throw new TooLargeObjectInPackException(maxObjectSizeLimit);
+					}
+
+					default:
+					{
+						throw new IOException(MessageFormat.Format(JGitText.Get().unknownObjectType, typeCode
+							));
+					}
+				}
+			}
 		}
 
 		/// <summary>Read the header of the current object.</summary>
@@ -714,7 +764,7 @@ namespace NGit.Transport
 			{
 				c = ReadFrom(PackParser.Source.DATABASE);
 				hdrBuf[hdrPtr++] = unchecked((byte)c);
-				sz += (c & unchecked((int)(0x7f))) << shift;
+				sz += ((long)(c & unchecked((int)(0x7f)))) << shift;
 				shift += 7;
 			}
 			info.size = sz;
@@ -859,7 +909,8 @@ namespace NGit.Transport
 					entries[entryCount++] = oe;
 				}
 				visit.nextChild = FirstChildOf(oe);
-				ResolveDeltas(visit.Next(), typeCode, new PackParser.ObjectTypeAndSize());
+				ResolveDeltas(visit.Next(), typeCode, new PackParser.ObjectTypeAndSize(), progress
+					);
 				if (progress.IsCancelled())
 				{
 					throw new IOException(JGitText.Get().downloadCancelledDuringIndexing);
@@ -964,9 +1015,10 @@ namespace NGit.Transport
 			{
 				c = ReadFrom(PackParser.Source.INPUT);
 				hdrBuf[hdrPtr++] = unchecked((byte)c);
-				sz += (c & unchecked((int)(0x7f))) << shift;
+				sz += ((long)(c & unchecked((int)(0x7f)))) << shift;
 				shift += 7;
 			}
+			CheckIfTooLarge(typeCode, sz);
 			switch (typeCode)
 			{
 				case Constants.OBJ_COMMIT:

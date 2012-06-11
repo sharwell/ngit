@@ -49,6 +49,7 @@ using System.Text;
 using NGit;
 using NGit.Errors;
 using NGit.Storage.File;
+using NGit.Internal;
 using NGit.Transport;
 using NGit.Util;
 using NGit.Util.IO;
@@ -256,7 +257,7 @@ namespace NGit.Transport
 			catch (UriFormatException e)
 			{
 				//$NON-NLS-1$
-				throw new NotSupportedException(MessageFormat.Format(JGitText.Get().invalidURL, uri
+				throw new NGit.Errors.NotSupportedException(MessageFormat.Format(JGitText.Get().invalidURL, uri
 					), e);
 			}
 			http = local.GetConfig().Get(HTTP_KEY);
@@ -310,7 +311,7 @@ namespace NGit.Transport
 					@in.Close();
 				}
 			}
-			catch (NotSupportedException err)
+			catch (NGit.Errors.NotSupportedException err)
 			{
 				throw;
 			}
@@ -426,12 +427,12 @@ namespace NGit.Transport
 						if (!useSmartHttp)
 						{
 							string msg = JGitText.Get().smartHTTPPushDisabled;
-							throw new NotSupportedException(msg);
+							throw new NGit.Errors.NotSupportedException(msg);
 						}
 						else
 						{
 							string msg = JGitText.Get().remoteDoesNotSupportSmartHTTPPush;
-							throw new NotSupportedException(msg);
+							throw new NGit.Errors.NotSupportedException(msg);
 						}
 					}
 				}
@@ -440,7 +441,7 @@ namespace NGit.Transport
 					@in.Close();
 				}
 			}
-			catch (NotSupportedException err)
+			catch (NGit.Errors.NotSupportedException err)
 			{
 				throw;
 			}
@@ -485,7 +486,7 @@ namespace NGit.Transport
 			}
 			catch (UriFormatException e)
 			{
-				throw new NotSupportedException(MessageFormat.Format(JGitText.Get().invalidURL, uri
+				throw new NGit.Errors.NotSupportedException(MessageFormat.Format(JGitText.Get().invalidURL, uri
 					), e);
 			}
 			try
@@ -552,7 +553,7 @@ namespace NGit.Transport
 					}
 				}
 			}
-			catch (NotSupportedException e)
+			catch (NGit.Errors.NotSupportedException e)
 			{
 				throw;
 			}
@@ -863,6 +864,8 @@ namespace NGit.Transport
 
 		internal class SmartHttpFetchConnection : BasePackFetchConnection
 		{
+			private TransportHttp.Service svc;
+
 			/// <exception cref="NGit.Errors.TransportException"></exception>
 			internal SmartHttpFetchConnection(TransportHttp _enclosing, InputStream advertisement
 				) : base(_enclosing)
@@ -878,10 +881,21 @@ namespace NGit.Transport
 			protected internal override void DoFetch(ProgressMonitor monitor, ICollection<Ref
 				> want, ICollection<ObjectId> have)
 			{
-				TransportHttp.Service svc = new TransportHttp.Service(_enclosing, TransportHttp.SVC_UPLOAD_PACK
-					);
-				this.Init(svc.@in, svc.@out);
+				try
+				{
+					this.svc = new TransportHttp.Service(_enclosing, TransportHttp.SVC_UPLOAD_PACK);
+					this.Init(this.svc.@in, this.svc.@out);
 				base.DoFetch(monitor, want, have);
+			}
+				finally
+				{
+					this.svc = null;
+				}
+			}
+
+			protected internal override void OnReceivePack()
+			{
+				this.svc.finalRequest = true;
 			}
 
 			private readonly TransportHttp _enclosing;
@@ -944,6 +958,8 @@ namespace NGit.Transport
 
 			private readonly TransportHttp.Service.HttpExecuteStream execute;
 
+			internal bool finalRequest;
+
 			internal readonly UnionInputStream @in;
 
 			internal readonly TransportHttp.Service.HttpOutputStream @out;
@@ -980,11 +996,17 @@ namespace NGit.Transport
 				this.@out.Close();
 				if (this.conn == null)
 				{
-					// Output hasn't started yet, because everything fit into
-					// our request buffer. Send with a Content-Length header.
-					//
 					if (this.@out.Length() == 0)
 					{
+						// Request output hasn't started yet, but more data is being
+						// requested. If there is no request data buffered and the
+						// final request was already sent, do nothing to ensure the
+						// caller is shown EOF on the InputStream; otherwise an
+						// programming error has occurred within this module.
+						if (this.finalRequest)
+						{
+							return;
+						}
 						throw new TransportException(this._enclosing.uri, JGitText.Get().startingReadStageWithoutWrittenRequestDataPendingIsNotSupported
 							);
 					}
@@ -1038,7 +1060,10 @@ namespace NGit.Transport
 					throw this._enclosing.WrongContentType(this.responseType, contentType);
 				}
 				this.@in.Add(this._enclosing.OpenInputStream(this.conn));
+				if (!this.finalRequest)
+				{
 				this.@in.Add(this.execute);
+				}
 				this.conn = null;
 			}
 
@@ -1063,13 +1088,6 @@ namespace NGit.Transport
 
 			internal class HttpExecuteStream : InputStream
 			{
-				/// <exception cref="System.IO.IOException"></exception>
-				public override int Available()
-				{
-					this._enclosing.Execute();
-					return 0;
-				}
-
 				/// <exception cref="System.IO.IOException"></exception>
 				public override int Read()
 				{

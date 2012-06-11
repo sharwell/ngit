@@ -45,6 +45,7 @@ using System;
 using System.IO;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Transport;
 using Sharpen;
 
@@ -107,7 +108,7 @@ namespace NGit.Transport
 		/// <exception cref="System.NotSupportedException"></exception>
 		public override PushConnection OpenPush()
 		{
-			throw new NotSupportedException(JGitText.Get().pushIsNotSupportedForBundleTransport
+			throw new NGit.Errors.NotSupportedException(JGitText.Get().pushIsNotSupportedForBundleTransport
 				);
 		}
 

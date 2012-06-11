@@ -46,6 +46,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using NGit;
+using NGit.Internal;
 using NGit.Errors;
 using NGit.Events;
 using NGit.Util;
@@ -367,7 +368,7 @@ namespace NGit
 				GitIndex.Entry e = (GitIndex.Entry)i.Next();
 				if (e.GetStage() != 0)
 				{
-					throw new NotSupportedException(JGitText.Get().cannotWorkWithOtherStagesThanZeroRightNow
+					throw new NGit.Errors.NotSupportedException(JGitText.Get().cannotWorkWithOtherStagesThanZeroRightNow
 						);
 				}
 			}

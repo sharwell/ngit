@@ -10,12 +10,6 @@
     <RootNamespace>NGit</RootNamespace>
     <AssemblyName>NGit</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,7 +61,6 @@
     <Compile Include="NGit\GitlinkTreeEntry.cs" />
     <Compile Include="NGit\IndexDiff.cs" />
     <Compile Include="NGit\InflaterCache.cs" />
-    <Compile Include="NGit\JGitText.cs" />
     <Compile Include="NGit\MutableObjectId.cs" />
     <Compile Include="NGit\NullProgressMonitor.cs" />
     <Compile Include="NGit\ObjectChecker.cs" />
@@ -532,11 +525,68 @@
     <Compile Include="NGit.Blame\ReverseWalk.cs" />
     <Compile Include="NGit.Diff\PatchIdDiffFormatter.cs" />
     <Compile Include="NGit.Util.IO\NullOutputStream.cs" />
+    <Compile Include="NGit.Api\DeleteTagCommand.cs" />
+    <Compile Include="NGit.Api\DiffCommand.cs" />
+    <Compile Include="NGit.Api\ListTagCommand.cs" />
+    <Compile Include="NGit.Api\ReflogCommand.cs" />
+    <Compile Include="NGit.Api\StashListCommand.cs" />
+    <Compile Include="NGit.Api\SubmoduleAddCommand.cs" />
+    <Compile Include="NGit.Api\SubmoduleInitCommand.cs" />
+    <Compile Include="NGit.Api\SubmoduleStatusCommand.cs" />
+    <Compile Include="NGit.Api\SubmoduleSyncCommand.cs" />
+    <Compile Include="NGit.Api\SubmoduleUpdateCommand.cs" />
+    <Compile Include="NGit.Api\TransportCommand.cs" />
+    <Compile Include="NGit.Api\TransportConfigCallback.cs" />
+    <Compile Include="NGit.Storage.File\CheckoutEntry.cs" />
+    <Compile Include="NGit.Storage.File\ReflogEntry.cs" />
+    <Compile Include="NGit.Submodule\SubmoduleStatus.cs" />
+    <Compile Include="NGit.Submodule\SubmoduleStatusType.cs" />
+    <Compile Include="NGit.Submodule\SubmoduleWalk.cs" />
+    <Compile Include="NGit.Revwalk\DepthGenerator.cs" />
+    <Compile Include="NGit.Revwalk\DepthWalk.cs" />
+    <Compile Include="NGit.Revwalk\RenameCallback.cs" />
+    <Compile Include="NGit.Revwalk\RevWalkUtils.cs" />
+    <Compile Include="NGit.Util.IO\AutoCRLFOutputStream.cs" />
+    <Compile Include="NGit.Util.IO\CountingOutputStream.cs" />
+    <Compile Include="NGit.Util.IO\SafeBufferedOutputStream.cs" />
+    <Compile Include="NGit.Revwalk.Filter\MaxCountRevFilter.cs" />
+    <Compile Include="NGit.Revwalk.Filter\SkipRevFilter.cs" />
+    <Compile Include="NGit.Errors\LockFailedException.cs" />
+    <Compile Include="NGit.Errors\NotSupportedException.cs" />
+    <Compile Include="NGit.Errors\TooLargeObjectInPackException.cs" />
+    <Compile Include="NGit.Transport\AmazonS3.cs" />
+    <Compile Include="NGit.Transport\PostReceiveHookChain.cs" />
+    <Compile Include="NGit.Transport\PreReceiveHookChain.cs" />
+    <Compile Include="NGit.Transport\PreUploadHookChain.cs" />
+    <Compile Include="NGit.Transport\TransportAmazonS3.cs" />
+    <Compile Include="NGit.Transport\UploadPackInternalServerErrorException.cs" />
+    <Compile Include="NGit.Transport\UploadPackLoggerChain.cs" />
+    <Compile Include="NGit.Transport\WalkEncryption.cs" />
+    <Compile Include="NGit\BranchConfig.cs" />
+    <Compile Include="NGit\BranchTrackingStatus.cs" />
+    <Compile Include="NGit.Transport\AbstractAdvertiseRefsHook.cs" />
+    <Compile Include="NGit.Transport\AdvertiseRefsHook.cs" />
+    <Compile Include="NGit.Transport\AdvertiseRefsHookChain.cs" />
+    <Compile Include="NGit.Transport\ServiceMayNotContinueException.cs" />
+    <Compile Include="NGit.Api\ApplyCommand.cs" />
+    <Compile Include="NGit.Api\ApplyResult.cs" />
+    <Compile Include="NGit.Api\StashApplyCommand.cs" />
+    <Compile Include="NGit.Api\StashCreateCommand.cs" />
+    <Compile Include="NGit.Util\GitDateFormatter.cs" />
+    <Compile Include="NGit.Api.Errors\PatchApplyException.cs" />
+    <Compile Include="NGit.Api.Errors\PatchFormatException.cs" />
+    <Compile Include="NGit.Transport\RequestNotYetReadException.cs" />
+    <Compile Include="NGit.Internal\JGitText.cs" />
+    <Compile Include="NGit\ConfigSnapshot.cs" />
+    <Compile Include="NGit\ConfigLine.cs" />
+    <Compile Include="NGit.Api\StashDropCommand.cs" />
+    <Compile Include="NGit.Storage.File\ReflogWriter.cs" />
+    <Compile Include="NGit.Dircache\InvalidPathException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="resources\JGitText.properties">
-      <LogicalName>NGit.JGitText.properties</LogicalName>
+      <LogicalName>NGit.Internal.JGitText.properties</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

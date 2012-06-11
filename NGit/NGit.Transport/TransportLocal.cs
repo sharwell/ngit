@@ -47,6 +47,7 @@ using System.Diagnostics;
 using System.IO;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Storage.File;
 using NGit.Transport;
 using NGit.Util.IO;
@@ -366,7 +367,7 @@ namespace NGit.Transport
 				InputStream upIn = this.uploadPack.GetInputStream();
 				OutputStream upOut = this.uploadPack.GetOutputStream();
 				upIn = new BufferedInputStream(upIn);
-				upOut = new BufferedOutputStream(upOut);
+				upOut = new SafeBufferedOutputStream(upOut);
 				this.Init(upIn, upOut);
 				this.ReadAdvertisedRefs();
 			}
@@ -548,7 +549,7 @@ namespace NGit.Transport
 				InputStream rpIn = this.receivePack.GetInputStream();
 				OutputStream rpOut = this.receivePack.GetOutputStream();
 				rpIn = new BufferedInputStream(rpIn);
-				rpOut = new BufferedOutputStream(rpOut);
+				rpOut = new SafeBufferedOutputStream(rpOut);
 				this.Init(rpIn, rpOut);
 				this.ReadAdvertisedRefs();
 			}

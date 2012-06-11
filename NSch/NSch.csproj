@@ -10,12 +10,6 @@
     <RootNamespace>NSch</RootNamespace>
     <AssemblyName>NSch</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -204,6 +198,9 @@
     <Compile Include="NSch\Sharpen\GSSException.cs" />
     <Compile Include="NSch\Sharpen\MessageProp.cs" />
     <Compile Include="NSch\Sharpen\DHPrivateKey.cs" />
+    <Compile Include="NSch\DHG14.cs" />
+    <Compile Include="NSch\IdentityRepository.cs" />
+    <Compile Include="NSch\LocalIdentityRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

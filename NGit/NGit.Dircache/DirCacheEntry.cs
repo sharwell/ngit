@@ -44,6 +44,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.IO;
 using NGit;
+using NGit.Dircache;
+using NGit.Internal;
 using NGit.Util;
 using Sharpen;
 
@@ -76,6 +78,8 @@ namespace NGit.Dircache
 		/// <summary>The second tree revision (usually called "theirs").</summary>
 		/// <remarks>The second tree revision (usually called "theirs").</remarks>
 		public const int STAGE_3 = 3;
+
+		private const int P_CTIME = 0;
 
 		private const int P_MTIME = 8;
 
@@ -137,7 +141,6 @@ namespace NGit.Dircache
 		internal DirCacheEntry(byte[] sharedInfo, MutableInteger infoAt, InputStream @in, 
 			MessageDigest md)
 		{
-			// private static final int P_CTIME = 0;
 			// private static final int P_CTIME_NSEC = 4;
 			// private static final int P_MTIME_NSEC = 12;
 			// private static final int P_DEV = 16;
@@ -270,8 +273,7 @@ namespace NGit.Dircache
 		{
 			if (!IsValidPath(newPath))
 			{
-				throw new ArgumentException(MessageFormat.Format(JGitText.Get().invalidPath, ToString
-					(newPath)));
+				throw new InvalidPathException(ToString(newPath));
 			}
 			if (stage < 0 || 3 < stage)
 			{
@@ -560,6 +562,25 @@ namespace NGit.Dircache
 			}
 		}
 
+		/// <summary>Get the cached creation time of this file, in milliseconds.</summary>
+		/// <remarks>Get the cached creation time of this file, in milliseconds.</remarks>
+		/// <returns>
+		/// cached creation time of this file, in milliseconds since the
+		/// Java epoch (midnight Jan 1, 1970 UTC).
+		/// </returns>
+		public virtual long GetCreationTime()
+		{
+			return DecodeTS(P_CTIME);
+		}
+
+		/// <summary>Set the cached creation time of this file, using milliseconds.</summary>
+		/// <remarks>Set the cached creation time of this file, using milliseconds.</remarks>
+		/// <param name="when">new cached creation time of the file, in milliseconds.</param>
+		public virtual void SetCreationTime(long when)
+		{
+			EncodeTS(P_CTIME, when);
+		}
+
 		/// <summary>Get the cached last modification date of this file, in milliseconds.</summary>
 		/// <remarks>
 		/// Get the cached last modification date of this file, in milliseconds.
@@ -588,9 +609,9 @@ namespace NGit.Dircache
 			}
 		}
 
-		/// <summary>Get the cached size (in bytes) of this file.</summary>
+		/// <summary>Get the cached size (mod 4 GB) (in bytes) of this file.</summary>
 		/// <remarks>
-		/// Get the cached size (in bytes) of this file.
+		/// Get the cached size (mod 4 GB) (in bytes) of this file.
 		/// <p>
 		/// One of the indicators that the file has been modified by an application
 		/// changing the working tree is if the size of the file (in bytes) differs
@@ -599,6 +620,10 @@ namespace NGit.Dircache
 		/// Note that this is the length of the file in the working directory, which
 		/// may differ from the size of the decompressed blob if work tree filters
 		/// are being used, such as LF<->CRLF conversion.
+		/// <p>
+		/// Note also that for very large files, this is the size of the on-disk file
+		/// truncated to 32 bits, i.e. modulo 4294967296. If that value is larger
+		/// than 2GB, it will appear negative.
 		/// </remarks>
 		/// <returns>cached size of the working directory file, in bytes.</returns>
 		public virtual int Length
@@ -611,7 +636,10 @@ namespace NGit.Dircache
 
 		/// <summary>Set the cached size (in bytes) of this file.</summary>
 		/// <remarks>Set the cached size (in bytes) of this file.</remarks>
-		/// <param name="sz">new cached size of the file, as bytes.</param>
+		/// <param name="sz">
+		/// new cached size of the file, as bytes. If the file is larger
+		/// than 2G, cast it to (int) before calling this method.
+		/// </param>
 		public virtual void SetLength(int sz)
 		{
 			NB.EncodeInt32(info, infoOffset + P_SIZE, sz);
@@ -620,17 +648,8 @@ namespace NGit.Dircache
 		/// <summary>Set the cached size (in bytes) of this file.</summary>
 		/// <remarks>Set the cached size (in bytes) of this file.</remarks>
 		/// <param name="sz">new cached size of the file, as bytes.</param>
-		/// <exception cref="System.ArgumentException">
-		/// if the size exceeds the 2 GiB barrier imposed by current file
-		/// format limitations.
-		/// </exception>
 		public virtual void SetLength(long sz)
 		{
-			if (int.MaxValue <= sz)
-			{
-				throw new ArgumentException(MessageFormat.Format(JGitText.Get().sizeExceeds2GB, PathString
-					, sz));
-			}
 			SetLength((int)sz);
 		}
 
@@ -694,6 +713,13 @@ namespace NGit.Dircache
 			}
 		}
 
+		/// <summary>Use for debugging only !</summary>
+		public override string ToString()
+		{
+			return FileMode + " " + Length + " " + LastModified + " " + GetObjectId() + " " +
+				 Stage + " " + PathString + "\n";
+		}
+
 		/// <summary>Copy the ObjectId and other meta fields from an existing entry.</summary>
 		/// <remarks>
 		/// Copy the ObjectId and other meta fields from an existing entry.
@@ -704,10 +730,37 @@ namespace NGit.Dircache
 		/// <param name="src">the entry to copy ObjectId and meta fields from.</param>
 		public virtual void CopyMetaData(NGit.Dircache.DirCacheEntry src)
 		{
-			int pLen = NB.DecodeUInt16(info, infoOffset + P_FLAGS) & NAME_MASK;
+			CopyMetaData(src, false);
+		}
+
+		/// <summary>Copy the ObjectId and other meta fields from an existing entry.</summary>
+		/// <remarks>
+		/// Copy the ObjectId and other meta fields from an existing entry.
+		/// <p>
+		/// This method copies everything except the path and possibly stage from one
+		/// entry to another, supporting renaming.
+		/// </remarks>
+		/// <param name="src">the entry to copy ObjectId and meta fields from.</param>
+		/// <param name="keepStage">if true, the stage attribute will not be copied</param>
+		internal virtual void CopyMetaData(NGit.Dircache.DirCacheEntry src, bool keepStage
+			)
+		{
+			int origflags = NB.DecodeUInt16(info, infoOffset + P_FLAGS);
+			int newflags = NB.DecodeUInt16(src.info, src.infoOffset + P_FLAGS);
 			System.Array.Copy(src.info, src.infoOffset, info, infoOffset, INFO_LEN);
-			NB.EncodeInt16(info, infoOffset + P_FLAGS, pLen | NB.DecodeUInt16(info, infoOffset
-				 + P_FLAGS) & ~NAME_MASK);
+			int pLen = origflags & NAME_MASK;
+			int SHIFTED_STAGE_MASK = unchecked((int)(0x3)) << 12;
+			int pStageShifted;
+			if (keepStage)
+			{
+				pStageShifted = origflags & SHIFTED_STAGE_MASK;
+			}
+			else
+			{
+				pStageShifted = newflags & SHIFTED_STAGE_MASK;
+			}
+			NB.EncodeInt16(info, infoOffset + P_FLAGS, pStageShifted | pLen | (newflags & ~NAME_MASK
+				 & ~SHIFTED_STAGE_MASK));
 		}
 
 		/// <returns>true if the entry contains extended flags.</returns>
@@ -782,8 +835,21 @@ namespace NGit.Dircache
 						break;
 					}
 
+					case (byte)('\\'):
+					case (byte)(':'):
+					{
+						// Tree's never have a backslash in them, not even on Windows
+						// but even there we regard it as an invalid path
+						if ("Windows".Equals(SystemReader.GetInstance().GetProperty("os.name")))
+						{
+							return false;
+						}
+						goto default;
+					}
+
 					default:
 					{
+						//$FALL-THROUGH$
 						componentHasChars = true;
 						break;
 					}

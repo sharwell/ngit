@@ -42,8 +42,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
-using System.IO;
 using NGit;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Storage.File;
 using NGit.Util;
@@ -307,7 +307,7 @@ namespace NGit.Storage.File
 		[NUnit.Framework.Test]
 		public virtual void Test006_ReadUglyConfig()
 		{
-			FilePath cfg = new FilePath(db.Directory, "config");
+			FilePath cfg = new FilePath(db.Directory, Constants.CONFIG);
 			FileBasedConfig c = new FileBasedConfig(cfg, db.FileSystem);
 			string configStr = "  [core];comment\n\tfilemode = yes\n" + "[user]\n" + "  email = A U Thor <thor@example.com> # Just an example...\n"
 				 + " name = \"A  Thor \\\\ \\\"\\t \"\n" + "    defaultCheckInComment = a many line\\n\\\ncomment\\n\\\n"
@@ -345,7 +345,7 @@ namespace NGit.Storage.File
 		[NUnit.Framework.Test]
 		public virtual void Test008_FailOnWrongVersion()
 		{
-			FilePath cfg = new FilePath(db.Directory, "config");
+			FilePath cfg = new FilePath(db.Directory, Constants.CONFIG);
 			string badvers = "ihopethisisneveraversion";
 			string configStr = "[core]\n" + "\trepositoryFormatVersion=" + badvers + "\n";
 			Write(cfg, configStr);
@@ -354,10 +354,9 @@ namespace NGit.Storage.File
 				new FileRepository(db.Directory);
 				NUnit.Framework.Assert.Fail("incorrectly opened a bad repository");
 			}
-			catch (IOException ioe)
+			catch (ArgumentException ioe)
 			{
-				NUnit.Framework.Assert.IsTrue(ioe.Message.IndexOf("format") > 0);
-				NUnit.Framework.Assert.IsTrue(ioe.Message.IndexOf(badvers) > 0);
+				NUnit.Framework.Assert.IsNotNull(ioe.Message);
 			}
 		}
 

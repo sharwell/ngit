@@ -116,16 +116,16 @@ namespace NGit.Storage.File
 			NUnit.Framework.Assert.AreNotSame(newid, r.GetObjectId());
 			NUnit.Framework.Assert.AreSame(typeof(ObjectId), r.GetObjectId().GetType());
 			NUnit.Framework.Assert.AreEqual(newid, r.GetObjectId());
-			IList<ReflogReader.Entry> reverseEntries1 = db.GetReflogReader("refs/heads/abc").
-				GetReverseEntries();
-			ReflogReader.Entry entry1 = reverseEntries1[0];
+			IList<ReflogEntry> reverseEntries1 = db.GetReflogReader("refs/heads/abc").GetReverseEntries
+				();
+			ReflogEntry entry1 = reverseEntries1[0];
 			NUnit.Framework.Assert.AreEqual(1, reverseEntries1.Count);
 			NUnit.Framework.Assert.AreEqual(ObjectId.ZeroId, entry1.GetOldId());
 			NUnit.Framework.Assert.AreEqual(r.GetObjectId(), entry1.GetNewId());
 			NUnit.Framework.Assert.AreEqual(new PersonIdent(db).ToString(), entry1.GetWho().ToString
 				());
 			NUnit.Framework.Assert.AreEqual(string.Empty, entry1.GetComment());
-			IList<ReflogReader.Entry> reverseEntries2 = db.GetReflogReader("HEAD").GetReverseEntries
+			IList<ReflogEntry> reverseEntries2 = db.GetReflogReader("HEAD").GetReverseEntries
 				();
 			NUnit.Framework.Assert.AreEqual(0, reverseEntries2.Count);
 		}
@@ -353,7 +353,7 @@ namespace NGit.Storage.File
 			// the branch HEAD referred to is left untouched
 			NUnit.Framework.Assert.AreEqual(pid, db.Resolve("refs/heads/master"));
 			ReflogReader reflogReader = new ReflogReader(db, "HEAD");
-			ReflogReader.Entry e = reflogReader.GetReverseEntries()[0];
+			ReflogEntry e = reflogReader.GetReverseEntries()[0];
 			NUnit.Framework.Assert.AreEqual(pid, e.GetOldId());
 			NUnit.Framework.Assert.AreEqual(ppid, e.GetNewId());
 			NUnit.Framework.Assert.AreEqual("GIT_COMMITTER_EMAIL", e.GetWho().GetEmailAddress
@@ -381,7 +381,7 @@ namespace NGit.Storage.File
 			// the branch HEAD referred to is left untouched
 			NUnit.Framework.Assert.IsNull(db.Resolve("refs/heads/unborn"));
 			ReflogReader reflogReader = new ReflogReader(db, "HEAD");
-			ReflogReader.Entry e = reflogReader.GetReverseEntries()[0];
+			ReflogEntry e = reflogReader.GetReverseEntries()[0];
 			NUnit.Framework.Assert.AreEqual(ObjectId.ZeroId, e.GetOldId());
 			NUnit.Framework.Assert.AreEqual(ppid, e.GetNewId());
 			NUnit.Framework.Assert.AreEqual("GIT_COMMITTER_EMAIL", e.GetWho().GetEmailAddress
@@ -639,7 +639,7 @@ namespace NGit.Storage.File
 			ObjectId oldHead = db.Resolve(Constants.HEAD);
 			NUnit.Framework.Assert.IsFalse(rb.Equals(oldHead), "precondition for this test, branch b != HEAD"
 				);
-			WriteReflog(db, rb, rb, "Just a message", "refs/heads/b");
+			WriteReflog(db, rb, "Just a message", "refs/heads/b");
 			NUnit.Framework.Assert.IsTrue(new FilePath(db.Directory, "logs/refs/heads/b").Exists
 				(), "log on old branch");
 			RefRename renameRef = db.RenameRef("refs/heads/b", "refs/heads/new/name");
@@ -668,7 +668,7 @@ namespace NGit.Storage.File
 			ObjectId oldHead = db.Resolve(Constants.HEAD);
 			NUnit.Framework.Assert.IsTrue(rb.Equals(oldHead), "internal test condition, b == HEAD"
 				);
-			WriteReflog(db, rb, rb, "Just a message", "refs/heads/b");
+			WriteReflog(db, rb, "Just a message", "refs/heads/b");
 			NUnit.Framework.Assert.IsTrue(new FilePath(db.Directory, "logs/refs/heads/b").Exists
 				(), "log on old branch");
 			RefRename renameRef = db.RenameRef("refs/heads/b", "refs/heads/new/name");
@@ -705,7 +705,7 @@ namespace NGit.Storage.File
 				);
 			NUnit.Framework.Assert.AreEqual(RefStorage.LOOSE, db.GetRef("refs/heads/b").GetStorage
 				());
-			WriteReflog(db, rb, rb, "Just a message", "refs/heads/b");
+			WriteReflog(db, rb, "Just a message", "refs/heads/b");
 			NUnit.Framework.Assert.IsTrue(new FilePath(db.Directory, "logs/refs/heads/b").Exists
 				(), "log on old branch");
 			RefRename renameRef = db.RenameRef("refs/heads/b", "refs/heads/new/name");
@@ -739,11 +739,10 @@ namespace NGit.Storage.File
 			WriteSymref(Constants.HEAD, headPointsTo);
 			ObjectId oldfromId = db.Resolve(fromName);
 			ObjectId oldHeadId = db.Resolve(Constants.HEAD);
-			WriteReflog(db, oldfromId, oldfromId, "Just a message", fromName);
-			IList<ReflogReader.Entry> oldFromLog = db.GetReflogReader(fromName).GetReverseEntries
-				();
-			IList<ReflogReader.Entry> oldHeadLog = oldHeadId != null ? db.GetReflogReader(Constants
-				.HEAD).GetReverseEntries() : null;
+			WriteReflog(db, oldfromId, "Just a message", fromName);
+			IList<ReflogEntry> oldFromLog = db.GetReflogReader(fromName).GetReverseEntries();
+			IList<ReflogEntry> oldHeadLog = oldHeadId != null ? db.GetReflogReader(Constants.
+				HEAD).GetReverseEntries() : null;
 			NUnit.Framework.Assert.IsTrue(new FilePath(db.Directory, "logs/" + fromName).Exists
 				(), "internal check, we have a log");
 			// "someone" has branch X locked
@@ -862,7 +861,7 @@ namespace NGit.Storage.File
 			ObjectId oldHead = db.Resolve(Constants.HEAD);
 			NUnit.Framework.Assert.IsTrue(rb.Equals(oldHead));
 			// assumption for this test
-			WriteReflog(db, rb, rb, "Just a message", "refs/heads/a");
+			WriteReflog(db, rb, "Just a message", "refs/heads/a");
 			NUnit.Framework.Assert.IsTrue(new FilePath(db.Directory, "logs/refs/heads/a").Exists
 				(), "internal check, we have a log");
 			// Now this is our test
@@ -899,7 +898,7 @@ namespace NGit.Storage.File
 			ObjectId oldHead = db.Resolve(Constants.HEAD);
 			NUnit.Framework.Assert.IsTrue(rb.Equals(oldHead));
 			// assumption for this test
-			WriteReflog(db, rb, rb, "Just a message", "refs/heads/prefix/a");
+			WriteReflog(db, rb, "Just a message", "refs/heads/prefix/a");
 			NUnit.Framework.Assert.IsTrue(new FilePath(db.Directory, "logs/refs/heads/prefix/a"
 				).Exists(), "internal check, we have a log");
 			// Now this is our test
@@ -921,8 +920,8 @@ namespace NGit.Storage.File
 		}
 
 		/// <exception cref="System.IO.IOException"></exception>
-		private void WriteReflog(Repository db, ObjectId oldId, ObjectId newId, string msg
-			, string refName)
+		private void WriteReflog(Repository db, ObjectId newId, string msg, string refName
+			)
 		{
 			RefDirectory refs = (RefDirectory)db.RefDatabase;
 			RefDirectoryUpdate update = ((RefDirectoryUpdate)refs.NewUpdate(refName, true));

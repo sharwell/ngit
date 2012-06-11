@@ -46,6 +46,7 @@ using System.Collections.Generic;
 using System.Text;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Storage.Pack;
 using NGit.Transport;
 using Sharpen;
@@ -82,13 +83,21 @@ namespace NGit.Transport
 	/// </remarks>
 	public abstract class BasePackPushConnection : BasePackConnection, PushConnection
 	{
-		internal static readonly string CAPABILITY_REPORT_STATUS = "report-status";
+		/// <summary>The client expects a status report after the server processes the pack.</summary>
+		/// <remarks>The client expects a status report after the server processes the pack.</remarks>
+		public static readonly string CAPABILITY_REPORT_STATUS = "report-status";
 
-		internal static readonly string CAPABILITY_DELETE_REFS = "delete-refs";
+		/// <summary>The server supports deleting refs.</summary>
+		/// <remarks>The server supports deleting refs.</remarks>
+		public static readonly string CAPABILITY_DELETE_REFS = "delete-refs";
 
-		internal static readonly string CAPABILITY_OFS_DELTA = "ofs-delta";
+		/// <summary>The server supports packs with OFS deltas.</summary>
+		/// <remarks>The server supports packs with OFS deltas.</remarks>
+		public static readonly string CAPABILITY_OFS_DELTA = "ofs-delta";
 
-		internal static readonly string CAPABILITY_SIDE_BAND_64K = "side-band-64k";
+		/// <summary>The client supports using the 64K side-band for progress messages.</summary>
+		/// <remarks>The client supports using the 64K side-band for progress messages.</remarks>
+		public static readonly string CAPABILITY_SIDE_BAND_64K = "side-band-64k";
 
 		private readonly bool thinPack;
 
@@ -138,7 +147,7 @@ namespace NGit.Transport
 			{
 				transport.OpenFetch().Close();
 			}
-			catch (NotSupportedException)
+			catch (NGit.Errors.NotSupportedException)
 			{
 			}
 			catch (NoRemoteRepositoryException e)
@@ -270,8 +279,8 @@ namespace NGit.Transport
 		private void WritePack(IDictionary<string, RemoteRefUpdate> refUpdates, ProgressMonitor
 			 monitor)
 		{
-			IList<ObjectId> remoteObjects = new AList<ObjectId>(GetRefs().Count);
-			IList<ObjectId> newObjects = new AList<ObjectId>(refUpdates.Count);
+			ICollection<ObjectId> remoteObjects = new HashSet<ObjectId>();
+			ICollection<ObjectId> newObjects = new HashSet<ObjectId>();
 			PackWriter writer = new PackWriter(transport.GetPackConfig(), local.NewObjectReader
 				());
 			try

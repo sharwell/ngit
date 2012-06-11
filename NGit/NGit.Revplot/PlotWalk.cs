@@ -45,6 +45,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using NGit;
+using NGit.Internal;
 using NGit.Revplot;
 using NGit.Revwalk;
 using Sharpen;
@@ -70,6 +71,27 @@ namespace NGit.Revplot
 		{
 			base.Sort(RevSort.TOPO, true);
 			reverseRefMap = repo.GetAllRefsByPeeledObjectId();
+		}
+
+		/// <summary>Add additional refs to the walk</summary>
+		/// <param name="refs">additional refs</param>
+		/// <exception cref="System.IO.IOException">System.IO.IOException</exception>
+		public virtual void AddAdditionalRefs(Iterable<Ref> refs)
+		{
+			foreach (Ref @ref in refs)
+			{
+				ICollection<Ref> set = reverseRefMap.Get(@ref.GetObjectId());
+				if (set == null)
+				{
+					set = Sharpen.Collections.Singleton(@ref);
+				}
+				else
+				{
+					set = new HashSet<Ref>(set);
+					set.AddItem(@ref);
+				}
+				reverseRefMap.Put(@ref.GetObjectId(), set);
+			}
 		}
 
 		public override void Sort(RevSort s, bool use)

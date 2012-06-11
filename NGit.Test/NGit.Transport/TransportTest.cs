@@ -212,5 +212,25 @@ namespace NGit.Transport
 			NUnit.Framework.Assert.AreEqual(db.Resolve("refs/heads/a"), tru.GetNewObjectId());
 			NUnit.Framework.Assert.IsNull(tru.GetOldObjectId());
 		}
+
+		[NUnit.Framework.Test]
+		[NUnit.Framework.Ignore ("I've no idea how the transport is being registered anyway...")]
+		public virtual void TestSpi()
+		{
+			IList<TransportProtocol> protocols = NGit.Transport.Transport.GetTransportProtocols
+				();
+			NUnit.Framework.Assert.IsNotNull(protocols);
+			NUnit.Framework.Assert.IsFalse(protocols.IsEmpty());
+			TransportProtocol found = null;
+			foreach (TransportProtocol protocol in protocols)
+			{
+				if (protocol.GetSchemes().Contains(SpiTransport.SCHEME))
+				{
+					found = protocol;
+					break;
+				}
+			}
+			NUnit.Framework.Assert.AreEqual(SpiTransport.PROTO, found);
+		}
 	}
 }

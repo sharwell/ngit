@@ -41,6 +41,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using NGit.Diff;
 using Sharpen;
 
 namespace NGit.Util.IO
@@ -48,7 +49,9 @@ namespace NGit.Util.IO
 	/// <summary>An input stream which canonicalizes EOLs bytes on the fly to '\n'.</summary>
 	/// <remarks>
 	/// An input stream which canonicalizes EOLs bytes on the fly to '\n'.
-	/// Note: Make sure to apply this InputStream only to text files!
+	/// Optionally, a binary check on the first 8000 bytes is performed
+	/// and in case of binary files, canonicalization is turned off
+	/// (for the complete file).
 	/// </remarks>
 	public class EolCanonicalizingInputStream : InputStream
 	{
@@ -62,11 +65,17 @@ namespace NGit.Util.IO
 
 		private int ptr;
 
+		private bool isBinary;
+
+		private bool detectBinary;
+
 		/// <summary>Creates a new InputStream, wrapping the specified stream</summary>
 		/// <param name="in">raw input stream</param>
-		public EolCanonicalizingInputStream(InputStream @in)
+		/// <param name="detectBinary">whether binaries should be detected</param>
+		public EolCanonicalizingInputStream(InputStream @in, bool detectBinary)
 		{
 			this.@in = @in;
+			this.detectBinary = detectBinary;
 		}
 
 		/// <exception cref="System.IO.IOException"></exception>
@@ -96,8 +105,9 @@ namespace NGit.Util.IO
 					break;
 				}
 				byte b = buf[ptr++];
-				if (b != '\r')
+				if (isBinary || b != '\r')
 				{
+					// Logic for binary files ends here
 					bs[off++] = b;
 					continue;
 				}
@@ -132,6 +142,11 @@ namespace NGit.Util.IO
 			if (cnt < 1)
 			{
 				return false;
+			}
+			if (detectBinary)
+			{
+				isBinary = RawText.IsBinary(buf, cnt);
+				detectBinary = false;
 			}
 			ptr = 0;
 			return true;

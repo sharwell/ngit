@@ -46,6 +46,7 @@ using System.Collections.Generic;
 using System.IO;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Revwalk.Filter;
 using NGit.Treewalk.Filter;
@@ -178,7 +179,7 @@ namespace NGit.Revwalk
 
 		internal readonly MutableObjectId idBuffer;
 
-		private ObjectIdOwnerMap<RevObject> objects;
+		internal ObjectIdOwnerMap<RevObject> objects;
 
 		private int freeFlags = APP_FLAGS;
 
@@ -1173,9 +1174,9 @@ namespace NGit.Revwalk
 			}
 		}
 
-		/// <summary>Ensure the object's fully body content is available.</summary>
+		/// <summary>Ensure the object's full body content is available.</summary>
 		/// <remarks>
-		/// Ensure the object's fully body content is available.
+		/// Ensure the object's full body content is available.
 		/// <p>
 		/// This method only returns successfully if the object exists and was parsed
 		/// without error.
@@ -1550,7 +1551,7 @@ namespace NGit.Revwalk
 
 			public override void Remove()
 			{
-				throw new NotSupportedException();
+				throw new NGit.Errors.NotSupportedException();
 			}
 
 			private readonly RevWalk _enclosing;

@@ -48,6 +48,7 @@ using NGit.Api;
 using NGit.Api.Errors;
 using NGit.Dircache;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Treewalk;
 using NGit.Treewalk.Filter;
@@ -77,6 +78,8 @@ namespace NGit.Api
 
 		private IList<string> paths;
 
+		private bool checkoutAllPaths;
+
 		/// <param name="repo"></param>
 		protected internal CheckoutCommand(Repository repo) : base(repo)
 		{
@@ -95,13 +98,14 @@ namespace NGit.Api
 		/// </exception>
 		/// <returns>the newly created branch</returns>
 		/// <exception cref="NGit.Api.Errors.JGitInternalException"></exception>
+		/// <exception cref="NGit.Api.Errors.CheckoutConflictException"></exception>
 		public override Ref Call()
 		{
 			CheckCallable();
 			ProcessOptions();
 			try
 			{
-				if (!paths.IsEmpty())
+				if (checkoutAllPaths || !paths.IsEmpty())
 				{
 					CheckoutPaths();
 					status = CheckoutResult.OK_RESULT;
@@ -121,7 +125,8 @@ namespace NGit.Api
 					command.Call();
 				}
 				Ref headRef = repo.GetRef(Constants.HEAD);
-				string refLogMessage = "checkout: moving from " + headRef.GetTarget().GetName();
+				string shortHeadRef = GetShortBranchName(headRef);
+				string refLogMessage = "checkout: moving from " + shortHeadRef;
 				ObjectId branch = repo.Resolve(name);
 				if (branch == null)
 				{
@@ -133,26 +138,35 @@ namespace NGit.Api
 				RevCommit headCommit = headId == null ? null : revWalk.ParseCommit(headId);
 				RevCommit newCommit = revWalk.ParseCommit(branch);
 				RevTree headTree = headCommit == null ? null : headCommit.Tree;
-				DirCacheCheckout dco = new DirCacheCheckout(repo, headTree, repo.LockDirCache(), 
-					newCommit.Tree);
-				dco.SetFailOnConflict(true);
+				DirCacheCheckout dco;
+				DirCache dc = repo.LockDirCache();
 				try
 				{
-					dco.Checkout();
+					dco = new DirCacheCheckout(repo, headTree, dc, newCommit.Tree);
+					dco.SetFailOnConflict(true);
+					try
+					{
+						dco.Checkout();
+					}
+					catch (NGit.Errors.CheckoutConflictException e)
+					{
+						status = new CheckoutResult(CheckoutResult.Status.CONFLICTS, dco.GetConflicts());
+						throw new NGit.Api.Errors.CheckoutConflictException(dco.GetConflicts(), e);
+					}
 				}
-				catch (NGit.Errors.CheckoutConflictException e)
+				finally
 				{
-					status = new CheckoutResult(CheckoutResult.Status.CONFLICTS, dco.GetConflicts());
-					throw;
+					dc.Unlock();
 				}
 				Ref @ref = repo.GetRef(name);
 				if (@ref != null && !@ref.GetName().StartsWith(Constants.R_HEADS))
 				{
 					@ref = null;
 				}
+				string toName = Repository.ShortenRefName(name);
 				RefUpdate refUpdate = repo.UpdateRef(Constants.HEAD, @ref == null);
 				refUpdate.SetForceUpdate(force);
-				refUpdate.SetRefLogMessage(refLogMessage + " to " + newCommit.GetName(), false);
+				refUpdate.SetRefLogMessage(refLogMessage + " to " + toName, false);
 				RefUpdate.Result updateResult;
 				if (@ref != null)
 				{
@@ -216,6 +230,15 @@ namespace NGit.Api
 			}
 		}
 
+		private string GetShortBranchName(Ref headRef)
+		{
+			if (headRef.GetTarget().GetName().Equals(headRef.GetName()))
+			{
+				return headRef.GetTarget().GetObjectId().GetName();
+			}
+			return Repository.ShortenRefName(headRef.GetTarget().GetName());
+		}
+
 		/// <param name="path">Path to update in the working tree and index.</param>
 		/// <returns>
 		/// 
@@ -225,6 +248,26 @@ namespace NGit.Api
 		{
 			CheckCallable();
 			this.paths.AddItem(path);
+			return this;
+		}
+
+		/// <summary>
+		/// Set whether to checkout all paths
+		/// <p>
+		/// This options should be used when you want to do a path checkout on the
+		/// entire repository and so calling
+		/// <see cref="AddPath(string)">AddPath(string)</see>
+		/// is not possible
+		/// since empty paths are not allowed.
+		/// </summary>
+		/// <param name="all">true to checkout all paths, false otherwise</param>
+		/// <returns>
+		/// 
+		/// <code>this</code>
+		/// </returns>
+		public virtual NGit.Api.CheckoutCommand SetAllPaths(bool all)
+		{
+			checkoutAllPaths = all;
 			return this;
 		}
 
@@ -239,34 +282,39 @@ namespace NGit.Api
 			DirCache dc = repo.LockDirCache();
 			try
 			{
-				TreeWalk treeWalk = new TreeWalk(revWalk.GetObjectReader());
-				treeWalk.Recursive = true;
-				treeWalk.AddTree(new DirCacheIterator(dc));
-				treeWalk.Filter = PathFilterGroup.CreateFromStrings(paths);
-				IList<string> files = new List<string>();
-				while (treeWalk.Next())
+				DirCacheEditor editor = dc.Editor();
+				TreeWalk startWalk = new TreeWalk(revWalk.GetObjectReader());
+				startWalk.Recursive = true;
+				if (!checkoutAllPaths)
 				{
-					files.AddItem(treeWalk.PathString);
+					startWalk.Filter = PathFilterGroup.CreateFromStrings(paths);
 				}
-				if (startCommit != null || startPoint != null)
+				bool checkoutIndex = startCommit == null && startPoint == null;
+				if (!checkoutIndex)
 				{
-					DirCacheEditor editor = dc.Editor();
-					TreeWalk startWalk = new TreeWalk(revWalk.GetObjectReader());
-					startWalk.Recursive = true;
-					startWalk.Filter = treeWalk.Filter;
 					startWalk.AddTree(revWalk.ParseCommit(GetStartPoint()).Tree);
+				}
+				else
+				{
+					startWalk.AddTree(new DirCacheIterator(dc));
+				}
+				FilePath workTree = repo.WorkTree;
+				ObjectReader r = repo.ObjectDatabase.NewReader();
+				try
+				{
 					while (startWalk.Next())
 					{
 						ObjectId blobId = startWalk.GetObjectId(0);
-						editor.Add(new _PathEdit_258(blobId, startWalk.PathString));
+						FileMode mode = startWalk.GetFileMode(0);
+						editor.Add(new _PathEdit_292(this, blobId, mode, workTree, r, startWalk.PathString
+							));
 					}
 					editor.Commit();
 				}
-				FilePath workTree = repo.WorkTree;
-				foreach (string file in files)
+				finally
 				{
-					DirCacheCheckout.CheckoutEntry(repo, new FilePath(workTree, file), dc.GetEntry(file
-						));
+					startWalk.Release();
+					r.Release();
 				}
 			}
 			finally
@@ -277,19 +325,43 @@ namespace NGit.Api
 			return this;
 		}
 
-		private sealed class _PathEdit_258 : DirCacheEditor.PathEdit
+		private sealed class _PathEdit_292 : DirCacheEditor.PathEdit
 		{
-			public _PathEdit_258(ObjectId blobId, string baseArg1) : base(baseArg1)
+			public _PathEdit_292(CheckoutCommand _enclosing, ObjectId blobId, FileMode mode, 
+				FilePath workTree, ObjectReader r, string baseArg1) : base(baseArg1)
 			{
+				this._enclosing = _enclosing;
 				this.blobId = blobId;
+				this.mode = mode;
+				this.workTree = workTree;
+				this.r = r;
 			}
 
 			public override void Apply(DirCacheEntry ent)
 			{
 				ent.SetObjectId(blobId);
+				ent.FileMode = mode;
+				try
+				{
+					DirCacheCheckout.CheckoutEntry(this._enclosing.repo, new FilePath(workTree, ent.PathString
+						), ent, r);
+				}
+				catch (IOException e)
+				{
+					throw new JGitInternalException(MessageFormat.Format(JGitText.Get().checkoutConflictWithFile
+						, ent.PathString), e);
+				}
 			}
 
+			private readonly CheckoutCommand _enclosing;
+
 			private readonly ObjectId blobId;
+
+			private readonly FileMode mode;
+
+			private readonly FilePath workTree;
+
+			private readonly ObjectReader r;
 		}
 
 		/// <exception cref="NGit.Errors.AmbiguousObjectException"></exception>
@@ -321,8 +393,8 @@ namespace NGit.Api
 		/// <exception cref="NGit.Api.Errors.InvalidRefNameException"></exception>
 		private void ProcessOptions()
 		{
-			if (paths.IsEmpty() && (name == null || !Repository.IsValidRefName(Constants.R_HEADS
-				 + name)))
+			if ((!checkoutAllPaths && paths.IsEmpty()) && (name == null || !Repository.IsValidRefName
+				(Constants.R_HEADS + name)))
 			{
 				throw new InvalidRefNameException(MessageFormat.Format(JGitText.Get().branchNameInvalid
 					, name == null ? "<null>" : name));

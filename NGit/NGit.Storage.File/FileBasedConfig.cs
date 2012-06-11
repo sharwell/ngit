@@ -44,6 +44,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System.IO;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Storage.File;
 using NGit.Util;
 using Sharpen;
@@ -175,8 +176,7 @@ namespace NGit.Storage.File
 			LockFile lf = new LockFile(GetFile(), fs);
 			if (!lf.Lock())
 			{
-				throw new IOException(MessageFormat.Format(JGitText.Get().cannotLockFile, GetFile
-					()));
+				throw new LockFailedException(GetFile());
 			}
 			try
 			{

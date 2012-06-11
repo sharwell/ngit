@@ -45,6 +45,7 @@ using System.Collections.Generic;
 using System.IO;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Revwalk.Filter;
 using NGit.Storage.Pack;
@@ -76,6 +77,64 @@ namespace NGit.Transport
 		internal static readonly string OPTION_NO_PROGRESS = BasePackFetchConnection.OPTION_NO_PROGRESS;
 
 		internal static readonly string OPTION_NO_DONE = BasePackFetchConnection.OPTION_NO_DONE;
+
+		internal static readonly string OPTION_SHALLOW = BasePackFetchConnection.OPTION_SHALLOW;
+
+		/// <summary>Policy the server uses to validate client requests</summary>
+		public enum RequestPolicy
+		{
+			ADVERTISED,
+			REACHABLE_COMMIT,
+			ANY
+		}
+
+		/// <summary>Data in the first line of a request, the line itself plus options.</summary>
+		/// <remarks>Data in the first line of a request, the line itself plus options.</remarks>
+		public class FirstLine
+		{
+			private readonly string line;
+
+			private readonly ICollection<string> options;
+
+			/// <summary>Parse the first line of a receive-pack request.</summary>
+			/// <remarks>Parse the first line of a receive-pack request.</remarks>
+			/// <param name="line">line from the client.</param>
+			public FirstLine(string line)
+			{
+				if (line.Length > 45)
+				{
+					HashSet<string> opts = new HashSet<string>();
+					string opt = Sharpen.Runtime.Substring(line, 45);
+					if (opt.StartsWith(" "))
+					{
+						opt = Sharpen.Runtime.Substring(opt, 1);
+					}
+					foreach (string c in opt.Split(" "))
+					{
+						opts.AddItem(c);
+					}
+					this.line = Sharpen.Runtime.Substring(line, 0, 45);
+					this.options = Sharpen.Collections.UnmodifiableSet(opts);
+				}
+				else
+				{
+					this.line = line;
+					this.options = Sharpen.Collections.EmptySet<string>();
+				}
+			}
+
+			/// <returns>non-capabilities part of the line.</returns>
+			public virtual string GetLine()
+			{
+				return line;
+			}
+
+			/// <returns>options parsed from the line.</returns>
+			public virtual ICollection<string> GetOptions()
+			{
+				return options;
+			}
+		}
 
 		/// <summary>Database we read the objects from.</summary>
 		/// <remarks>Database we read the objects from.</remarks>
@@ -134,9 +193,13 @@ namespace NGit.Transport
 		/// <remarks>The refs we advertised as existing at the start of the connection.</remarks>
 		private IDictionary<string, Ref> refs;
 
+		/// <summary>Hook used while advertising the refs to the client.</summary>
+		/// <remarks>Hook used while advertising the refs to the client.</remarks>
+		private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+
 		/// <summary>Filter used while advertising the refs to the client.</summary>
 		/// <remarks>Filter used while advertising the refs to the client.</remarks>
-		private RefFilter refFilter;
+		private RefFilter refFilter = RefFilter.DEFAULT;
 
 		/// <summary>Hook handling the various upload phases.</summary>
 		/// <remarks>Hook handling the various upload phases.</remarks>
@@ -144,7 +207,7 @@ namespace NGit.Transport
 
 		/// <summary>Capabilities requested by the client.</summary>
 		/// <remarks>Capabilities requested by the client.</remarks>
-		private readonly ICollection<string> options = new HashSet<string>();
+		private ICollection<string> options;
 
 		/// <summary>Raw ObjectIds the client has asked for, before validating them.</summary>
 		/// <remarks>Raw ObjectIds the client has asked for, before validating them.</remarks>
@@ -152,11 +215,23 @@ namespace NGit.Transport
 
 		/// <summary>Objects the client wants to obtain.</summary>
 		/// <remarks>Objects the client wants to obtain.</remarks>
-		private readonly IList<RevObject> wantAll = new AList<RevObject>();
+		private readonly ICollection<RevObject> wantAll = new HashSet<RevObject>();
 
 		/// <summary>Objects on both sides, these don't have to be sent.</summary>
 		/// <remarks>Objects on both sides, these don't have to be sent.</remarks>
-		private readonly IList<RevObject> commonBase = new AList<RevObject>();
+		private readonly ICollection<RevObject> commonBase = new HashSet<RevObject>();
+
+		/// <summary>Shallow commits the client already has.</summary>
+		/// <remarks>Shallow commits the client already has.</remarks>
+		private readonly ICollection<ObjectId> clientShallowCommits = new HashSet<ObjectId
+			>();
+
+		/// <summary>Shallow commits on the client which are now becoming unshallow</summary>
+		private readonly IList<ObjectId> unshallowCommits = new AList<ObjectId>();
+
+		/// <summary>Desired depth from the client on a shallow request.</summary>
+		/// <remarks>Desired depth from the client on a shallow request.</remarks>
+		private int depth;
 
 		/// <summary>Commit time of the oldest common commit, in seconds.</summary>
 		/// <remarks>Commit time of the oldest common commit, in seconds.</remarks>
@@ -196,13 +271,15 @@ namespace NGit.Transport
 
 		private readonly RevFlagSet SAVE;
 
+		private UploadPack.RequestPolicy requestPolicy = UploadPack.RequestPolicy.ADVERTISED;
+
 		private int multiAck = BasePackFetchConnection.MultiAck.OFF;
 
 		private bool noDone;
 
 		private PackWriter.Statistics statistics;
 
-		private UploadPackLogger logger;
+		private UploadPackLogger logger = UploadPackLogger.NULL;
 
 		/// <summary>Create a new pack upload for an open repository.</summary>
 		/// <remarks>Create a new pack upload for an open repository.</remarks>
@@ -222,7 +299,6 @@ namespace NGit.Transport
 			SAVE.AddItem(PEER_HAS);
 			SAVE.AddItem(COMMON);
 			SAVE.AddItem(SATISFIED);
-			refFilter = RefFilter.DEFAULT;
 		}
 
 		/// <returns>the repository this upload is reading from.</returns>
@@ -237,14 +313,47 @@ namespace NGit.Transport
 			return walk;
 		}
 
-		/// <returns>all refs which were advertised to the client.</returns>
+		/// <summary>Get refs which were advertised to the client.</summary>
+		/// <remarks>Get refs which were advertised to the client.</remarks>
+		/// <returns>
+		/// all refs which were advertised to the client, or null if
+		/// <see cref="SetAdvertisedRefs(System.Collections.Generic.IDictionary{K, V})">SetAdvertisedRefs(System.Collections.Generic.IDictionary&lt;K, V&gt;)
+		/// 	</see>
+		/// has not been called yet.
+		/// </returns>
 		public IDictionary<string, Ref> GetAdvertisedRefs()
 		{
-			if (refs == null)
-			{
-				refs = refFilter.Filter(db.GetAllRefs());
-			}
 			return refs;
+		}
+
+		/// <summary>Set the refs advertised by this UploadPack.</summary>
+		/// <remarks>
+		/// Set the refs advertised by this UploadPack.
+		/// <p>
+		/// Intended to be called from a
+		/// <see cref="PreUploadHook">PreUploadHook</see>
+		/// .
+		/// </remarks>
+		/// <param name="allRefs">
+		/// explicit set of references to claim as advertised by this
+		/// UploadPack instance. This overrides any references that
+		/// may exist in the source repository. The map is passed
+		/// to the configured
+		/// <see cref="GetRefFilter()">GetRefFilter()</see>
+		/// . If null, assumes
+		/// all refs were advertised.
+		/// </param>
+		public virtual void SetAdvertisedRefs(IDictionary<string, Ref> allRefs)
+		{
+			if (allRefs != null)
+			{
+				refs = allRefs;
+			}
+			else
+			{
+				refs = db.GetAllRefs();
+			}
+			refs = refFilter.Filter(refs);
 		}
 
 		/// <returns>timeout (in seconds) before aborting an IO operation.</returns>
@@ -285,6 +394,41 @@ namespace NGit.Transport
 		public virtual void SetBiDirectionalPipe(bool twoWay)
 		{
 			biDirectionalPipe = twoWay;
+			if (!biDirectionalPipe && requestPolicy == UploadPack.RequestPolicy.ADVERTISED)
+			{
+				requestPolicy = UploadPack.RequestPolicy.REACHABLE_COMMIT;
+			}
+		}
+
+		/// <returns>policy used by the service to validate client requests.</returns>
+		public virtual UploadPack.RequestPolicy GetRequestPolicy()
+		{
+			return requestPolicy;
+		}
+
+		/// <param name="policy">
+		/// the policy used to enforce validation of a client's want list.
+		/// By default the policy is
+		/// <see cref="RequestPolicy.ADVERTISED">RequestPolicy.ADVERTISED</see>
+		/// ,
+		/// which is the Git default requiring clients to only ask for an
+		/// object that a reference directly points to. This may be relaxed
+		/// to
+		/// <see cref="RequestPolicy.REACHABLE_COMMIT">RequestPolicy.REACHABLE_COMMIT</see>
+		/// when callers
+		/// have
+		/// <see cref="SetBiDirectionalPipe(bool)">SetBiDirectionalPipe(bool)</see>
+		/// set to false.
+		/// </param>
+		public virtual void SetRequestPolicy(UploadPack.RequestPolicy policy)
+		{
+			requestPolicy = policy != null ? policy : UploadPack.RequestPolicy.ADVERTISED;
+		}
+
+		/// <returns>the hook used while advertising the refs to the client</returns>
+		public virtual AdvertiseRefsHook GetAdvertiseRefsHook()
+		{
+			return advertiseRefsHook;
 		}
 
 		/// <returns>the filter used while advertising the refs to the client</returns>
@@ -293,14 +437,41 @@ namespace NGit.Transport
 			return refFilter;
 		}
 
+		/// <summary>Set the hook used while advertising the refs to the client.</summary>
+		/// <remarks>
+		/// Set the hook used while advertising the refs to the client.
+		/// <p>
+		/// If the
+		/// <see cref="AdvertiseRefsHook">AdvertiseRefsHook</see>
+		/// chooses to call
+		/// <see cref="SetAdvertisedRefs(System.Collections.Generic.IDictionary{K, V})">SetAdvertisedRefs(System.Collections.Generic.IDictionary&lt;K, V&gt;)
+		/// 	</see>
+		/// , only refs set by this hook <em>and</em>
+		/// selected by the
+		/// <see cref="RefFilter">RefFilter</see>
+		/// will be shown to the client.
+		/// </remarks>
+		/// <param name="advertiseRefsHook">the hook; may be null to show all refs.</param>
+		public virtual void SetAdvertiseRefsHook(AdvertiseRefsHook advertiseRefsHook)
+		{
+			if (advertiseRefsHook != null)
+			{
+				this.advertiseRefsHook = advertiseRefsHook;
+			}
+			else
+			{
+				this.advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+			}
+		}
+
 		/// <summary>Set the filter used while advertising the refs to the client.</summary>
 		/// <remarks>
 		/// Set the filter used while advertising the refs to the client.
 		/// <p>
-		/// Only refs allowed by this filter will be sent to the client. This can
-		/// be used by a server to restrict the list of references the client can
-		/// obtain through clone or fetch, effectively limiting the access to only
-		/// certain refs.
+		/// Only refs allowed by this filter will be sent to the client.
+		/// The filter is run against the refs specified by the
+		/// <see cref="AdvertiseRefsHook">AdvertiseRefsHook</see>
+		/// (if applicable).
 		/// </remarks>
 		/// <param name="refFilter">the filter; may be null to show all refs.</param>
 		public virtual void SetRefFilter(RefFilter refFilter)
@@ -333,12 +504,41 @@ namespace NGit.Transport
 			this.packConfig = pc;
 		}
 
+		/// <returns>the configured logger.</returns>
+		public virtual UploadPackLogger GetLogger()
+		{
+			return logger;
+		}
+
 		/// <summary>Set the logger.</summary>
 		/// <remarks>Set the logger.</remarks>
 		/// <param name="logger">the logger instance. If null, no logging occurs.</param>
 		public virtual void SetLogger(UploadPackLogger logger)
 		{
 			this.logger = logger;
+		}
+
+		/// <summary>Check whether the client expects a side-band stream.</summary>
+		/// <remarks>Check whether the client expects a side-band stream.</remarks>
+		/// <returns>
+		/// true if the client has advertised a side-band capability, false
+		/// otherwise.
+		/// </returns>
+		/// <exception cref="RequestNotYetReadException">
+		/// if the client's request has not yet been read from the wire, so
+		/// we do not know if they expect side-band. Note that the client
+		/// may have already written the request, it just has not been
+		/// read.
+		/// </exception>
+		/// <exception cref="NGit.Transport.RequestNotYetReadException"></exception>
+		public virtual bool IsSideBand()
+		{
+			if (options == null)
+			{
+				throw new RequestNotYetReadException();
+			}
+			return (options.Contains(OPTION_SIDE_BAND) || options.Contains(OPTION_SIDE_BAND_64K
+				));
 		}
 
 		/// <summary>Execute the upload task on the socket.</summary>
@@ -410,6 +610,15 @@ namespace NGit.Transport
 			return statistics;
 		}
 
+		private IDictionary<string, Ref> GetAdvertisedOrDefaultRefs()
+		{
+			if (refs == null)
+			{
+				SetAdvertisedRefs(null);
+			}
+			return refs;
+		}
+
 		/// <exception cref="System.IO.IOException"></exception>
 		private void Service()
 		{
@@ -419,42 +628,144 @@ namespace NGit.Transport
 			}
 			else
 			{
-				advertised = new HashSet<ObjectId>();
-				foreach (Ref @ref in GetAdvertisedRefs().Values)
+				if (requestPolicy == UploadPack.RequestPolicy.ANY)
 				{
-					if (@ref.GetObjectId() != null)
-					{
-						advertised.AddItem(@ref.GetObjectId());
-					}
-				}
-			}
-			RecvWants();
-			if (wantIds.IsEmpty())
-			{
-				preUploadHook.OnBeginNegotiateRound(this, wantIds, 0);
-				preUploadHook.OnEndNegotiateRound(this, wantIds, 0, 0, false);
-				return;
-			}
-			if (options.Contains(OPTION_MULTI_ACK_DETAILED))
-			{
-				multiAck = BasePackFetchConnection.MultiAck.DETAILED;
-				noDone = options.Contains(OPTION_NO_DONE);
-			}
-			else
-			{
-				if (options.Contains(OPTION_MULTI_ACK))
-				{
-					multiAck = BasePackFetchConnection.MultiAck.CONTINUE;
+					advertised = Sharpen.Collections.EmptySet<ObjectId>();
 				}
 				else
 				{
-					multiAck = BasePackFetchConnection.MultiAck.OFF;
+					advertised = new HashSet<ObjectId>();
+					foreach (Ref @ref in GetAdvertisedOrDefaultRefs().Values)
+					{
+						if (@ref.GetObjectId() != null)
+						{
+							advertised.AddItem(@ref.GetObjectId());
+						}
+					}
 				}
 			}
-			if (Negotiate())
+			bool sendPack;
+			try
+			{
+				RecvWants();
+				if (wantIds.IsEmpty())
+				{
+					preUploadHook.OnBeginNegotiateRound(this, wantIds, 0);
+					preUploadHook.OnEndNegotiateRound(this, wantIds, 0, 0, false);
+					return;
+				}
+				if (options.Contains(OPTION_MULTI_ACK_DETAILED))
+				{
+					multiAck = BasePackFetchConnection.MultiAck.DETAILED;
+					noDone = options.Contains(OPTION_NO_DONE);
+				}
+				else
+				{
+					if (options.Contains(OPTION_MULTI_ACK))
+					{
+						multiAck = BasePackFetchConnection.MultiAck.CONTINUE;
+					}
+					else
+					{
+						multiAck = BasePackFetchConnection.MultiAck.OFF;
+					}
+				}
+				if (depth != 0)
+				{
+					ProcessShallow();
+				}
+				sendPack = Negotiate();
+			}
+			catch (PackProtocolException err)
+			{
+				ReportErrorDuringNegotiate(err.Message);
+				throw;
+			}
+			catch (ServiceMayNotContinueException err)
+			{
+				if (!err.IsOutput() && err.Message != null)
+				{
+					try
+					{
+						pckOut.WriteString("ERR " + err.Message + "\n");
+						err.SetOutput();
+					}
+					catch
+					{
+					}
+				}
+				// Ignore this secondary failure (and not mark output).
+				throw;
+			}
+			catch (IOException err)
+			{
+				ReportErrorDuringNegotiate(JGitText.Get().internalServerError);
+				throw;
+			}
+			catch (RuntimeException err)
+			{
+				ReportErrorDuringNegotiate(JGitText.Get().internalServerError);
+				throw;
+			}
+			catch (Error err)
+			{
+				ReportErrorDuringNegotiate(JGitText.Get().internalServerError);
+				throw;
+			}
+			if (sendPack)
 			{
 				SendPack();
 			}
+		}
+
+		private void ReportErrorDuringNegotiate(string msg)
+		{
+			try
+			{
+				pckOut.WriteString("ERR " + msg + "\n");
+			}
+			catch
+			{
+			}
+		}
+
+		// Ignore this secondary failure.
+		/// <exception cref="System.IO.IOException"></exception>
+		private void ProcessShallow()
+		{
+			var depthWalk = new NGit.Revwalk.Depthwalk.RevWalk(walk.GetObjectReader(), depth
+				);
+			// Find all the commits which will be shallow
+			foreach (ObjectId o in wantIds)
+			{
+				try
+				{
+					depthWalk.MarkRoot(depthWalk.ParseCommit(o));
+				}
+				catch (IncorrectObjectTypeException)
+				{
+				}
+			}
+			// Ignore non-commits in this loop.
+			RevCommit o_1;
+			while ((o_1 = depthWalk.Next()) != null)
+			{
+				var c = (NGit.Revwalk.Depthwalk.Commit)o_1;
+				// Commits at the boundary which aren't already shallow in
+				// the client need to be marked as such
+				if (c.GetDepth() == depth && !clientShallowCommits.Contains(c))
+				{
+					pckOut.WriteString("shallow " + o_1.Name);
+				}
+				// Commits not on the boundary which are shallow in the client
+				// need to become unshallowed
+				if (c.GetDepth() < depth && clientShallowCommits.Contains(c))
+				{
+					unshallowCommits.AddItem(c.Copy());
+					pckOut.WriteString("unshallow " + c.Name);
+				}
+			}
+			pckOut.End();
 		}
 
 		/// <summary>Generate an advertisement of available refs and capabilities.</summary>
@@ -462,16 +773,15 @@ namespace NGit.Transport
 		/// <param name="adv">the advertisement formatter.</param>
 		/// <exception cref="System.IO.IOException">the formatter failed to write an advertisement.
 		/// 	</exception>
-		/// <exception cref="UploadPackMayNotContinueException">the hook denied advertisement.
-		/// 	</exception>
-		/// <exception cref="NGit.Transport.UploadPackMayNotContinueException"></exception>
+		/// <exception cref="ServiceMayNotContinueException">the hook denied advertisement.</exception>
+		/// <exception cref="NGit.Transport.ServiceMayNotContinueException"></exception>
 		public virtual void SendAdvertisedRefs(RefAdvertiser adv)
 		{
 			try
 			{
-				preUploadHook.OnPreAdvertiseRefs(this);
+				advertiseRefsHook.AdvertiseRefs(this);
 			}
-			catch (UploadPackMayNotContinueException fail)
+			catch (ServiceMayNotContinueException fail)
 			{
 				if (fail.Message != null)
 				{
@@ -489,12 +799,13 @@ namespace NGit.Transport
 			adv.AdvertiseCapability(OPTION_SIDE_BAND_64K);
 			adv.AdvertiseCapability(OPTION_THIN_PACK);
 			adv.AdvertiseCapability(OPTION_NO_PROGRESS);
+			adv.AdvertiseCapability(OPTION_SHALLOW);
 			if (!biDirectionalPipe)
 			{
 				adv.AdvertiseCapability(OPTION_NO_DONE);
 			}
 			adv.SetDerefTags(true);
-			advertised = adv.Send(GetAdvertisedRefs());
+			advertised = adv.Send(GetAdvertisedOrDefaultRefs());
 			adv.End();
 		}
 
@@ -521,6 +832,17 @@ namespace NGit.Transport
 				{
 					break;
 				}
+				if (line.StartsWith("deepen "))
+				{
+					depth = System.Convert.ToInt32(Sharpen.Runtime.Substring(line, 7));
+					continue;
+				}
+				if (line.StartsWith("shallow "))
+				{
+					clientShallowCommits.AddItem(ObjectId.FromString(Sharpen.Runtime.Substring(line, 
+						8)));
+					continue;
+				}
 				if (!line.StartsWith("want ") || line.Length < 45)
 				{
 					throw new PackProtocolException(MessageFormat.Format(JGitText.Get().expectedGot, 
@@ -528,16 +850,9 @@ namespace NGit.Transport
 				}
 				if (isFirst && line.Length > 45)
 				{
-					string opt = Sharpen.Runtime.Substring(line, 45);
-					if (opt.StartsWith(" "))
-					{
-						opt = Sharpen.Runtime.Substring(opt, 1);
-					}
-					foreach (string c in opt.Split(" "))
-					{
-						options.AddItem(c);
-					}
-					line = Sharpen.Runtime.Substring(line, 0, 45);
+					UploadPack.FirstLine firstLine = new UploadPack.FirstLine(line);
+					options = firstLine.GetOptions();
+					line = firstLine.GetLine();
 				}
 				wantIds.AddItem(ObjectId.FromString(Sharpen.Runtime.Substring(line, 5)));
 				isFirst = false;
@@ -559,6 +874,15 @@ namespace NGit.Transport
 				}
 				catch (EOFException eof)
 				{
+					// EOF on stateless RPC (aka smart HTTP) and non-shallow request
+					// means the client asked for the updated shallow/unshallow data,
+					// disconnected, and will try another request with actual want/have.
+					// Don't report the EOF here, its a bug in the protocol that the client
+					// just disconnects without sending an END.
+					if (!biDirectionalPipe && depth > 0)
+					{
+						return false;
+					}
 					throw;
 				}
 				if (line == PacketLineIn.END)
@@ -616,19 +940,7 @@ namespace NGit.Transport
 		/// <exception cref="System.IO.IOException"></exception>
 		private ObjectId ProcessHaveLines(IList<ObjectId> peerHas, ObjectId last)
 		{
-			try
-			{
-				preUploadHook.OnBeginNegotiateRound(this, wantIds, peerHas.Count);
-			}
-			catch (UploadPackMayNotContinueException fail)
-			{
-				if (fail.Message != null)
-				{
-					pckOut.WriteString("ERR " + fail.Message + "\n");
-					fail.SetOutput();
-				}
-				throw;
-			}
+			preUploadHook.OnBeginNegotiateRound(this, wantIds, peerHas.Count);
 			if (peerHas.IsEmpty())
 			{
 				return last;
@@ -647,6 +959,7 @@ namespace NGit.Transport
 				Sharpen.Collections.AddAll(toParse, peerHasSet);
 				needMissing = true;
 			}
+			ICollection<RevObject> notAdvertisedWants = null;
 			int haveCnt = 0;
 			AsyncRevObjectQueue q = walk.ParseAny(toParse.AsIterable(), needMissing);
 			try
@@ -664,7 +977,6 @@ namespace NGit.Transport
 						if (wantIds.Contains(id))
 						{
 							string msg = MessageFormat.Format(JGitText.Get().wantNotValid, id.Name);
-							pckOut.WriteString("ERR " + msg);
 							throw new PackProtocolException(msg, notFound);
 						}
 						continue;
@@ -678,11 +990,13 @@ namespace NGit.Transport
 					//
 					if (wantIds.Remove(obj))
 					{
-						if (!advertised.Contains(obj))
+						if (!advertised.Contains(obj) && requestPolicy != UploadPack.RequestPolicy.ANY)
 						{
-							string msg = MessageFormat.Format(JGitText.Get().wantNotValid, obj.Name);
-							pckOut.WriteString("ERR " + msg);
-							throw new PackProtocolException(msg);
+							if (notAdvertisedWants == null)
+							{
+								notAdvertisedWants = new HashSet<RevObject>();
+							}
+							notAdvertisedWants.AddItem(obj);
 						}
 						if (!obj.Has(WANT))
 						{
@@ -761,6 +1075,31 @@ namespace NGit.Transport
 			{
 				q.Release();
 			}
+			// If the client asked for non advertised object, check our policy.
+			if (notAdvertisedWants != null && !notAdvertisedWants.IsEmpty())
+			{
+				switch (requestPolicy)
+				{
+					case UploadPack.RequestPolicy.ADVERTISED:
+					default:
+					{
+						throw new PackProtocolException(MessageFormat.Format(JGitText.Get().wantNotValid, 
+							notAdvertisedWants.Iterator().Next().Name));
+					}
+
+					case UploadPack.RequestPolicy.REACHABLE_COMMIT:
+					{
+						CheckNotAdvertisedWants(notAdvertisedWants);
+						break;
+					}
+
+					case UploadPack.RequestPolicy.ANY:
+					{
+						// Allow whatever was asked for.
+						break;
+					}
+				}
+			}
 			int missCnt = peerHas.Count - haveCnt;
 			// If we don't have one of the objects but we're also willing to
 			// create a pack at this point, let the client know so it stops
@@ -810,22 +1149,48 @@ namespace NGit.Transport
 				pckOut.WriteString("ACK " + id.Name + " ready\n");
 				sentReady = true;
 			}
-			try
-			{
-				preUploadHook.OnEndNegotiateRound(this, wantAll, haveCnt, missCnt, sentReady);
-			}
-			catch (UploadPackMayNotContinueException fail)
-			{
-				//
-				if (fail.Message != null)
-				{
-					pckOut.WriteString("ERR " + fail.Message + "\n");
-					fail.SetOutput();
-				}
-				throw;
-			}
+			preUploadHook.OnEndNegotiateRound(this, wantAll, haveCnt, missCnt, sentReady);
 			peerHas.Clear();
 			return last;
+		}
+
+		/// <exception cref="NGit.Errors.MissingObjectException"></exception>
+		/// <exception cref="NGit.Errors.IncorrectObjectTypeException"></exception>
+		/// <exception cref="System.IO.IOException"></exception>
+		private void CheckNotAdvertisedWants(ICollection<RevObject> notAdvertisedWants)
+		{
+			// Walk the requested commits back to the advertised commits.
+			// If any commit exists, a branch was deleted or rewound and
+			// the repository owner no longer exports that requested item.
+			// If the requested commit is merged into an advertised branch
+			// it will be marked UNINTERESTING and no commits return.
+			foreach (RevObject o in notAdvertisedWants)
+			{
+				if (!(o is RevCommit))
+				{
+					throw new PackProtocolException(MessageFormat.Format(JGitText.Get().wantNotValid, 
+						notAdvertisedWants.Iterator().Next().Name));
+				}
+				walk.MarkStart((RevCommit)o);
+			}
+			foreach (ObjectId id in advertised)
+			{
+				try
+				{
+					walk.MarkUninteresting(walk.ParseCommit(id));
+				}
+				catch (IncorrectObjectTypeException)
+				{
+					continue;
+				}
+			}
+			RevCommit bad = walk.Next();
+			if (bad != null)
+			{
+				throw new PackProtocolException(MessageFormat.Format(JGitText.Get().wantNotValid, 
+					bad.Name));
+			}
+			walk.Reset();
 		}
 
 		private void AddCommonBase(RevObject o)
@@ -918,6 +1283,77 @@ namespace NGit.Transport
 						, "\\x" + Sharpen.Extensions.ToHexString(eof)));
 				}
 			}
+			if (sideband)
+			{
+				try
+				{
+					SendPack(true);
+				}
+				catch (ServiceMayNotContinueException noPack)
+				{
+					// This was already reported on (below).
+					throw;
+				}
+				catch (IOException err)
+				{
+					if (ReportInternalServerErrorOverSideband())
+					{
+						throw new UploadPackInternalServerErrorException(err);
+					}
+					else
+					{
+						throw;
+					}
+				}
+				catch (RuntimeException err)
+				{
+					if (ReportInternalServerErrorOverSideband())
+					{
+						throw new UploadPackInternalServerErrorException(err);
+					}
+					else
+					{
+						throw;
+					}
+				}
+				catch (Error err)
+				{
+					if (ReportInternalServerErrorOverSideband())
+					{
+						throw new UploadPackInternalServerErrorException(err);
+					}
+					else
+					{
+						throw;
+					}
+				}
+			}
+			else
+			{
+				SendPack(false);
+			}
+		}
+
+		private bool ReportInternalServerErrorOverSideband()
+		{
+			try
+			{
+				SideBandOutputStream err = new SideBandOutputStream(SideBandOutputStream.CH_ERROR
+					, SideBandOutputStream.SMALL_BUF, rawOut);
+				err.Write(Constants.Encode(JGitText.Get().internalServerError));
+				err.Flush();
+				return true;
+			}
+			catch
+			{
+				// Ignore the reason. This is a secondary failure.
+				return false;
+			}
+		}
+
+		/// <exception cref="System.IO.IOException"></exception>
+		private void SendPack(bool sideband)
+		{
 			ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 			OutputStream packOut = rawOut;
 			SideBandOutputStream msgOut = null;
@@ -947,7 +1383,7 @@ namespace NGit.Transport
 					preUploadHook.OnSendPack(this, wantAll, commonBase);
 				}
 			}
-			catch (UploadPackMayNotContinueException noPack)
+			catch (ServiceMayNotContinueException noPack)
 			{
 				if (sideband && noPack.Message != null)
 				{
@@ -972,7 +1408,7 @@ namespace NGit.Transport
 				pw.SetDeltaBaseAsOffset(options.Contains(OPTION_OFS_DELTA));
 				pw.SetThin(options.Contains(OPTION_THIN_PACK));
 				pw.SetReuseValidatingObjects(false);
-				if (commonBase.IsEmpty())
+				if (commonBase.IsEmpty() && refs != null)
 				{
 					ICollection<ObjectId> tagTargets = new HashSet<ObjectId>();
 					foreach (Ref @ref in refs.Values)
@@ -998,6 +1434,10 @@ namespace NGit.Transport
 					}
 					pw.SetTagTargets(tagTargets);
 				}
+				if (depth > 0)
+				{
+					pw.SetShallowPack(depth, unshallowCommits);
+				}
 				RevWalk rw = walk;
 				if (wantAll.IsEmpty())
 				{
@@ -1010,7 +1450,7 @@ namespace NGit.Transport
 					pw.PreparePack(pm, ow, wantAll, commonBase);
 					rw = ow;
 				}
-				if (options.Contains(OPTION_INCLUDE_TAG))
+				if (options.Contains(OPTION_INCLUDE_TAG) && refs != null)
 				{
 					foreach (Ref vref in refs.Values)
 					{
@@ -1065,7 +1505,7 @@ namespace NGit.Transport
 			{
 				pckOut.End();
 			}
-			if (logger != null && statistics != null)
+			if (statistics != null)
 			{
 				logger.OnPackStatistics(statistics);
 			}

@@ -42,7 +42,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
-using NGit;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Revwalk.Filter;
 using NGit.Treewalk.Filter;
@@ -131,18 +131,26 @@ namespace NGit.Revwalk
 			}
 			if (tf != TreeFilter.ALL)
 			{
-				rf = AndRevFilter.Create(rf, new RewriteTreeFilter(w, tf));
+				rf = AndRevFilter.Create(new RewriteTreeFilter(w, tf), rf);
 				pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
 			}
 			walker.queue = q;
-			g = new PendingGenerator(w, pending, rf, pendingOutputType);
-			if (boundary)
+			if (walker is DepthWalk)
 			{
-				// Because the boundary generator may produce uninteresting
-				// commits we cannot allow the pending generator to dispose
-				// of them early.
-				//
-				((PendingGenerator)g).canDispose = false;
+				DepthWalk dw = (DepthWalk)walker;
+				g = new DepthGenerator(dw, pending);
+			}
+			else
+			{
+				g = new PendingGenerator(w, pending, rf, pendingOutputType);
+				if (boundary)
+				{
+					// Because the boundary generator may produce uninteresting
+					// commits we cannot allow the pending generator to dispose
+					// of them early.
+					//
+					((PendingGenerator)g).canDispose = false;
+				}
 			}
 			if ((g.OutputType() & NEEDS_REWRITE) != 0)
 			{

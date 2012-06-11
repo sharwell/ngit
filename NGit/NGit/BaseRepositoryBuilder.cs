@@ -43,8 +43,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Storage.File;
 using NGit.Util;
 using Sharpen;
@@ -65,6 +67,16 @@ namespace NGit
 	/// 	</seealso>
 	public class BaseRepositoryBuilder<B, R> : BaseRepositoryBuilder where B: BaseRepositoryBuilder where R: Repository
 	{
+		private static bool IsSymRef(byte[] @ref)
+		{
+			if (@ref.Length < 9)
+			{
+				return false;
+			}
+			return @ref[0] == 'g' && @ref[1] == 'i' && @ref[2] == 't' && @ref[3] == 'd' && @ref
+				[4] == 'i' && @ref[5] == 'r' && @ref[6] == ':' && @ref[7] == ' ';
+		}
+
 		private FS fs;
 
 		private FilePath gitDir;
@@ -93,6 +105,13 @@ namespace NGit
 		/// <remarks>Configuration file of target repository, lazily loaded if required.</remarks>
 		private Config config;
 
+		//
+		//
+		//
+		//
+		//
+		//
+		//
 		/// <summary>Set the file system abstraction needed by this repository.</summary>
 		/// <remarks>Set the file system abstraction needed by this repository.</remarks>
 		/// <param name="fs">the abstraction.</param>
@@ -725,11 +744,45 @@ namespace NGit
 		/// <exception cref="System.IO.IOException">the repository could not be accessed</exception>
 		protected internal virtual void SetupGitDir()
 		{
-			// No gitDir? Try to assume its under the workTree.
-			//
+			// No gitDir? Try to assume its under the workTree or a ref to another
+			// location
 			if (GetGitDir() == null && GetWorkTree() != null)
 			{
-				SetGitDir(new FilePath(GetWorkTree(), Constants.DOT_GIT));
+				FilePath dotGit = new FilePath(GetWorkTree(), Constants.DOT_GIT);
+				if (!dotGit.IsFile())
+				{
+					SetGitDir(dotGit);
+				}
+				else
+				{
+					byte[] content = IOUtil.ReadFully(dotGit);
+					if (!IsSymRef(content))
+					{
+						throw new IOException(MessageFormat.Format(JGitText.Get().invalidGitdirRef, dotGit
+							.GetAbsolutePath()));
+					}
+					int pathStart = 8;
+					int lineEnd = RawParseUtils.NextLF(content, pathStart);
+					if (content[lineEnd - 1] == '\n')
+					{
+						lineEnd--;
+					}
+					if (lineEnd == pathStart)
+					{
+						throw new IOException(MessageFormat.Format(JGitText.Get().invalidGitdirRef, dotGit
+							.GetAbsolutePath()));
+					}
+					string gitdirPath = RawParseUtils.Decode(content, pathStart, lineEnd);
+					FilePath gitdirFile = new FilePath(gitdirPath);
+					if (gitdirFile.IsAbsolute())
+					{
+						SetGitDir(gitdirFile);
+					}
+					else
+					{
+						SetGitDir(new FilePath(GetWorkTree(), gitdirPath).GetCanonicalFile());
+					}
+				}
 			}
 		}
 
@@ -819,7 +872,7 @@ namespace NGit
 				// the user file, as these parameters must be unique to this
 				// repository and not inherited from other files.
 				//
-				FilePath path = SafeFS().Resolve(GetGitDir(), "config");
+				FilePath path = SafeFS().Resolve(GetGitDir(), Constants.CONFIG);
 				FileBasedConfig cfg = new FileBasedConfig(path, SafeFS());
 				try
 				{

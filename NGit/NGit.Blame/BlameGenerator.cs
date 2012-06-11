@@ -46,6 +46,7 @@ using System.Collections.Generic;
 using NGit;
 using NGit.Blame;
 using NGit.Diff;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Treewalk;
 using NGit.Treewalk.Filter;
@@ -175,6 +176,7 @@ namespace NGit.Blame
 			SEEN = revPool.NewFlag("SEEN");
 			reader = revPool.GetObjectReader();
 			treeWalk = new TreeWalk(reader);
+			treeWalk.Recursive = true;
 		}
 
 		/// <returns>repository being scanned for revision history.</returns>
@@ -1140,6 +1142,7 @@ namespace NGit.Blame
 			}
 			treeWalk.Filter = TreeFilter.ANY_DIFF;
 			treeWalk.Reset(parent.Tree, commit.Tree);
+			renameDetector.Reset();
 			renameDetector.AddAll(DiffEntry.Scan(treeWalk));
 			foreach (DiffEntry ent in renameDetector.Compute())
 			{

@@ -41,8 +41,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using System;
+using System.Collections.Generic;
 using System.IO;
-using NGit;
+using System.Text;
+using NGit.Internal;
 using NGit.Util;
 using Sharpen;
 
@@ -132,13 +135,43 @@ namespace NGit.Util
 			FileInputStream @in = new FileInputStream(path);
 			try
 			{
-				long sz = @in.GetChannel().Size();
+				long sz = Math.Max(path.Length(), 1);
 				if (sz > max)
 				{
 					throw new IOException(MessageFormat.Format(JGitText.Get().fileIsTooLarge, path));
 				}
 				byte[] buf = new byte[(int)sz];
-				IOUtil.ReadFully(@in, buf, 0, buf.Length);
+				int valid = 0;
+				for (; ; )
+				{
+					if (buf.Length == valid)
+					{
+						if (buf.Length == max)
+						{
+							int next = @in.Read();
+							if (next < 0)
+							{
+								break;
+							}
+							throw new IOException(MessageFormat.Format(JGitText.Get().fileIsTooLarge, path));
+						}
+						byte[] nb = new byte[Math.Min(buf.Length * 2, max)];
+						System.Array.Copy(buf, 0, nb, 0, valid);
+						buf = nb;
+					}
+					int n = @in.Read(buf, valid, buf.Length - valid);
+					if (n < 0)
+					{
+						break;
+					}
+					valid += n;
+				}
+				if (valid < buf.Length)
+				{
+					byte[] nb = new byte[valid];
+					System.Array.Copy(buf, 0, nb, 0, valid);
+					buf = nb;
+				}
 				return buf;
 			}
 			finally
@@ -230,6 +263,25 @@ namespace NGit.Util
 			}
 		}
 
+		/// <summary>Read the entire byte array into memory, unless input is shorter</summary>
+		/// <param name="fd">input stream to read the data from.</param>
+		/// <param name="dst">buffer that must be fully populated, [off, off+len).</param>
+		/// <param name="off">position within the buffer to start writing to.</param>
+		/// <returns>number of bytes in buffer or stream, whichever is shortest</returns>
+		/// <exception cref="System.IO.IOException">there was an error reading from the stream.
+		/// 	</exception>
+		public static int ReadFully(InputStream fd, byte[] dst, int off)
+		{
+			int r;
+			int len = 0;
+			while ((r = fd.Read(dst, off, dst.Length - off)) >= 0 && len < dst.Length)
+			{
+				off += r;
+				len += r;
+			}
+			return len;
+		}
+
 		/// <summary>Skip an entire region of an input stream.</summary>
 		/// <remarks>
 		/// Skip an entire region of an input stream.
@@ -257,6 +309,49 @@ namespace NGit.Util
 				}
 				toSkip -= r;
 			}
+		}
+
+		/// <summary>Divides the given string into lines.</summary>
+		/// <remarks>Divides the given string into lines.</remarks>
+		/// <param name="s">the string to read</param>
+		/// <returns>the string divided into lines</returns>
+		public static IList<string> ReadLines(string s)
+		{
+			IList<string> l = new AList<string>();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < s.Length; i++)
+			{
+				char c = s[i];
+				if (c == '\n')
+				{
+					l.AddItem(sb.ToString());
+					sb.Length = 0;
+					continue;
+				}
+				if (c == '\r')
+				{
+					if (i + 1 < s.Length)
+					{
+						c = s[++i];
+						l.AddItem(sb.ToString());
+						sb.Length = 0;
+						if (c != '\n')
+						{
+							sb.Append(c);
+						}
+						continue;
+					}
+					else
+					{
+						// EOF
+						l.AddItem(sb.ToString());
+						break;
+					}
+				}
+				sb.Append(c);
+			}
+			l.AddItem(sb.ToString());
+			return l;
 		}
 
 		public IOUtil()

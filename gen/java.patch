@@ -1,6 +1,432 @@
+diff --git a/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutMaliciousPathTest.java b/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutMaliciousPathTest.java
+deleted file mode 100644
+index 65d0418..0000000
+--- a/org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutMaliciousPathTest.java
++++ /dev/null
+@@ -1,420 +0,0 @@
+-/*
+- * Copyright (C) 2011, Robin Rosenberg <robin.rosenberg@dewire.com>
+- * and other copyright owners as documented in the project's IP log.
+- *
+- * This program and the accompanying materials are made available under the
+- * terms of the Eclipse Distribution License v1.0 which accompanies this
+- * distribution, is reproduced below, and is available at
+- * http://www.eclipse.org/org/documents/edl-v10.php
+- *
+- * All rights reserved.
+- *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions are met:
+- *
+- * - Redistributions of source code must retain the above copyright notice, this
+- * list of conditions and the following disclaimer.
+- *
+- * - Redistributions in binary form must reproduce the above copyright notice,
+- * this list of conditions and the following disclaimer in the documentation
+- * and/or other materials provided with the distribution.
+- *
+- * - Neither the name of the Eclipse Foundation, Inc. nor the names of its
+- * contributors may be used to endorse or promote products derived from this
+- * software without specific prior written permission.
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+- * POSSIBILITY OF SUCH DAMAGE.
+- */
+-package org.eclipse.jgit.lib;
+-
+-import static org.hamcrest.Matchers.startsWith;
+-import static org.junit.Assert.assertThat;
+-import static org.junit.Assert.fail;
+-
+-import java.io.File;
+-import java.io.IOException;
+-import java.util.Arrays;
+-
+-import org.eclipse.jgit.api.Git;
+-import org.eclipse.jgit.api.errors.CheckoutConflictException;
+-import org.eclipse.jgit.api.errors.InvalidRefNameException;
+-import org.eclipse.jgit.api.errors.JGitInternalException;
+-import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
+-import org.eclipse.jgit.api.errors.RefNotFoundException;
+-import org.eclipse.jgit.dircache.InvalidPathException;
+-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+-import org.eclipse.jgit.errors.MissingObjectException;
+-import org.eclipse.jgit.junit.MockSystemReader;
+-import org.eclipse.jgit.revwalk.RevWalk;
+-import org.eclipse.jgit.util.SystemReader;
+-import org.junit.Test;
+-
+-public class DirCacheCheckoutMaliciousPathTest extends RepositoryTestCase {
+-	protected ObjectId theHead;
+-	protected ObjectId theMerge;
+-
+-	@Test
+-	public void testMaliciousAbsolutePathIsOk() throws Exception {
+-		testMaliciousPathGoodFirstCheckout("ok");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsolutePathIsOkSecondCheckout() throws Exception {
+-		testMaliciousPathGoodSecondCheckout("ok");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsolutePathIsOkTwoLevels() throws Exception {
+-		testMaliciousPathGoodSecondCheckout("a", "ok");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsolutePath() throws Exception {
+-		testMaliciousPathBadFirstCheckout("/tmp/x");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsolutePathSecondCheckout() throws Exception {
+-		testMaliciousPathBadSecondCheckout("/tmp/x");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsolutePathTwoLevelsFirstBad() throws Exception {
+-		testMaliciousPathBadFirstCheckout("/tmp/x", "y");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsolutePathTwoLevelsSecondBad() throws Exception {
+-		testMaliciousPathBadFirstCheckout("y", "/tmp/x");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteCurDrivePathWindows() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("\\somepath");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteCurDrivePathWindowsOnUnix()
+-			throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setUnix();
+-		testMaliciousPathGoodFirstCheckout("\\somepath");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteUNCPathWindows1() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("\\\\somepath");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteUNCPathWindows1OnUnix() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setUnix();
+-		testMaliciousPathGoodFirstCheckout("\\\\somepath");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteUNCPathWindows2() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("\\/somepath");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteUNCPathWindows2OnUnix() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setUnix();
+-		testMaliciousPathBadFirstCheckout("\\/somepath");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteWindowsPath1() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("c:\\temp\\x");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteWindowsPath1OnUnix() throws Exception {
+-		if (File.separatorChar == '\\')
+-			return; // cannot emulate Unix on Windows for this test
+-		((MockSystemReader) SystemReader.getInstance()).setUnix();
+-		testMaliciousPathGoodFirstCheckout("c:\\temp\\x");
+-	}
+-
+-	@Test
+-	public void testMaliciousAbsoluteWindowsPath2() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+-		testMaliciousPathBadFirstCheckout("c:/temp/x");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPath1() throws Exception {
+-		testMaliciousPathBadFirstCheckout(".git/konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPath2() throws Exception {
+-		testMaliciousPathBadFirstCheckout(".git", "konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPath1Case() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
+-		testMaliciousPathBadFirstCheckout(".Git/konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPath2Case() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
+-		testMaliciousPathBadFirstCheckout(".gIt", "konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPath3Case() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
+-		testMaliciousPathBadFirstCheckout(".giT", "konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPathEndSpaceWindows() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout(".git ", "konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPathEndSpaceUnixOk() throws Exception {
+-		if (File.separatorChar == '\\')
+-			return; // cannot emulate Unix on Windows for this test
+-		((MockSystemReader) SystemReader.getInstance()).setUnix();
+-		testMaliciousPathGoodFirstCheckout(".git ", "konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPathEndDotWindows1() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout(".git.", "konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPathEndDotWindows2() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout(".f.");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPathEndDotWindows3() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathGoodFirstCheckout(".f");
+-	}
+-
+-	@Test
+-	public void testMaliciousGitPathEndDotUnixOk() throws Exception {
+-		if (File.separatorChar == '\\')
+-			return; // cannot emulate Unix on Windows for this test
+-		((MockSystemReader) SystemReader.getInstance()).setUnix();
+-		testMaliciousPathGoodFirstCheckout(".git.", "konfig");
+-	}
+-
+-	@Test
+-	public void testMaliciousPathDotDot() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+-		testMaliciousPathBadFirstCheckout("..", "no");
+-	}
+-
+-	@Test
+-	public void testMaliciousPathDot() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+-		testMaliciousPathBadFirstCheckout(".", "no");
+-	}
+-
+-	@Test
+-	public void testMaliciousPathEmpty() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+-		testMaliciousPathBadFirstCheckout("", "no");
+-	}
+-
+-	@Test
+-	public void testMaliciousWindowsADS() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("some:path");
+-	}
+-
+-	@Test
+-	public void testMaliciousWindowsADSOnUnix() throws Exception {
+-		if (File.separatorChar == '\\')
+-			return; // cannot emulate Unix on Windows for this test
+-		((MockSystemReader) SystemReader.getInstance()).setUnix();
+-		testMaliciousPathGoodFirstCheckout("some:path");
+-	}
+-
+-	@Test
+-	public void testForbiddenNamesOnWindowsEgCon() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("con");
+-	}
+-
+-	@Test
+-	public void testForbiddenNamesOnWindowsEgConDotSuffix() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("con.txt");
+-	}
+-
+-	@Test
+-	public void testForbiddenNamesOnWindowsEgLpt1() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("lpt1");
+-	}
+-
+-	@Test
+-	public void testForbiddenNamesOnWindowsEgLpt1DotSuffix() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathBadFirstCheckout("lpt1.txt");
+-	}
+-
+-	@Test
+-	public void testForbiddenNamesOnWindowsEgDotCon() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathGoodFirstCheckout(".con");
+-	}
+-
+-	@Test
+-	public void testForbiddenNamesOnWindowsEgLpr() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathGoodFirstCheckout("lpt"); // good name
+-	}
+-
+-	@Test
+-	public void testForbiddenNamesOnWindowsEgCon1() throws Exception {
+-		((MockSystemReader) SystemReader.getInstance()).setWindows();
+-		testMaliciousPathGoodFirstCheckout("con1"); // good name
+-	}
+-
+-	@Test
+-	public void testForbiddenWindowsNamesOnUnixEgCon() throws Exception {
+-		if (File.separatorChar == '\\')
+-			return; // cannot emulate Unix on Windows for this test
+-		testMaliciousPathGoodFirstCheckout("con");
+-	}
+-
+-	@Test
+-	public void testForbiddenWindowsNamesOnUnixEgLpt1() throws Exception {
+-		if (File.separatorChar == '\\')
+-			return; // cannot emulate Unix on Windows for this test
+-		testMaliciousPathGoodFirstCheckout("lpt1");
+-	}
+-
+-	private void testMaliciousPathBadFirstCheckout(String... paths)
+-			throws Exception {
+-		testMaliciousPath(false, false, paths);
+-	}
+-
+-	private void testMaliciousPathBadSecondCheckout(String... paths) throws Exception {
+-		testMaliciousPath(false, true, paths);
+-	}
+-
+-	private void testMaliciousPathGoodFirstCheckout(String... paths)
+-			throws Exception {
+-		testMaliciousPath(true, false, paths);
+-	}
+-
+-	private void testMaliciousPathGoodSecondCheckout(String... paths) throws Exception {
+-		testMaliciousPath(true, true, paths);
+-	}
+-
+-	/**
+-	 * Create a bad tree and tries to check it out
+-	 *
+-	 * @param good
+-	 *            true if we expect this to pass
+-	 * @param secondCheckout
+-	 *            perform the actual test on the second checkout
+-	 * @param path
+-	 *            to the blob, one or more levels
+-	 * @throws IOException
+-	 * @throws RefAlreadyExistsException
+-	 * @throws RefNotFoundException
+-	 * @throws InvalidRefNameException
+-	 * @throws MissingObjectException
+-	 * @throws IncorrectObjectTypeException
+-	 * @throws CheckoutConflictException
+-	 * @throws JGitInternalException
+-	 */
+-	private void testMaliciousPath(boolean good, boolean secondCheckout, String... path)
+-			throws IOException, RefAlreadyExistsException,
+-			RefNotFoundException, InvalidRefNameException,
+-			MissingObjectException, IncorrectObjectTypeException,
+-			JGitInternalException, CheckoutConflictException {
+-		Git git = new Git(db);
+-		ObjectInserter newObjectInserter;
+-		newObjectInserter = git.getRepository().newObjectInserter();
+-		ObjectId blobId = newObjectInserter.insert(Constants.OBJ_BLOB,
+-				"data".getBytes());
+-		newObjectInserter = git.getRepository().newObjectInserter();
+-		FileMode mode = FileMode.REGULAR_FILE;
+-		ObjectId insertId = blobId;
+-		for (int i = path.length - 1; i >= 0; --i) {
+-			TreeFormatter treeFormatter = new TreeFormatter();
+-			treeFormatter.append("goodpath", mode, insertId);
+-			insertId = newObjectInserter.insert(treeFormatter);
+-			mode = FileMode.TREE;
+-		}
+-		newObjectInserter = git.getRepository().newObjectInserter();
+-		CommitBuilder commitBuilder = new CommitBuilder();
+-		commitBuilder.setAuthor(author);
+-		commitBuilder.setCommitter(committer);
+-		commitBuilder.setMessage("foo#1");
+-		commitBuilder.setTreeId(insertId);
+-		ObjectId firstCommitId = newObjectInserter.insert(commitBuilder);
+-
+-		newObjectInserter = git.getRepository().newObjectInserter();
+-		mode = FileMode.REGULAR_FILE;
+-		insertId = blobId;
+-		for (int i = path.length - 1; i >= 0; --i) {
+-			TreeFormatter treeFormatter = new TreeFormatter();
+-			treeFormatter.append(path[i], mode, insertId);
+-			insertId = newObjectInserter.insert(treeFormatter);
+-			mode = FileMode.TREE;
+-		}
+-
+-		// Create another commit
+-		commitBuilder = new CommitBuilder();
+-		commitBuilder.setAuthor(author);
+-		commitBuilder.setCommitter(committer);
+-		commitBuilder.setMessage("foo#2");
+-		commitBuilder.setTreeId(insertId);
+-		commitBuilder.setParentId(firstCommitId);
+-		ObjectId commitId = newObjectInserter.insert(commitBuilder);
+-
+-		RevWalk revWalk = new RevWalk(git.getRepository());
+-		if (!secondCheckout)
+-			git.checkout().setStartPoint(revWalk.parseCommit(firstCommitId))
+-					.setName("refs/heads/master").setCreateBranch(true).call();
+-		try {
+-			if (secondCheckout) {
+-				git.checkout().setStartPoint(revWalk.parseCommit(commitId))
+-						.setName("refs/heads/master").setCreateBranch(true)
+-						.call();
+-			} else {
+-				git.branchCreate().setName("refs/heads/next")
+-						.setStartPoint(commitId.name()).call();
+-				git.checkout().setName("refs/heads/next")
+-						.call();
+-			}
+-			if (!good)
+-				fail("Checkout of Tree " + Arrays.asList(path) + " should fail");
+-		} catch (InvalidPathException e) {
+-			if (good)
+-				throw e;
+-			assertThat(e.getMessage(), startsWith("Invalid path: "));
+-		}
+-	}
+-
+-}
 diff --git a/org.eclipse.jgit.test/tst/org/eclipse/jgit/nls/RootLocaleTest.java b/org.eclipse.jgit.test/tst/org/eclipse/jgit/nls/RootLocaleTest.java
 deleted file mode 100644
-index 201f03b..0000000
+index 04d95f4..0000000
 --- a/org.eclipse.jgit.test/tst/org/eclipse/jgit/nls/RootLocaleTest.java
 +++ /dev/null
 @@ -1,90 +0,0 @@
@@ -49,10 +475,10 @@ index 201f03b..0000000
 -
 -package org.eclipse.jgit.nls;
 -
--import org.eclipse.jgit.JGitText;
 -import org.eclipse.jgit.awtui.UIText;
 -import org.eclipse.jgit.console.ConsoleText;
 -import org.eclipse.jgit.http.server.HttpServerText;
+-import org.eclipse.jgit.internal.JGitText;
 -import org.eclipse.jgit.iplog.IpLogText;
 -import org.eclipse.jgit.pgm.CLIText;
 -import org.junit.Before;
@@ -95,10 +521,118 @@ index 201f03b..0000000
 -	}
 -}
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java b/org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java
-index 1ec8685..f967a05 100644
+index fcc3bb6..872b58d 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java
-@@ -293,7 +293,10 @@ public void addConflict(String path, org.eclipse.jgit.merge.MergeResult<?> lowLe
+@@ -60,82 +60,73 @@
+  */
+ public class MergeResult {
+ 
+-	/**
+-	 * The status the merge resulted in.
+-	 */
+-	public enum MergeStatus {
+-		/** */
+-		FAST_FORWARD {
+-			@Override
++	public static abstract class MergeStatus {
++		public static MergeStatus FAST_FORWARD = new FAST_FORWARD_Class ();
++		public static MergeStatus ALREADY_UP_TO_DATE = new ALREADY_UP_TO_DATE_Class ();
++		public static MergeStatus FAILED = new FAILED_Class ();
++		public static MergeStatus MERGED = new MERGED_Class ();
++		public static MergeStatus CONFLICTING = new CONFLICTING_Class ();
++		public static MergeStatus NOT_SUPPORTED = new NOT_SUPPORTED_Class ();
++
++		static class FAST_FORWARD_Class extends MergeStatus {
+ 			public String toString() {
+ 				return "Fast-forward";
+ 			}
+ 
+-			@Override
+ 			public boolean isSuccessful() {
+ 				return true;
+ 			}
+-		},
+-		/** */
+-		ALREADY_UP_TO_DATE {
+-			@Override
++		}
++
++		static class ALREADY_UP_TO_DATE_Class extends MergeStatus {
+ 			public String toString() {
+ 				return "Already-up-to-date";
+ 			}
+ 
+-			@Override
+ 			public boolean isSuccessful() {
+ 				return true;
+ 			}
+-		},
+-		/** */
+-		FAILED {
+-			@Override
++		}
++
++		static class FAILED_Class extends MergeStatus {
+ 			public String toString() {
+ 				return "Failed";
+ 			}
+ 
+-			@Override
+ 			public boolean isSuccessful() {
+ 				return false;
+ 			}
+-		},
+-		/** */
+-		MERGED {
+-			@Override
++		}
++
++		static class MERGED_Class extends MergeStatus {
+ 			public String toString() {
+ 				return "Merged";
+ 			}
+ 
+-			@Override
+ 			public boolean isSuccessful() {
+ 				return true;
+ 			}
+-		},
+-		/** */
+-		CONFLICTING {
+-			@Override
++		}
++
++		static class CONFLICTING_Class extends MergeStatus {
+ 			public String toString() {
+ 				return "Conflicting";
+ 			}
+ 
+-			@Override
+ 			public boolean isSuccessful() {
+ 				return false;
+ 			}
+-		},
+-		/** */
+-		NOT_SUPPORTED {
+-			@Override
++		}
++
++		static class NOT_SUPPORTED_Class extends MergeStatus {
+ 			public String toString() {
+ 				return "Not-yet-supported";
+ 			}
+ 
+-			@Override
+ 			public boolean isSuccessful() {
+ 				return false;
+ 			}
+-		};
++		}
+ 
+ 		/**
+ 		 * @return whether the status indicates a successful result
+@@ -333,7 +324,10 @@ public void addConflict(String path, org.eclipse.jgit.merge.MergeResult<?> lowLe
  			}
  		}
  		int currentConflict = -1;
@@ -111,10 +645,10 @@ index 1ec8685..f967a05 100644
  			// to store the end of this chunk (end of the last conflicting range)
  			int endOfChunk = 0;
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java b/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java
-index 1503857..175353e 100644
+index aa65726..7e8d8ec 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java
-@@ -84,6 +84,7 @@
+@@ -85,6 +85,7 @@
  import org.eclipse.jgit.lib.ProgressMonitor;
  import org.eclipse.jgit.lib.Ref;
  import org.eclipse.jgit.lib.RefUpdate;
@@ -122,7 +656,7 @@ index 1503857..175353e 100644
  import org.eclipse.jgit.lib.RefUpdate.Result;
  import org.eclipse.jgit.lib.Repository;
  import org.eclipse.jgit.revwalk.RevCommit;
-@@ -677,30 +678,27 @@ private RevCommit tryFastForward(String headName, RevCommit oldCommit,
+@@ -693,30 +694,27 @@ private RevCommit tryFastForward(String headName, RevCommit oldCommit,
  	}
  
  	private void checkParameters() throws WrongRepositoryStateException {
@@ -159,7 +693,7 @@ index 1503857..175353e 100644
  	}
  
  	private void createFile(File parentDir, String name, String content)
-@@ -923,10 +921,10 @@ public RebaseCommand setProgressMonitor(ProgressMonitor monitor) {
+@@ -939,10 +937,10 @@ public RebaseCommand setProgressMonitor(ProgressMonitor monitor) {
  		return this;
  	}
  
@@ -173,11 +707,123 @@ index 1503857..175353e 100644
  
  		private Action(String token) {
  			this.token = token;
+diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java b/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java
+index 4739f16..d05fa4e 100644
+--- a/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java
++++ b/org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java
+@@ -52,78 +52,58 @@
+  * The result of a {@link RebaseCommand} execution
+  */
+ public class RebaseResult {
+-	/**
+-	 * The overall status
+-	 */
+-	public enum Status {
+-		/**
+-		 * Rebase was successful, HEAD points to the new commit
+-		 */
+-		OK {
+-			@Override
++
++	public static abstract class Status {
++		public static Status OK = new OK_Class ();
++		public static Status ABORTED = new ABORTED_Class ();
++		public static Status STOPPED = new STOPPED_Class ();
++		public static Status FAILED = new FAILED_Class ();
++		public static Status UP_TO_DATE = new UP_TO_DATE_Class ();
++		public static Status FAST_FORWARD = new FAST_FORWARD_Class ();
++		public static Status NOTHING_TO_COMMIT = new NOTHING_TO_COMMIT_Class ();
++
++		static class OK_Class extends Status {
+ 			public boolean isSuccessful() {
+ 				return true;
+ 			}
+-		},
+-		/**
+-		 * Aborted; the original HEAD was restored
+-		 */
+-		ABORTED {
+-			@Override
++		}
++
++		static class ABORTED_Class extends Status {
+ 			public boolean isSuccessful() {
+ 				return false;
+ 			}
+-		},
+-		/**
+-		 * Stopped due to a conflict; must either abort or resolve or skip
+-		 */
+-		STOPPED {
+-			@Override
++		}
++
++		static class STOPPED_Class extends Status {
+ 			public boolean isSuccessful() {
+ 				return false;
+ 			}
+-		},
+-		/**
+-		 * Failed; the original HEAD was restored
+-		 */
+-		FAILED {
+-			@Override
++		}
++
++		static class FAILED_Class extends Status {
+ 			public boolean isSuccessful() {
+ 				return false;
+ 			}
+-		},
+-		/**
+-		 * Already up-to-date
+-		 */
+-		UP_TO_DATE {
+-			@Override
++		}
++
++		static class UP_TO_DATE_Class extends Status {
+ 			public boolean isSuccessful() {
+ 				return true;
+ 			}
+-		},
+-		/**
+-		 * Fast-forward, HEAD points to the new commit
+-		 */
+-		FAST_FORWARD {
+-			@Override
++		}
++
++		static class FAST_FORWARD_Class extends Status {
+ 			public boolean isSuccessful() {
+ 				return true;
+ 			}
+-		},
++		}
+ 
+-		/**
+-		 * Continue with nothing left to commit (possibly want skip).
+-		 */
+-		NOTHING_TO_COMMIT {
+-			@Override
++		static class NOTHING_TO_COMMIT_Class extends Status {
+ 			public boolean isSuccessful() {
+ 				return false;
+ 			}
+-		};
++		}
+ 
+-		/**
+-		 * @return whether the status indicates a successful result
+-		 */
+ 		public abstract boolean isSuccessful();
+ 	}
+ 
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java b/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java
-index 76d86a9..e8e07a3 100644
+index 5084e9d..5c43d86 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java
-@@ -79,7 +79,7 @@
+@@ -80,7 +80,7 @@
  		RENAME,
  
  		/** Copy an existing file to a new location, keeping the original */
@@ -310,10 +956,10 @@ index f119c44..d961602 100644
  		private final boolean loose;
  
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryState.java b/org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryState.java
-index 1017062..b18dd8f 100644
+index 7e3ba51..4a7034d 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryState.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryState.java
-@@ -54,119 +54,176 @@
+@@ -54,246 +54,202 @@
   * The granularity and set of states are somewhat arbitrary. The methods
   * on the state are the only supported means of deciding what to do.
   */
@@ -321,12 +967,22 @@ index 1017062..b18dd8f 100644
 +public abstract class RepositoryState {
  	/** Has no work tree and cannot be used for normal editing. */
 -	BARE {
+-		@Override
+-		public boolean canCheckout() { return false; }
 +	public static RepositoryState BARE = new BARE_Class ();
-+
+ 
+-		@Override
 +	static class BARE_Class extends RepositoryState {
- 		public boolean canCheckout() { return false; }
++		public boolean canCheckout() { return false; }
  		public boolean canResetHead() { return false; }
+-
+-		@Override
  		public boolean canCommit() { return false; }
+-
+-		@Override
+ 		public boolean canAmend() { return false; }
+-
+-		@Override
  		public String getDescription() { return "Bare"; }
 -	},
 +		public String name() {
@@ -338,12 +994,22 @@ index 1017062..b18dd8f 100644
  	 * A safe state for working normally
  	 * */
 -	SAFE {
+-		@Override
+-		public boolean canCheckout() { return true; }
 +	public static RepositoryState SAFE = new SAFE_Class ();
-+
+ 
+-		@Override
 +	static class SAFE_Class extends RepositoryState {
- 		public boolean canCheckout() { return true; }
++		public boolean canCheckout() { return true; }
  		public boolean canResetHead() { return true; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return true; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_normal; }
 -	},
 +		public String name() {
@@ -354,12 +1020,22 @@ index 1017062..b18dd8f 100644
  	/** An unfinished merge. Must resolve or reset before continuing normally
  	 */
 -	MERGING {
+-		@Override
+-		public boolean canCheckout() { return false; }
 +	public static RepositoryState MERGING = new MERGING_Class ();
-+
+ 
+-		@Override
 +	static class MERGING_Class extends RepositoryState {
- 		public boolean canCheckout() { return false; }
++		public boolean canCheckout() { return false; }
  		public boolean canResetHead() { return true; }
+-
+-		@Override
  		public boolean canCommit() { return false; }
+-
+-		@Override
+ 		public boolean canAmend() { return false; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_conflicts; }
 -	},
 +		public String name() {
@@ -372,12 +1048,22 @@ index 1017062..b18dd8f 100644
  	 * contain any unmerged paths.
  	 */
 -	MERGING_RESOLVED {
+-		@Override
+-		public boolean canCheckout() { return true; }
 +	public static RepositoryState MERGING_RESOLVED = new MERGING_RESOLVED_Class ();
-+
+ 
+-		@Override
 +	static class MERGING_RESOLVED_Class extends RepositoryState {
- 		public boolean canCheckout() { return true; }
++		public boolean canCheckout() { return true; }
  		public boolean canResetHead() { return true; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return false; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_merged; }
 -	},
 +		public String name() {
@@ -388,12 +1074,22 @@ index 1017062..b18dd8f 100644
  	/** An unfinished cherry-pick. Must resolve or reset before continuing normally
  	 */
 -	CHERRY_PICKING {
+-		@Override
 +	public static RepositoryState CHERRY_PICKING = new CHERRY_PICKING_Class ();
 +	
 +	static class CHERRY_PICKING_Class extends RepositoryState {
  		public boolean canCheckout() { return false; }
+-
+-		@Override
  		public boolean canResetHead() { return true; }
+-
+-		@Override
  		public boolean canCommit() { return false; }
+-
+-		@Override
+ 		public boolean canAmend() { return false; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_conflicts; }
 -	},
 +		public String name() {
@@ -406,12 +1102,22 @@ index 1017062..b18dd8f 100644
  	 * contain any unmerged paths.
  	 */
 -	CHERRY_PICKING_RESOLVED {
+-		@Override
 +	public static RepositoryState CHERRY_PICKING_RESOLVED = new CHERRY_PICKING_RESOLVED_Class ();
 +	
 +	static class CHERRY_PICKING_RESOLVED_Class extends RepositoryState {
  		public boolean canCheckout() { return true; }
+-
+-		@Override
  		public boolean canResetHead() { return true; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return false; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_merged; }
 -	},
 +		public String name() {
@@ -423,12 +1129,22 @@ index 1017062..b18dd8f 100644
  	 * An unfinished rebase or am. Must resolve, skip or abort before normal work can take place
  	 */
 -	REBASING {
+-		@Override
+-		public boolean canCheckout() { return false; }
 +	public static RepositoryState REBASING = new REBASING_Class ();
-+
+ 
+-		@Override
 +	static class REBASING_Class extends RepositoryState {
- 		public boolean canCheckout() { return false; }
++		public boolean canCheckout() { return false; }
  		public boolean canResetHead() { return false; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return true; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_rebaseOrApplyMailbox; }
 -	},
 +		public String name() {
@@ -440,12 +1156,22 @@ index 1017062..b18dd8f 100644
  	 * An unfinished rebase. Must resolve, skip or abort before normal work can take place
  	 */
 -	REBASING_REBASING {
+-		@Override
+-		public boolean canCheckout() { return false; }
 +	public static RepositoryState REBASING_REBASING = new REBASING_REBASING_Class ();
-+
+ 
+-		@Override
 +	static class REBASING_REBASING_Class extends RepositoryState {
- 		public boolean canCheckout() { return false; }
++		public boolean canCheckout() { return false; }
  		public boolean canResetHead() { return false; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return true; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_rebase; }
 -	},
 +		public String name() {
@@ -457,12 +1183,22 @@ index 1017062..b18dd8f 100644
  	 * An unfinished apply. Must resolve, skip or abort before normal work can take place
  	 */
 -	APPLY {
+-		@Override
+-		public boolean canCheckout() { return false; }
 +	public static RepositoryState APPLY = new APPLY_Class ();
-+
+ 
+-		@Override
 +	static class APPLY_Class extends RepositoryState {
- 		public boolean canCheckout() { return false; }
++		public boolean canCheckout() { return false; }
  		public boolean canResetHead() { return false; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return true; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_applyMailbox; }
 -	},
 +		public String name() {
@@ -474,12 +1210,22 @@ index 1017062..b18dd8f 100644
  	 * An unfinished rebase with merge. Must resolve, skip or abort before normal work can take place
  	 */
 -	REBASING_MERGE {
+-		@Override
+-		public boolean canCheckout() { return false; }
 +	public static RepositoryState REBASING_MERGE = new REBASING_MERGE_Class ();
-+
+ 
+-		@Override
 +	static class REBASING_MERGE_Class extends RepositoryState {
- 		public boolean canCheckout() { return false; }
++		public boolean canCheckout() { return false; }
  		public boolean canResetHead() { return false; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return true; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_rebaseWithMerge; }
 -	},
 +		public String name() {
@@ -491,12 +1237,22 @@ index 1017062..b18dd8f 100644
  	 * An unfinished interactive rebase. Must resolve, skip or abort before normal work can take place
  	 */
 -	REBASING_INTERACTIVE {
+-		@Override
+-		public boolean canCheckout() { return false; }
 +	public static RepositoryState REBASING_INTERACTIVE = new REBASING_INTERACTIVE_Class ();
-+
+ 
+-		@Override
 +	static class REBASING_INTERACTIVE_Class extends RepositoryState {
- 		public boolean canCheckout() { return false; }
++		public boolean canCheckout() { return false; }
  		public boolean canResetHead() { return false; }
+-
+-		@Override
  		public boolean canCommit() { return true; }
+-
+-		@Override
+ 		public boolean canAmend() { return true; }
+-
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_rebaseInteractive; }
 -	},
 +		public String name() {
@@ -512,11 +1268,21 @@ index 1017062..b18dd8f 100644
 +
 +	static class BISECTING_Class extends RepositoryState {
  		/* Changing head is a normal operation when bisecting */
+-		@Override
  		public boolean canCheckout() { return true; }
  
-@@ -177,6 +234,9 @@
+ 		/* Do not reset, checkout instead */
+-		@Override
+ 		public boolean canResetHead() { return false; }
+ 
+ 		/* Commit during bisect is useful */
+-		@Override
  		public boolean canCommit() { return true; }
  
+-		@Override
+ 		public boolean canAmend() { return false; }
+ 
+-		@Override
  		public String getDescription() { return JGitText.get().repositoryState_bisecting; }
 +		public String name() {
 +			return "BISECTING";
@@ -524,7 +1290,7 @@ index 1017062..b18dd8f 100644
  	};
  
  	/**
-@@ -198,4 +258,6 @@
+@@ -320,4 +276,6 @@
  	 * @return a human readable description of the state.
  	 */
  	public abstract String getDescription();
@@ -554,10 +1320,10 @@ index 9e8e256..b774b1b 100644
  			doUpdates();
  			process.acquire();
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java b/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java
-index d347b59..8604e38 100644
+index 339dbdd..8ceb6f5 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java
-@@ -104,7 +104,7 @@
+@@ -105,7 +105,7 @@
  
  	private NameConflictTreeWalk tw;
  
@@ -632,7 +1398,7 @@ index f28facb..f8283f2 100644
  		INSERTED, EXISTS_PACKED, EXISTS_LOOSE, FAILURE;
  	}
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackReverseIndex.java b/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackReverseIndex.java
-index 96abaee..5135f9f 100644
+index 180bf60..1271b87 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackReverseIndex.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackReverseIndex.java
 @@ -68,18 +68,18 @@
@@ -659,11 +1425,11 @@ index 96abaee..5135f9f 100644
  	/**
  	 * Create reverse index from straight/forward pack index, by indexing all
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java b/org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java
-index 8a912ae..24b401d 100644
+index 1a056e3..fdb6de7 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java
-@@ -139,7 +139,7 @@
- 	private static final int PACK_VERSION_GENERATED = 2;
+@@ -189,7 +189,7 @@ public void remove() {
+ 	}
  
  	@SuppressWarnings("unchecked")
 -	private final BlockList<ObjectToPack> objectsLists[] = new BlockList[Constants.OBJ_TAG + 1];
@@ -671,7 +1437,7 @@ index 8a912ae..24b401d 100644
  	{
  		objectsLists[Constants.OBJ_COMMIT] = new BlockList<ObjectToPack>();
  		objectsLists[Constants.OBJ_TREE] = new BlockList<ObjectToPack>();
-@@ -171,7 +171,7 @@
+@@ -229,7 +229,7 @@ public void remove() {
  
  	private List<ObjectToPack> sortedByName;
  
@@ -681,7 +1447,7 @@ index 8a912ae..24b401d 100644
  	private boolean deltaBaseAsOffset;
  
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java b/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java
-index 2927cad..52bf920 100644
+index c7cee1e..d16e1c0 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackConnection.java
 @@ -76,7 +76,7 @@
@@ -694,12 +1460,12 @@ index 2927cad..52bf920 100644
  	/** The repository this transport fetches into, or pushes out of. */
  	protected final Repository local;
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java b/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java
-index 67bedac..ac89684 100644
+index 347fd93..56d70fb 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java
-@@ -140,8 +140,12 @@
- 
- 	static final String OPTION_NO_DONE = "no-done";
+@@ -150,8 +150,12 @@
+ 	/** The client supports receiving a pack before it has sent "done". */
+ 	public static final String OPTION_NO_DONE = "no-done";
  
 -	static enum MultiAck {
 -		OFF, CONTINUE, DETAILED;
@@ -712,7 +1478,7 @@ index 67bedac..ac89684 100644
  	}
  
  	private final RevWalk walk;
-@@ -161,7 +165,7 @@
+@@ -171,7 +175,7 @@
  	/** Marks a commit listed in the advertised refs. */
  	final RevFlag ADVERTISED;
  
@@ -722,10 +1488,10 @@ index 67bedac..ac89684 100644
  	private boolean thinPack;
  
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java b/org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java
-index 60ebeab..859ca28 100644
+index 0a0de5b..4b5ec22 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java
-@@ -76,7 +76,7 @@
+@@ -83,7 +83,7 @@
  		UPDATE_NONFASTFORWARD,
  
  		/** Delete an existing ref; the ref should already exist. */
@@ -735,10 +1501,10 @@ index 60ebeab..859ca28 100644
  
  	/** Result of the update command. */
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java b/org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java
-index 3df56c6..7bb166b 100644
+index f75ac70..90ddadc 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java
-@@ -120,6 +120,8 @@
+@@ -127,6 +127,8 @@
  
  	private String name;
  
@@ -747,7 +1513,7 @@ index 3df56c6..7bb166b 100644
  	private List<URIish> uris;
  
  	private List<URIish> pushURIs;
-@@ -156,6 +158,7 @@
+@@ -163,6 +165,7 @@
  	public RemoteConfig(final Config rc, final String remoteName)
  			throws URISyntaxException {
  		name = remoteName;
@@ -755,7 +1521,7 @@ index 3df56c6..7bb166b 100644
  
  		String[] vlst;
  		String val;
-@@ -230,6 +233,11 @@ public void update(final Config rc) {
+@@ -240,6 +243,11 @@ public void update(final Config rc) {
  		set(rc, KEY_TAGOPT, getTagOpt().option(), TagOpt.AUTO_FOLLOW.option());
  		set(rc, KEY_MIRROR, mirror, DEFAULT_MIRROR);
  		set(rc, KEY_TIMEOUT, timeout, 0);
@@ -767,7 +1533,7 @@ index 3df56c6..7bb166b 100644
  	}
  
  	private void set(final Config rc, final String key,
-@@ -270,6 +278,16 @@ public String getName() {
+@@ -309,6 +317,16 @@ public String getName() {
  	}
  
  	/**
@@ -785,11 +1551,11 @@ index 3df56c6..7bb166b 100644
  	 *
  	 * @return the set of URIs known to this remote.
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/transport/TagOpt.java b/org.eclipse.jgit/src/org/eclipse/jgit/transport/TagOpt.java
-index 82a5f23..7620326 100644
+index 3b25870..9b7b7ac 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/transport/TagOpt.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/transport/TagOpt.java
 @@ -49,7 +49,7 @@
- import org.eclipse.jgit.JGitText;
+ import org.eclipse.jgit.internal.JGitText;
  
  /** Specification of annotated tag behavior during fetch. */
 -public enum TagOpt {
@@ -834,19 +1600,19 @@ index 82a5f23..7620326 100644
 +	}
  }
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java b/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java
-index 0e50b93..727f139 100644
+index 32b8302..8069698 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java
-@@ -185,7 +185,7 @@
+@@ -252,7 +252,7 @@ public String getLine() {
  
- 	private final RevFlagSet SAVE;
+ 	private RequestPolicy requestPolicy = RequestPolicy.ADVERTISED;
  
 -	private MultiAck multiAck = MultiAck.OFF;
 +	private int multiAck = MultiAck.OFF;
  
  	private boolean noDone;
  
-@@ -637,14 +637,14 @@ private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last)
+@@ -875,14 +875,14 @@ private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last)
  				// If both sides have the same object; let the client know.
  				//
  				switch (multiAck) {
@@ -864,7 +1630,7 @@ index 0e50b93..727f139 100644
  					pckOut.writeString("ACK " + obj.name() + " common\n");
  					break;
  				}
-@@ -666,12 +666,12 @@ private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last)
+@@ -924,12 +924,12 @@ private ObjectId processHaveLines(List<ObjectId> peerHas, ObjectId last)
  					didOkToGiveUp = true;
  					if (okToGiveUp()) {
  						switch (multiAck) {
@@ -881,7 +1647,7 @@ index 0e50b93..727f139 100644
  							sentReady = true;
  							break;
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java b/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java
-index c683308..09a5bf3 100644
+index 315d909..98cedfa 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java
 @@ -146,7 +146,7 @@ public AbstractTreeIterator createSubtreeIterator(final ObjectReader reader)
@@ -894,11 +1660,11 @@ index c683308..09a5bf3 100644
  
  		private final FileMode mode;
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java b/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java
-index d067e90..4ca2045 100644
+index 54eaeb9..3e56fb0 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java
-@@ -123,6 +123,12 @@
- 	private IgnoreNode ignoreNode;
+@@ -132,6 +132,12 @@
+ 	private long canonLen = -1;
  
  	/**
 +	 * Cached value of isEntryIgnored(). 0 if not ignored, 1 if ignored, -1 if
@@ -910,7 +1676,7 @@ index d067e90..4ca2045 100644
  	 * Create a new iterator with no parent.
  	 *
  	 * @param options
-@@ -458,6 +464,8 @@ public boolean isEntryIgnored() throws IOException {
+@@ -561,6 +567,8 @@ public boolean isEntryIgnored() throws IOException {
  	 *             a relevant ignore rule file exists but cannot be read.
  	 */
  	protected boolean isEntryIgnored(final int pLen) throws IOException {
@@ -919,7 +1685,7 @@ index d067e90..4ca2045 100644
  		IgnoreNode rules = getIgnoreNode();
  		if (rules != null) {
  			// The ignore code wants path to start with a '/' if possible.
-@@ -470,15 +478,20 @@ protected boolean isEntryIgnored(final int pLen) throws IOException {
+@@ -573,15 +581,20 @@ protected boolean isEntryIgnored(final int pLen) throws IOException {
  			String p = TreeWalk.pathOf(path, pOff, pLen);
  			switch (rules.isIgnored(p, FileMode.TREE.equals(mode))) {
  			case IGNORED:
@@ -942,7 +1708,7 @@ index d067e90..4ca2045 100644
  		return false;
  	}
  
-@@ -634,8 +647,10 @@ public MetadataDiff compareMetadata(DirCacheEntry entry) {
+@@ -737,8 +750,10 @@ public MetadataDiff compareMetadata(DirCacheEntry entry) {
  		// only. Otherwise we compare the timestamp at millisecond precision.
  		long cacheLastModified = entry.getLastModified();
  		long fileLastModified = getEntryLastModified();
@@ -979,10 +1745,10 @@ index acc1ae6..686d65a 100644
  			return false;
  		}
 diff --git a/org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java b/org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java
-index ced1d90..ad4f4cd 100644
+index 4181a2f..1784cbc 100644
 --- a/org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java
 +++ b/org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java
-@@ -63,7 +63,7 @@
+@@ -67,7 +67,7 @@
   */
  public abstract class SystemReader {
  	private static SystemReader INSTANCE = new SystemReader() {
@@ -991,7 +1757,7 @@ index ced1d90..ad4f4cd 100644
  
  		public String getenv(String variable) {
  			return System.getenv(variable);
-@@ -106,7 +106,6 @@ public String getHostname() {
+@@ -110,7 +110,6 @@ public String getHostname() {
  					// we do nothing
  					hostname = "localhost";
  				}

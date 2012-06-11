@@ -45,6 +45,7 @@ using System;
 using System.Collections.Generic;
 using NGit;
 using NGit.Diff;
+using NGit.Internal;
 using Sharpen;
 
 namespace NGit.Diff
@@ -302,7 +303,7 @@ namespace NGit.Diff
 					case DiffEntry.ChangeType.RENAME:
 					default:
 					{
-						entriesToAdd.AddItem(entry);
+						entries.AddItem(entry);
 						break;
 					}
 				}

@@ -43,10 +43,15 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 using NGit;
+using NGit.Internal;
 using Sharpen;
 
 namespace NGit.Api
 {
+	public interface GitCommand
+	{
+	}
+	
 	/// <summary>
 	/// Common superclass of all commands in the package
 	/// <code>org.eclipse.jgit.api</code>
@@ -83,7 +88,7 @@ namespace NGit.Api
 	/// .
 	/// </summary>
 	/// <?></?>
-	public abstract class GitCommand<T> : Callable<T>
+	public abstract class GitCommand<T> : Callable<T>, GitCommand
 	{
 		/// <summary>The repository this command is working with</summary>
 		protected internal readonly Repository repo;

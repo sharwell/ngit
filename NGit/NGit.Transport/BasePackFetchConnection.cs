@@ -47,6 +47,7 @@ using System.IO;
 using System.Text;
 using NGit;
 using NGit.Errors;
+using NGit.Internal;
 using NGit.Revwalk;
 using NGit.Revwalk.Filter;
 using NGit.Storage.File;
@@ -114,25 +115,45 @@ namespace NGit.Transport
 		/// </remarks>
 		protected internal const int MIN_CLIENT_BUFFER = 2 * 32 * 46 + 8;
 
-		internal static readonly string OPTION_INCLUDE_TAG = "include-tag";
+		/// <summary>Include tags if we are also including the referenced objects.</summary>
+		/// <remarks>Include tags if we are also including the referenced objects.</remarks>
+		public static readonly string OPTION_INCLUDE_TAG = "include-tag";
 
-		internal static readonly string OPTION_MULTI_ACK = "multi_ack";
+		/// <summary>Mutli-ACK support for improved negotiation.</summary>
+		/// <remarks>Mutli-ACK support for improved negotiation.</remarks>
+		public static readonly string OPTION_MULTI_ACK = "multi_ack";
 
-		internal static readonly string OPTION_MULTI_ACK_DETAILED = "multi_ack_detailed";
+		/// <summary>Mutli-ACK detailed support for improved negotiation.</summary>
+		/// <remarks>Mutli-ACK detailed support for improved negotiation.</remarks>
+		public static readonly string OPTION_MULTI_ACK_DETAILED = "multi_ack_detailed";
 
-		internal static readonly string OPTION_THIN_PACK = "thin-pack";
+		/// <summary>The client supports packs with deltas but not their bases.</summary>
+		/// <remarks>The client supports packs with deltas but not their bases.</remarks>
+		public static readonly string OPTION_THIN_PACK = "thin-pack";
 
-		internal static readonly string OPTION_SIDE_BAND = "side-band";
+		/// <summary>The client supports using the side-band for progress messages.</summary>
+		/// <remarks>The client supports using the side-band for progress messages.</remarks>
+		public static readonly string OPTION_SIDE_BAND = "side-band";
 
-		internal static readonly string OPTION_SIDE_BAND_64K = "side-band-64k";
+		/// <summary>The client supports using the 64K side-band for progress messages.</summary>
+		/// <remarks>The client supports using the 64K side-band for progress messages.</remarks>
+		public static readonly string OPTION_SIDE_BAND_64K = "side-band-64k";
 
-		internal static readonly string OPTION_OFS_DELTA = "ofs-delta";
+		/// <summary>The client supports packs with OFS deltas.</summary>
+		/// <remarks>The client supports packs with OFS deltas.</remarks>
+		public static readonly string OPTION_OFS_DELTA = "ofs-delta";
 
-		internal static readonly string OPTION_SHALLOW = "shallow";
+		/// <summary>The client supports shallow fetches.</summary>
+		/// <remarks>The client supports shallow fetches.</remarks>
+		public static readonly string OPTION_SHALLOW = "shallow";
 
-		internal static readonly string OPTION_NO_PROGRESS = "no-progress";
+		/// <summary>The client does not want progress messages and will ignore them.</summary>
+		/// <remarks>The client does not want progress messages and will ignore them.</remarks>
+		public static readonly string OPTION_NO_PROGRESS = "no-progress";
 
-		internal static readonly string OPTION_NO_DONE = "no-done";
+		/// <summary>The client supports receiving a pack before it has sent "done".</summary>
+		/// <remarks>The client supports receiving a pack before it has sent "done".</remarks>
+		public static readonly string OPTION_NO_DONE = "no-done";
 
 		internal class MultiAck
 		{
@@ -219,10 +240,10 @@ namespace NGit.Transport
 
 		private class FetchConfig
 		{
-			private sealed class _SectionParser_216 : Config.SectionParser<BasePackFetchConnection.FetchConfig
+			private sealed class _SectionParser_226 : Config.SectionParser<BasePackFetchConnection.FetchConfig
 				>
 			{
-				public _SectionParser_216()
+				public _SectionParser_226()
 				{
 				}
 
@@ -233,7 +254,7 @@ namespace NGit.Transport
 			}
 
 			internal static readonly Config.SectionParser<BasePackFetchConnection.FetchConfig
-				> KEY = new _SectionParser_216();
+				> KEY = new _SectionParser_226();
 
 			internal readonly bool allowOfsDelta;
 
@@ -543,7 +564,7 @@ namespace NGit.Transport
 				state.WriteTo(@out, null);
 			}
 			NegotiateBegin();
-			while (!receivedReady)
+			for (; ; )
 			{
 				RevCommit c = walk.Next();
 				if (c == null)
@@ -634,6 +655,10 @@ namespace NGit.Transport
 READ_RESULT_continue: ;
 				}
 READ_RESULT_break: ;
+				if (noDone & receivedReady)
+				{
+					goto SEND_HAVES_break;
+				}
 				if (statelessRPC)
 				{
 					state.WriteTo(@out, null);
@@ -721,12 +746,12 @@ READ_RESULT_break2: ;
 			walk.ResetRetain(REACHABLE, ADVERTISED);
 			walk.MarkStart(reachableCommits);
 			walk.Sort(RevSort.COMMIT_TIME_DESC);
-			walk.SetRevFilter(new _RevFilter_605(this));
+			walk.SetRevFilter(new _RevFilter_619(this));
 		}
 
-		private sealed class _RevFilter_605 : RevFilter
+		private sealed class _RevFilter_619 : RevFilter
 		{
-			public _RevFilter_605(BasePackFetchConnection _enclosing)
+			public _RevFilter_619(BasePackFetchConnection _enclosing)
 			{
 				this._enclosing = _enclosing;
 			}
@@ -808,6 +833,7 @@ READ_RESULT_break2: ;
 		/// <exception cref="System.IO.IOException"></exception>
 		private void ReceivePack(ProgressMonitor monitor)
 		{
+			OnReceivePack();
 			InputStream input = @in;
 			if (sideband)
 			{
@@ -829,10 +855,26 @@ READ_RESULT_break2: ;
 			}
 		}
 
+		/// <summary>
+		/// Notification event delivered just before the pack is received from the
+		/// network.
+		/// </summary>
+		/// <remarks>
+		/// Notification event delivered just before the pack is received from the
+		/// network. This event can be used by RPC such as
+		/// <see cref="TransportHttp">TransportHttp</see>
+		/// to
+		/// disable its request magic and ensure the pack stream is read correctly.
+		/// </remarks>
+		protected internal virtual void OnReceivePack()
+		{
+		}
+
 		[System.Serializable]
 		private class CancelledException : Exception
 		{
 			private const long serialVersionUID = 1L;
+			// By default do nothing for TCP based protocols.
 		}
 	}
 }

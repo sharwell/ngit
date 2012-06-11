@@ -8,6 +8,8 @@ namespace Sharpen
 
 	public class FilePath
 	{
+		static bool RunningOnLinux = !Environment.OSVersion.Platform.ToString ().StartsWith ("Win");
+		
 		private string path;
 		private static long tempCounter;
 
@@ -55,6 +57,11 @@ namespace Sharpen
 
 		public bool CanWrite ()
 		{
+			if (RunningOnLinux) {
+				var info = GetUnixFileInfo (path);
+				return info != null && info.CanAccess (Mono.Unix.Native.AccessModes.W_OK);
+			}
+			
 			return ((File.GetAttributes (path) & FileAttributes.ReadOnly) == 0);
 		}
 
@@ -97,18 +104,33 @@ namespace Sharpen
 		public bool Delete ()
 		{
 			try {
+				if (RunningOnLinux) {
+					var info = GetUnixFileInfo (path);
+					if (info != null && info.Exists) {
+						try {
+							info.Delete ();
+							return true;
+						} catch {
+							// If the directory is not empty we return false. JGit relies on this
+							return false;
+						}
+					}
+					return false;
+				}
+
 				if (Directory.Exists (path)) {
 					if (Directory.GetFileSystemEntries (path).Length != 0)
 						return false;
 					MakeDirWritable (path);
 					Directory.Delete (path, true);
-				} else {
-					if (!File.Exists (path))
-						return false;
+                    return true;
+                }
+                else if (File.Exists(path)) {
 					MakeFileWritable (path);
 					File.Delete (path);
-				}
-				return true;
+                    return true;
+                }
+				return false;
 			} catch (Exception exception) {
 				Console.WriteLine (exception);
 				return false;
@@ -121,6 +143,11 @@ namespace Sharpen
 
 		public bool Exists ()
 		{
+			if (RunningOnLinux) {
+				var info = GetUnixFileInfo (path);
+				return info != null && info.Exists;
+			}
+
 			return (File.Exists (path) || Directory.Exists (path));
 		}
 
@@ -168,28 +195,51 @@ namespace Sharpen
 
 		public bool IsDirectory ()
 		{
+			try {
+				if (RunningOnLinux) {
+					var info = GetUnixFileInfo (path);
+					return info != null && info.Exists && info.FileType == FileTypes.Directory;
+				}
+			} catch (DirectoryNotFoundException) {
+				// If the file /foo/bar exists and we query to see if /foo/bar/baz exists, we get a
+				// DirectoryNotFound exception for Mono.Unix. In this case the directory definitely
+				// does not exist.
+				return false;
+			}
 			return Directory.Exists (path);
 		}
 
 		public bool IsFile ()
 		{
+			if (RunningOnLinux) {
+				var info = GetUnixFileInfo (path);
+				return info != null && info.Exists && (info.FileType == FileTypes.RegularFile || info.FileType == FileTypes.SymbolicLink);
+			}
+
 			return File.Exists (path);
 		}
 
 		public long LastModified ()
 		{
-			if (!Exists ())
-				return 0;
-			return File.GetLastWriteTimeUtc (path).ToMillisecondsSinceEpoch ();
+            if (RunningOnLinux) {
+				var info = GetUnixFileInfo (path);
+				return info != null && info.Exists ? info.LastWriteTimeUtc.ToMillisecondsSinceEpoch() : 0;
+            }
+
+            var info2 = new FileInfo(path);
+			return info2.Exists ? info2.LastWriteTimeUtc.ToMillisecondsSinceEpoch() : 0;
 		}
 
 		public long Length ()
 		{
-			FileInfo info = new FileInfo (path);
-			if (info.Exists)
-				return info.Length;
-			else
-				return 0;
+			if (RunningOnLinux) {
+				var info = GetUnixFileInfo (path);
+				return info != null && info.Exists ? info.Length : 0;
+			}
+
+			// If you call .Length on a file that doesn't exist, an exception is thrown
+			var info2 = new FileInfo (path);
+			return info2.Exists ? info2.Length : 0;
 		}
 
 		public string[] List ()
@@ -242,6 +292,13 @@ namespace Sharpen
 
 		private void MakeFileWritable (string file)
 		{
+			if (RunningOnLinux) {
+				var info = GetUnixFileInfo (file);
+				if (info != null)
+					info.FileAccessPermissions |= (FileAccessPermissions.GroupWrite | FileAccessPermissions.OtherWrite | FileAccessPermissions.UserWrite);
+				return;
+			}
+
 			FileAttributes fileAttributes = File.GetAttributes (file);
 			if ((fileAttributes & FileAttributes.ReadOnly) != 0) {
 				fileAttributes &= ~FileAttributes.ReadOnly;
@@ -281,6 +338,14 @@ namespace Sharpen
 		public bool RenameTo (string name)
 		{
 			try {
+				if (RunningOnLinux) {
+					var symlink = GetUnixFileInfo (path) as UnixSymbolicLinkInfo;
+					if (symlink != null) {
+						var newFile = new UnixSymbolicLinkInfo (name);
+						newFile.CreateSymbolicLinkTo (symlink.ContentsPath);
+					}
+				}
+
 				File.Move (path, name);
 				return true;
 			} catch {
@@ -290,13 +355,21 @@ namespace Sharpen
 
 		public void SetLastModified (long milis)
 		{
+			// FIXME: I don't know how to change the modified time on a symlink
 			DateTime utcDateTime = Extensions.MillisToDateTimeOffset (milis, 0L).UtcDateTime;
 			File.SetLastWriteTimeUtc (path, utcDateTime);
 		}
 
 		public void SetReadOnly ()
 		{
-			FileAttributes fileAttributes = File.GetAttributes (this.path) | FileAttributes.ReadOnly;
+			if (RunningOnLinux) {
+				var info = GetUnixFileInfo (path);
+				if (info != null)
+					info.FileAccessPermissions &= ~ (FileAccessPermissions.GroupWrite | FileAccessPermissions.OtherWrite | FileAccessPermissions.UserWrite);
+				return;
+			}
+
+			var fileAttributes = File.GetAttributes (this.path) | FileAttributes.ReadOnly;
 			File.SetAttributes (path, fileAttributes);
 		}
 		
@@ -308,29 +381,42 @@ namespace Sharpen
 		// Don't change the case of this method, since ngit does reflection on it
 		public bool canExecute ()
 		{
-			UnixFileInfo fi = new UnixFileInfo (path);
-			if (!fi.Exists)
-				return false;
-			return 0 != (fi.FileAccessPermissions & (FileAccessPermissions.UserExecute | FileAccessPermissions.GroupExecute | FileAccessPermissions.OtherExecute));
+			if (RunningOnLinux) {
+				UnixFileInfo fi = new UnixFileInfo (path);
+				if (!fi.Exists)
+					return false;
+				return 0 != (fi.FileAccessPermissions & (FileAccessPermissions.UserExecute | FileAccessPermissions.GroupExecute | FileAccessPermissions.OtherExecute));
+			}
+
+			return false;
 		}
 		
 		// Don't change the case of this method, since ngit does reflection on it
 		public bool setExecutable (bool exec)
 		{
-			try {
+			if (RunningOnLinux) {
 				UnixFileInfo fi = new UnixFileInfo (path);
 				FileAccessPermissions perms = fi.FileAccessPermissions;
-				if ((perms & FileAccessPermissions.UserRead) != 0)
-					perms |= FileAccessPermissions.UserExecute;
-				if ((perms & FileAccessPermissions.OtherRead) != 0)
-					perms |= FileAccessPermissions.OtherExecute;
-				if ((perms & FileAccessPermissions.GroupRead) != 0)
-					perms |= FileAccessPermissions.GroupExecute;
+				if (exec) {
+					if (perms.HasFlag (FileAccessPermissions.UserRead))
+						perms |= FileAccessPermissions.UserExecute;
+					if (perms.HasFlag (FileAccessPermissions.OtherRead))
+						perms |= FileAccessPermissions.OtherExecute;
+					if ((perms.HasFlag (FileAccessPermissions.GroupRead)))
+						perms |= FileAccessPermissions.GroupExecute;
+				} else {
+					if (perms.HasFlag (FileAccessPermissions.UserRead))
+						perms &= ~FileAccessPermissions.UserExecute;
+					if (perms.HasFlag (FileAccessPermissions.OtherRead))
+						perms &= ~FileAccessPermissions.OtherExecute;
+					if ((perms.HasFlag (FileAccessPermissions.GroupRead)))
+						perms &= ~FileAccessPermissions.GroupExecute;
+				}
 				fi.FileAccessPermissions = perms;
 				return true;
-			} catch {
-				return false;
 			}
+
+			return false;
 		}
 		
 		public string GetParent ()
@@ -347,6 +433,20 @@ namespace Sharpen
 			return path;
 		}
 
+		static UnixFileSystemInfo GetUnixFileInfo (string path)
+		{
+			try {
+				return Mono.Unix.UnixFileInfo.GetFileSystemEntry (path);
+			} catch (DirectoryNotFoundException ex) {
+				// If we have a file /foo/bar and probe the path /foo/bar/baz, we get a DirectoryNotFound exception
+				// because 'bar' is a file and therefore 'baz' cannot possibly exist. This is annoying.
+				var inner = ex.InnerException as UnixIOException;
+				if (inner != null && inner.ErrorCode == Mono.Unix.Native.Errno.ENOTDIR)
+					return null;
+				throw;
+			}
+		}
+		
 		static internal string pathSeparator {
 			get { return Path.PathSeparator.ToString (); }
 		}

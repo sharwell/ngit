@@ -41,11 +41,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using NGit;
+using NGit.Internal;
 using NGit.Nls;
 using Sharpen;
 
-namespace NGit
+namespace NGit.Internal
 {
 	/// <summary>Translation bundle for JGit core</summary>
 	public class JGitText : TranslationBundle
@@ -55,24 +55,6 @@ namespace NGit
 		{
 			return NLS.GetBundleFor<JGitText>();
 		}
-
-		public string DIRCChecksumMismatch;
-
-		public string DIRCExtensionIsTooLargeAt;
-
-		public string DIRCExtensionNotSupportedByThisVersion;
-
-		public string DIRCHasTooManyEntries;
-
-		public string DIRCUnrecognizedExtendedFlags;
-
-		public string JRELacksMD5Implementation;
-
-		public string URINotSupported;
-
-		public string URLNotFound;
-
-		public string aNewObjectIdIsRequired;
 
 		public string abbreviationLengthMustBeNonNegative;
 
@@ -90,11 +72,13 @@ namespace NGit
 
 		public string ambiguousObjectAbbreviation;
 
+		public string aNewObjectIdIsRequired;
+
 		public string anExceptionOccurredWhileTryingToAddTheIdOfHEAD;
 
-		public string applyingCommit;
-
 		public string anSSHSessionHasBeenAlreadyCreated;
+
+		public string applyingCommit;
 
 		public string atLeastOnePathIsRequired;
 
@@ -118,11 +102,11 @@ namespace NGit
 
 		public string badSectionEntry;
 
+		public string bareRepositoryNoWorkdirAndIndex;
+
 		public string base64InputNotProperlyPadded;
 
 		public string baseLengthIncorrect;
-
-		public string bareRepositoryNoWorkdirAndIndex;
 
 		public string blameNotCommittedYet;
 
@@ -135,6 +119,8 @@ namespace NGit
 		public string cachedPacksPreventsIndexCreation;
 
 		public string cannotBeCombined;
+
+		public string cannotBeRecursiveWhenTreesAreIncluded;
 
 		public string cannotCombineTreeFilterWithRevFilter;
 
@@ -156,9 +142,9 @@ namespace NGit
 
 		public string cannotDeleteFile;
 
-		public string cannotDeleteStaleTrackingRef2;
-
 		public string cannotDeleteStaleTrackingRef;
+
+		public string cannotDeleteStaleTrackingRef2;
 
 		public string cannotDetermineProxyFor;
 
@@ -171,8 +157,6 @@ namespace NGit
 		public string cannotListRefs;
 
 		public string cannotLock;
-
-		public string cannotLockFile;
 
 		public string cannotLockPackIn;
 
@@ -224,13 +208,15 @@ namespace NGit
 
 		public string characterClassIsNotSupported;
 
-		public string checkoutUnexpectedResult;
-
 		public string checkoutConflictWithFile;
 
 		public string checkoutConflictWithFiles;
 
+		public string checkoutUnexpectedResult;
+
 		public string classCastNotA;
+
+		public string cloneNonEmptyDirectory;
 
 		public string collisionOn;
 
@@ -250,6 +236,8 @@ namespace NGit
 
 		public string contextMustBeNonNegative;
 
+		public string corruptionDetectedReReadingAt;
+
 		public string corruptObjectBadStream;
 
 		public string corruptObjectBadStreamCorruptHeader;
@@ -260,15 +248,15 @@ namespace NGit
 
 		public string corruptObjectInvalidEntryMode;
 
+		public string corruptObjectInvalidMode;
+
 		public string corruptObjectInvalidMode2;
 
 		public string corruptObjectInvalidMode3;
 
-		public string corruptObjectInvalidMode;
+		public string corruptObjectInvalidType;
 
 		public string corruptObjectInvalidType2;
-
-		public string corruptObjectInvalidType;
 
 		public string corruptObjectMalformedHeader;
 
@@ -282,19 +270,17 @@ namespace NGit
 
 		public string corruptObjectNoObject;
 
-		public string corruptObjectNoTagName;
-
 		public string corruptObjectNoTaggerBadHeader;
 
 		public string corruptObjectNoTaggerHeader;
 
-		public string corruptObjectNoType;
+		public string corruptObjectNoTagName;
 
 		public string corruptObjectNotree;
 
-		public string corruptObjectPackfileChecksumIncorrect;
+		public string corruptObjectNoType;
 
-		public string corruptionDetectedReReadingAt;
+		public string corruptObjectPackfileChecksumIncorrect;
 
 		public string couldNotCheckOutBecauseOfConflicts;
 
@@ -340,6 +326,8 @@ namespace NGit
 
 		public string deleteFileFailed;
 
+		public string deleteTagUnexpectedResult;
+
 		public string deletingNotSupported;
 
 		public string destinationIsNotAWildcard;
@@ -351,6 +339,16 @@ namespace NGit
 		public string dirCacheFileIsNotLocked;
 
 		public string dirCacheIsNotLocked;
+
+		public string DIRCChecksumMismatch;
+
+		public string DIRCExtensionIsTooLargeAt;
+
+		public string DIRCExtensionNotSupportedByThisVersion;
+
+		public string DIRCHasTooManyEntries;
+
+		public string DIRCUnrecognizedExtendedFlags;
 
 		public string dirtyFilesExist;
 
@@ -414,9 +412,9 @@ namespace NGit
 
 		public string exceptionCaughtDuringExecutionOfMergeCommand;
 
-		public string exceptionCaughtDuringExecutionOfPushCommand;
-
 		public string exceptionCaughtDuringExecutionOfPullCommand;
+
+		public string exceptionCaughtDuringExecutionOfPushCommand;
 
 		public string exceptionCaughtDuringExecutionOfResetCommand;
 
@@ -472,6 +470,8 @@ namespace NGit
 
 		public string funnyRefname;
 
+		public string headRequiredToStash;
+
 		public string hoursAgo;
 
 		public string hugeIndexesAreNotSupportedByJgitYet;
@@ -486,11 +486,11 @@ namespace NGit
 
 		public string illegalCombinationOfArguments;
 
+		public string illegalPackingPhase;
+
 		public string illegalStateExists;
 
 		public string improperlyPaddedBase64Input;
-
-		public string inMemoryBufferLimitExceeded;
 
 		public string incorrectHashFor;
 
@@ -504,9 +504,13 @@ namespace NGit
 
 		public string indexWriteException;
 
+		public string inMemoryBufferLimitExceeded;
+
 		public string integerValueOutOfRange;
 
 		public string internalRevisionError;
+
+		public string internalServerError;
 
 		public string interruptedWriting;
 
@@ -525,6 +529,8 @@ namespace NGit
 		public string invalidCommitParentNumber;
 
 		public string invalidEncryption;
+
+		public string invalidGitdirRef;
 
 		public string invalidGitType;
 
@@ -550,9 +556,11 @@ namespace NGit
 
 		public string invalidPath;
 
-		public string invalidRemote;
+		public string invalidReflogRevision;
 
 		public string invalidRefName;
+
+		public string invalidRemote;
 
 		public string invalidStageForPath;
 
@@ -568,15 +576,17 @@ namespace NGit
 
 		public string isAStaticFlagAndHasNorevWalkInstance;
 
+		public string JRELacksMD5Implementation;
+
 		public string kNotInRange;
-
-		public string largeObjectException;
-
-		public string largeObjectOutOfMemory;
 
 		public string largeObjectExceedsByteArray;
 
 		public string largeObjectExceedsLimit;
+
+		public string largeObjectException;
+
+		public string largeObjectOutOfMemory;
 
 		public string lengthExceedsMaximumArraySize;
 
@@ -596,9 +606,11 @@ namespace NGit
 
 		public string malformedpersonIdentString;
 
-		public string mergeConflictOnNotes;
+		public string maxCountMustBeNonNegative;
 
 		public string mergeConflictOnNonNoteEntries;
+
+		public string mergeConflictOnNotes;
 
 		public string mergeStrategyAlreadyExistsAsDefault;
 
@@ -660,8 +672,6 @@ namespace NGit
 
 		public string noSuchRef;
 
-		public string noXMLParserAvailable;
-
 		public string notABoolean;
 
 		public string notABundle;
@@ -687,6 +697,8 @@ namespace NGit
 		public string nothingToPush;
 
 		public string notMergedExceptionMessage;
+
+		public string noXMLParserAvailable;
 
 		public string objectAtHasBadZlibStream;
 
@@ -722,27 +734,33 @@ namespace NGit
 
 		public string packDoesNotMatchIndex;
 
-		public string packFileInvalid;
-
-		public string packHasUnresolvedDeltas;
-
-		public string packObjectCountMismatch;
-
-		public string packTooLargeForIndexVersion1;
-
 		public string packetSizeMustBeAtLeast;
 
 		public string packetSizeMustBeAtMost;
 
 		public string packfileCorruptionDetected;
 
+		public string packFileInvalid;
+
 		public string packfileIsTruncated;
+
+		public string packHasUnresolvedDeltas;
 
 		public string packingCancelledDuringObjectsWriting;
 
+		public string packObjectCountMismatch;
+
+		public string packTooLargeForIndexVersion1;
+
 		public string packWriterStatistics;
 
+		public string patchApplyException;
+
+		public string patchFormatException;
+
 		public string pathIsNotInWorkingDir;
+
+		public string pathNotConfigured;
 
 		public string peeledLineBeforeRef;
 
@@ -756,6 +774,8 @@ namespace NGit
 
 		public string propertyIsAlreadyNonNull;
 
+		public string pullOnRepoWithoutHEADCurrentlyNotSupported;
+
 		public string pullTaskName;
 
 		public string pushCancelled;
@@ -766,19 +786,23 @@ namespace NGit
 
 		public string rawLogMessageDoesNotParseAsLogEntry;
 
+		public string readingObjectsFromLocalRepositoryFailed;
+
 		public string readTimedOut;
 
-		public string readingObjectsFromLocalRepositoryFailed;
+		public string receivePackObjectTooLarge1;
+
+		public string receivePackObjectTooLarge2;
 
 		public string receivingObjects;
 
-		public string refAlreadExists;
+		public string refAlreadyExists;
+
+		public string reflogEntryNotFound;
 
 		public string refNotResolved;
 
 		public string refUpdateReturnCodeWas;
-
-		public string reflogsNotYetSupportedByRevisionParser;
 
 		public string remoteConfigHasNoURIAssociated;
 
@@ -795,6 +819,8 @@ namespace NGit
 		public string renameBranchFailedUnknownReason;
 
 		public string renameBranchUnexpectedResult;
+
+		public string renameFileFailed;
 
 		public string renamesAlreadyFound;
 
@@ -870,6 +896,8 @@ namespace NGit
 
 		public string sizeExceeds2GB;
 
+		public string skipMustBeNonNegative;
+
 		public string smartHTTPPushDisabled;
 
 		public string sourceDestinationMustMatch;
@@ -884,9 +912,29 @@ namespace NGit
 
 		public string startingReadStageWithoutWrittenRequestDataPendingIsNotSupported;
 
+		public string stashApplyFailed;
+
+		public string stashApplyOnUnsafeRepository;
+
+		public string stashCommitMissingTwoParents;
+
+		public string stashDropDeleteRefFailed;
+
+		public string stashDropFailed;
+
+		public string stashDropMissingReflog;
+
+		public string stashFailed;
+
+		public string stashResolveFailed;
+
 		public string statelessRPCRequiresOptionToBeEnabled;
 
+		public string submoduleExists;
+
 		public string submodulesNotSupported;
+
+		public string submoduleParentRemoteUrlInvalid;
 
 		public string symlinkCannotBeWrittenAsTheLinkTarget;
 
@@ -895,8 +943,6 @@ namespace NGit
 		public string tagNameInvalid;
 
 		public string tagOnRepoWithoutHEADCurrentlyNotSupported;
-
-		public string tSizeMustBeGreaterOrEqual1;
 
 		public string theFactoryMustNotBeNull;
 
@@ -934,11 +980,15 @@ namespace NGit
 
 		public string treeIteratorDoesNotSupportRemove;
 
+		public string treeWalkMustHaveExactlyTwoTrees;
+
 		public string truncatedHunkLinesMissingForAncestor;
 
 		public string truncatedHunkNewLinesMissing;
 
 		public string truncatedHunkOldLinesMissing;
+
+		public string tSizeMustBeGreaterOrEqual1;
 
 		public string unableToCheckConnectivity;
 
@@ -958,9 +1008,11 @@ namespace NGit
 
 		public string unexpectedRefReport;
 
+		public string unexpectedReportLine;
+
 		public string unexpectedReportLine2;
 
-		public string unexpectedReportLine;
+		public string unknownOrUnsupportedCommand;
 
 		public string unknownDIRCVersion;
 
@@ -972,9 +1024,9 @@ namespace NGit
 
 		public string unknownObjectType;
 
-		public string unknownRepositoryFormat2;
-
 		public string unknownRepositoryFormat;
+
+		public string unknownRepositoryFormat2;
 
 		public string unknownZlibError;
 
@@ -1000,9 +1052,17 @@ namespace NGit
 
 		public string unsupportedPackVersion;
 
+		public string updatingReferences;
+
 		public string updatingRefFailed;
 
+		public string uriNotConfigured;
+
 		public string uriNotFound;
+
+		public string URINotSupported;
+
+		public string URLNotFound;
 
 		public string userConfigFileInvalid;
 
@@ -1016,9 +1076,9 @@ namespace NGit
 
 		public string windowSizeMustBePowerOf2;
 
-		public string writeTimedOut;
-
 		public string writerAlreadyInitialized;
+
+		public string writeTimedOut;
 
 		public string writingNotPermitted;
 
@@ -1033,6 +1093,8 @@ namespace NGit
 		public string year;
 
 		public string years;
+
+		public string years0MonthsAgo;
 
 		public string yearsAgo;
 
