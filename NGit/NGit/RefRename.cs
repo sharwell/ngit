@@ -50,7 +50,7 @@ namespace NGit
 	/// <summary>A RefUpdate combination for renaming a reference.</summary>
 	/// <remarks>
 	/// A RefUpdate combination for renaming a reference.
-	/// <p>
+	/// <p/>
 	/// If the source reference is currently pointed to by
 	/// <code>HEAD</code>
 	/// , then the
@@ -95,7 +95,7 @@ namespace NGit
 		/// <summary>Set the identity of the user appearing in the reflog.</summary>
 		/// <remarks>
 		/// Set the identity of the user appearing in the reflog.
-		/// <p>
+		/// <p/>
 		/// The timestamp portion of the identity is ignored. A new identity with the
 		/// current timestamp will be created automatically when the rename occurs
 		/// and the log record is written.

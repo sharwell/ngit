@@ -52,12 +52,12 @@ namespace NGit.Nls
 	/// <summary>Global cache of translation bundles.</summary>
 	/// <remarks>
 	/// Global cache of translation bundles.
-	/// <p>
+	/// <p/>
 	/// Every translation bundle will be cached here when it gets loaded for the
 	/// first time from a thread. Another lookup for the same translation bundle
 	/// (same locale and type) from the same or a different thread will return the
 	/// cached one.
-	/// <p>
+	/// <p/>
 	/// Note that NLS instances maintain per-thread Map of loaded translation
 	/// bundles. Once a thread accesses a translation bundle it will keep reference
 	/// to it and will not call

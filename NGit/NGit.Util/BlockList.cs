@@ -50,14 +50,14 @@ namespace NGit.Util
 	/// <summary>Random access list that allocates entries in blocks.</summary>
 	/// <remarks>
 	/// Random access list that allocates entries in blocks.
-	/// <p>
+	/// <p/>
 	/// Unlike
 	/// <see cref="System.Collections.ArrayList{E}">System.Collections.ArrayList&lt;E&gt;
 	/// 	</see>
 	/// , this type does not need to reallocate the
 	/// internal array in order to expand the capacity of the list. Access to any
 	/// element is constant time, but requires two array lookups instead of one.
-	/// <p>
+	/// <p/>
 	/// To handle common usages,
 	/// <see cref="BlockList{T}.AddItem(object)">BlockList&lt;T&gt;.AddItem(object)</see>
 	/// and
@@ -65,7 +65,7 @@ namespace NGit.Util
 	/// use
 	/// internal code paths to amortize out the second array lookup, making addition
 	/// and simple iteration closer to one array operation per element processed.
-	/// <p>
+	/// <p/>
 	/// Similar to
 	/// <code>ArrayList</code>
 	/// , adding or removing from any position except the

@@ -114,7 +114,7 @@ namespace NGit.Transport
 		/// <remarks>
 		/// Perform push operation between local and remote repository - set remote
 		/// refs appropriately, send needed objects and update local tracking refs.
-		/// <p>
+		/// <p/>
 		/// When
 		/// <see cref="Transport.IsDryRun()">Transport.IsDryRun()</see>
 		/// is true, result of this operation is

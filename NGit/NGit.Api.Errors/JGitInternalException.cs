@@ -54,7 +54,7 @@ namespace NGit.Api.Errors
 	/// Exception thrown when during command execution a low-level exception from the
 	/// JGit library is thrown. Also when certain low-level error situations are
 	/// reported by JGit through return codes this Exception will be thrown.
-	/// <p>
+	/// <p/>
 	/// During command execution a lot of exceptions may be thrown. Some of them
 	/// represent error situations which can be handled specifically by the caller of
 	/// the command. But a lot of exceptions are so low-level that is is unlikely
@@ -62,7 +62,7 @@ namespace NGit.Api.Errors
 	/// of these low-level exceptions which are thrown by the commands lead to a
 	/// complicated and wide interface of the commands. Callers of the API have to
 	/// deal with a lot of exceptions they don't understand.
-	/// <p>
+	/// <p/>
 	/// To overcome this situation this class was introduced. Commands will wrap all
 	/// exceptions they declare as low-level in their context into an instance of
 	/// this class. Callers of the commands have to deal with one type of low-level

@@ -116,7 +116,7 @@ namespace NGit.Api
 
 		/// <summary>
 		/// Set the stash reference to apply
-		/// <p>
+		/// <p/>
 		/// This will default to apply the latest stashed commit (stash@{0}) if
 		/// unspecified
 		/// </summary>

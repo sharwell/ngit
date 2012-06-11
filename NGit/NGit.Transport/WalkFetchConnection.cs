@@ -59,7 +59,7 @@ namespace NGit.Transport
 	/// <summary>Generic fetch support for dumb transport protocols.</summary>
 	/// <remarks>
 	/// Generic fetch support for dumb transport protocols.
-	/// <p>
+	/// <p/>
 	/// Since there are no Git-specific smarts on the remote side of the connection
 	/// the client side must determine which objects it needs to copy in order to
 	/// completely fetch the requested refs and their history. The generic walk
@@ -70,7 +70,7 @@ namespace NGit.Transport
 	/// fetches. Pack files are copied from the remote repository only as a last
 	/// resort, as the entire pack must be copied locally in order to access any
 	/// single object.
-	/// <p>
+	/// <p/>
 	/// This fetch connection does not actually perform the object data transfer.
 	/// Instead it delegates the transfer to a
 	/// <see cref="WalkRemoteObjectDatabase">WalkRemoteObjectDatabase</see>
@@ -92,7 +92,7 @@ namespace NGit.Transport
 		/// <summary>List of all remote repositories we may need to get objects out of.</summary>
 		/// <remarks>
 		/// List of all remote repositories we may need to get objects out of.
-		/// <p>
+		/// <p/>
 		/// The first repository in the list is the one we were asked to fetch from;
 		/// the remaining repositories point to the alternate locations we can fetch
 		/// objects through.
@@ -152,7 +152,7 @@ namespace NGit.Transport
 		/// Packs whose indexes we have looked at in
 		/// <see cref="unfetchedPacks">unfetchedPacks</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// We try to avoid getting duplicate copies of the same pack through
 		/// multiple alternates by only looking at packs whose names are not yet in
 		/// this collection.
@@ -164,7 +164,7 @@ namespace NGit.Transport
 		/// <summary>Errors received while trying to obtain an object.</summary>
 		/// <remarks>
 		/// Errors received while trying to obtain an object.
-		/// <p>
+		/// <p/>
 		/// If the fetch winds up failing because we cannot locate a specific object
 		/// then we need to report all errors related to that object back to the
 		/// caller as there may be cascading failures.

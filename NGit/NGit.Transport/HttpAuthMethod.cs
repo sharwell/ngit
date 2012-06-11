@@ -53,7 +53,7 @@ namespace NGit.Transport
 	/// <summary>Support class to populate user authentication data on a connection.</summary>
 	/// <remarks>
 	/// Support class to populate user authentication data on a connection.
-	/// <p>
+	/// <p/>
 	/// Instances of an HttpAuthMethod are not thread-safe, as some implementations
 	/// may need to maintain per-connection state information.
 	/// </remarks>

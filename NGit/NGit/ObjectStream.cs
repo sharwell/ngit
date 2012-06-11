@@ -67,7 +67,7 @@ namespace NGit
 		/// <summary>Simple stream around the cached byte array created by a loader.</summary>
 		/// <remarks>
 		/// Simple stream around the cached byte array created by a loader.
-		/// <p>
+		/// <p/>
 		/// ObjectLoader implementations can use this stream type when the object's
 		/// content is small enough to be accessed as a single byte array, but the
 		/// application has still requested it in stream format.
@@ -162,7 +162,7 @@ namespace NGit
 		/// <summary>Simple filter stream around another stream.</summary>
 		/// <remarks>
 		/// Simple filter stream around another stream.
-		/// <p>
+		/// <p/>
 		/// ObjectLoader implementations can use this stream type when the object's
 		/// content is available from a standard InputStream.
 		/// </remarks>

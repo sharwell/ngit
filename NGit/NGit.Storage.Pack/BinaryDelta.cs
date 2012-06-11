@@ -53,7 +53,7 @@ namespace NGit.Storage.Pack
 	/// <summary>Recreate a stream from a base stream and a GIT pack delta.</summary>
 	/// <remarks>
 	/// Recreate a stream from a base stream and a GIT pack delta.
-	/// <p>
+	/// <p/>
 	/// This entire class is heavily cribbed from <code>patch-delta.c</code> in the
 	/// GIT project. The original delta patching code was written by Nicolas Pitre
 	/// (&lt;nico@cam.org&gt;).

@@ -53,7 +53,7 @@ namespace NGit.Transport
 	/// <summary>Run remote commands using Jsch.</summary>
 	/// <remarks>
 	/// Run remote commands using Jsch.
-	/// <p>
+	/// <p/>
 	/// This class is the default session implementation using Jsch. Note that
 	/// <see cref="JschConfigSessionFactory">JschConfigSessionFactory</see>
 	/// is used to create the actual session passed
@@ -112,7 +112,7 @@ namespace NGit.Transport
 		/// <summary>Implementation of Process for running a single command using Jsch.</summary>
 		/// <remarks>
 		/// Implementation of Process for running a single command using Jsch.
-		/// <p>
+		/// <p/>
 		/// Uses the Jsch session to do actual command execution and manage the
 		/// execution.
 		/// </remarks>

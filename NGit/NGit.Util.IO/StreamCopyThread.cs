@@ -79,7 +79,7 @@ namespace NGit.Util.IO
 		/// <summary>Request the thread to flush the output stream as soon as possible.</summary>
 		/// <remarks>
 		/// Request the thread to flush the output stream as soon as possible.
-		/// <p>
+		/// <p/>
 		/// This is an asynchronous request to the thread. The actual flush will
 		/// happen at some future point in time, when the thread wakes up to process
 		/// the request.
@@ -92,7 +92,7 @@ namespace NGit.Util.IO
 		/// <summary>Request that the thread terminate, and wait for it.</summary>
 		/// <remarks>
 		/// Request that the thread terminate, and wait for it.
-		/// <p>
+		/// <p/>
 		/// This method signals to the copy thread that it should stop as soon as
 		/// there is no more IO occurring.
 		/// </remarks>

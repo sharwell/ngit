@@ -68,7 +68,7 @@ namespace NGit.Transport
 		/// 	</see>
 		/// it provides full description/status of each
 		/// ref update.
-		/// <p>
+		/// <p/>
 		/// Returned collection is not sorted in any order.
 		/// </p>
 		/// </remarks>

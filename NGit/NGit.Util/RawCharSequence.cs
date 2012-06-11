@@ -49,7 +49,7 @@ namespace NGit.Util
 	/// <summary>A rough character sequence around a raw byte buffer.</summary>
 	/// <remarks>
 	/// A rough character sequence around a raw byte buffer.
-	/// <p>
+	/// <p/>
 	/// Characters are assumed to be 8-bit US-ASCII.
 	/// </remarks>
 	public sealed class RawCharSequence : CharSequence

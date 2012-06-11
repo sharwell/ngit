@@ -52,7 +52,7 @@ namespace NGit.Transport
 	/// <summary>Describes how refs in one repository copy into another repository.</summary>
 	/// <remarks>
 	/// Describes how refs in one repository copy into another repository.
-	/// <p>
+	/// <p/>
 	/// A ref specification provides matching support and limited rules to rewrite a
 	/// reference in one repository to another reference in another repository.
 	/// </remarks>
@@ -97,7 +97,7 @@ namespace NGit.Transport
 		/// <summary>Construct an empty RefSpec.</summary>
 		/// <remarks>
 		/// Construct an empty RefSpec.
-		/// <p>
+		/// <p/>
 		/// A newly created empty RefSpec is not suitable for use in most
 		/// applications, as at least one field must be set to match a source name.
 		/// </remarks>
@@ -112,7 +112,7 @@ namespace NGit.Transport
 		/// <summary>Parse a ref specification for use during transport operations.</summary>
 		/// <remarks>
 		/// Parse a ref specification for use during transport operations.
-		/// <p>
+		/// <p/>
 		/// Specifications are typically one of the following forms:
 		/// <ul>
 		/// <li><code>refs/head/master</code></li>
@@ -206,7 +206,7 @@ namespace NGit.Transport
 		/// <summary>Check if this specification is actually a wildcard pattern.</summary>
 		/// <remarks>
 		/// Check if this specification is actually a wildcard pattern.
-		/// <p>
+		/// <p/>
 		/// If this is a wildcard pattern then the source and destination names
 		/// returned by
 		/// <see cref="GetSource()">GetSource()</see>
@@ -224,7 +224,7 @@ namespace NGit.Transport
 		/// <summary>Get the source ref description.</summary>
 		/// <remarks>
 		/// Get the source ref description.
-		/// <p>
+		/// <p/>
 		/// During a fetch this is the name of the ref on the remote repository we
 		/// are fetching from. During a push this is the name of the ref on the local
 		/// repository we are pushing out from.
@@ -262,14 +262,14 @@ namespace NGit.Transport
 		/// <summary>Get the destination ref description.</summary>
 		/// <remarks>
 		/// Get the destination ref description.
-		/// <p>
+		/// <p/>
 		/// During a fetch this is the local tracking branch that will be updated
 		/// with the new ObjectId after fetching is complete. During a push this is
 		/// the remote ref that will be updated by the remote's receive-pack process.
-		/// <p>
+		/// <p/>
 		/// If null during a fetch no tracking branch should be updated and the
 		/// ObjectId should be stored transiently in order to prepare a merge.
-		/// <p>
+		/// <p/>
 		/// If null during a push, use
 		/// <see cref="GetSource()">GetSource()</see>
 		/// instead.
@@ -362,7 +362,7 @@ namespace NGit.Transport
 		/// <summary>Expand this specification to exactly match a ref name.</summary>
 		/// <remarks>
 		/// Expand this specification to exactly match a ref name.
-		/// <p>
+		/// <p/>
 		/// Callers must first verify the passed ref name matches this specification,
 		/// otherwise expansion results may be unpredictable.
 		/// </remarks>
@@ -394,7 +394,7 @@ namespace NGit.Transport
 		/// <summary>Expand this specification to exactly match a ref.</summary>
 		/// <remarks>
 		/// Expand this specification to exactly match a ref.
-		/// <p>
+		/// <p/>
 		/// Callers must first verify the passed ref matches this specification,
 		/// otherwise expansion results may be unpredictable.
 		/// </remarks>
@@ -415,7 +415,7 @@ namespace NGit.Transport
 		/// <summary>Expand this specification to exactly match a ref name.</summary>
 		/// <remarks>
 		/// Expand this specification to exactly match a ref name.
-		/// <p>
+		/// <p/>
 		/// Callers must first verify the passed ref name matches this specification,
 		/// otherwise expansion results may be unpredictable.
 		/// </remarks>
@@ -447,7 +447,7 @@ namespace NGit.Transport
 		/// <summary>Expand this specification to exactly match a ref.</summary>
 		/// <remarks>
 		/// Expand this specification to exactly match a ref.
-		/// <p>
+		/// <p/>
 		/// Callers must first verify the passed ref matches this specification,
 		/// otherwise expansion results may be unpredictable.
 		/// </remarks>

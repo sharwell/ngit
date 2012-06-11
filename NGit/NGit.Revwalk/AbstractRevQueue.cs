@@ -60,7 +60,7 @@ namespace NGit.Revwalk
 		/// <summary>Add a commit to the queue.</summary>
 		/// <remarks>
 		/// Add a commit to the queue.
-		/// <p>
+		/// <p/>
 		/// This method always adds the commit, even if it is already in the queue or
 		/// previously was in the queue but has already been removed. To control
 		/// queue admission use
@@ -73,7 +73,7 @@ namespace NGit.Revwalk
 		/// <summary>Add a commit if it does not have a flag set yet, then set the flag.</summary>
 		/// <remarks>
 		/// Add a commit if it does not have a flag set yet, then set the flag.
-		/// <p>
+		/// <p/>
 		/// This method permits the application to test if the commit has the given
 		/// flag; if it does not already have the flag than the commit is added to
 		/// the queue and the flag is set. This later will prevent the commit from
@@ -93,7 +93,7 @@ namespace NGit.Revwalk
 		/// <summary>Add a commit's parents if one does not have a flag set yet.</summary>
 		/// <remarks>
 		/// Add a commit's parents if one does not have a flag set yet.
-		/// <p>
+		/// <p/>
 		/// This method permits the application to test if the commit has the given
 		/// flag; if it does not already have the flag than the commit is added to
 		/// the queue and the flag is set. This later will prevent the commit from

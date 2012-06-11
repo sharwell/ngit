@@ -55,7 +55,7 @@ namespace NGit.Dircache
 	/// A single file (or stage of a file) in a
 	/// <see cref="DirCache">DirCache</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// An entry represents exactly one stage of a file. If a file path is unmerged
 	/// then multiple DirCacheEntry instances may appear for the same path name.
 	/// </summary>
@@ -315,13 +315,13 @@ namespace NGit.Dircache
 
 		/// <summary>
 		/// Is it possible for this entry to be accidentally assumed clean?
-		/// <p>
+		/// <p/>
 		/// The "racy git" problem happens when a work file can be updated faster
 		/// than the filesystem records file modification timestamps.
 		/// </summary>
 		/// <remarks>
 		/// Is it possible for this entry to be accidentally assumed clean?
-		/// <p>
+		/// <p/>
 		/// The "racy git" problem happens when a work file can be updated faster
 		/// than the filesystem records file modification timestamps. It is possible
 		/// for an application to edit a work file, update the index, then edit it
@@ -353,7 +353,7 @@ namespace NGit.Dircache
 		/// <summary>Force this entry to no longer match its working tree file.</summary>
 		/// <remarks>
 		/// Force this entry to no longer match its working tree file.
-		/// <p>
+		/// <p/>
 		/// This avoids the "racy git" problem by making this index entry no longer
 		/// match the file in the working directory. Later git will be forced to
 		/// compare the file content to ensure the file matches the working tree.
@@ -372,7 +372,7 @@ namespace NGit.Dircache
 
 		/// <summary>
 		/// Check whether this entry has been smudged or not
-		/// <p>
+		/// <p/>
 		/// If a blob has length 0 we know his id see
 		/// <see cref="NGit.Constants.EMPTY_BLOB_ID">NGit.Constants.EMPTY_BLOB_ID</see>
 		/// . If an entry
@@ -410,12 +410,12 @@ namespace NGit.Dircache
 
 		/// <summary>
 		/// Is this entry always thought to be unmodified?
-		/// <p>
+		/// <p/>
 		/// Most entries in the index do not have this flag set.
 		/// </summary>
 		/// <remarks>
 		/// Is this entry always thought to be unmodified?
-		/// <p>
+		/// <p/>
 		/// Most entries in the index do not have this flag set. Users may however
 		/// set them on if the file system stat() costs are too high on this working
 		/// directory, such as on NFS or SMB volumes.
@@ -472,7 +472,7 @@ namespace NGit.Dircache
 		/// <summary>Get the stage of this entry.</summary>
 		/// <remarks>
 		/// Get the stage of this entry.
-		/// <p>
+		/// <p/>
 		/// Entries have one of 4 possible stages: 0-3.
 		/// </remarks>
 		/// <returns>the stage of this entry.</returns>
@@ -584,7 +584,7 @@ namespace NGit.Dircache
 		/// <summary>Get the cached last modification date of this file, in milliseconds.</summary>
 		/// <remarks>
 		/// Get the cached last modification date of this file, in milliseconds.
-		/// <p>
+		/// <p/>
 		/// One of the indicators that the file has been modified by an application
 		/// changing the working tree is if the last modification time for the file
 		/// differs from the time stored in this entry.
@@ -612,15 +612,15 @@ namespace NGit.Dircache
 		/// <summary>Get the cached size (mod 4 GB) (in bytes) of this file.</summary>
 		/// <remarks>
 		/// Get the cached size (mod 4 GB) (in bytes) of this file.
-		/// <p>
+		/// <p/>
 		/// One of the indicators that the file has been modified by an application
 		/// changing the working tree is if the size of the file (in bytes) differs
 		/// from the size stored in this entry.
-		/// <p>
+		/// <p/>
 		/// Note that this is the length of the file in the working directory, which
 		/// may differ from the size of the decompressed blob if work tree filters
 		/// are being used, such as LF<->CRLF conversion.
-		/// <p>
+		/// <p/>
 		/// Note also that for very large files, this is the size of the on-disk file
 		/// truncated to 32 bits, i.e. modulo 4294967296. If that value is larger
 		/// than 2GB, it will appear negative.
@@ -656,7 +656,7 @@ namespace NGit.Dircache
 		/// <summary>Obtain the ObjectId for the entry.</summary>
 		/// <remarks>
 		/// Obtain the ObjectId for the entry.
-		/// <p>
+		/// <p/>
 		/// Using this method to compare ObjectId values between entries is
 		/// inefficient as it causes memory allocation.
 		/// </remarks>
@@ -694,7 +694,7 @@ namespace NGit.Dircache
 		/// <summary>Get the entry's complete path.</summary>
 		/// <remarks>
 		/// Get the entry's complete path.
-		/// <p>
+		/// <p/>
 		/// This method is not very efficient and is primarily meant for debugging
 		/// and final output generation. Applications should try to avoid calling it,
 		/// and if invoked do so only once per interesting entry, where the name is
@@ -723,7 +723,7 @@ namespace NGit.Dircache
 		/// <summary>Copy the ObjectId and other meta fields from an existing entry.</summary>
 		/// <remarks>
 		/// Copy the ObjectId and other meta fields from an existing entry.
-		/// <p>
+		/// <p/>
 		/// This method copies everything except the path from one entry to another,
 		/// supporting renaming.
 		/// </remarks>
@@ -736,7 +736,7 @@ namespace NGit.Dircache
 		/// <summary>Copy the ObjectId and other meta fields from an existing entry.</summary>
 		/// <remarks>
 		/// Copy the ObjectId and other meta fields from an existing entry.
-		/// <p>
+		/// <p/>
 		/// This method copies everything except the path and possibly stage from one
 		/// entry to another, supporting renaming.
 		/// </remarks>

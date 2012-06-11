@@ -101,7 +101,7 @@ namespace NGit
 		/// Rebuild the
 		/// <see cref="Constants.INFO_REFS">Constants.INFO_REFS</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This method rebuilds the contents of the
 		/// <see cref="Constants.INFO_REFS">Constants.INFO_REFS</see>
 		/// file
@@ -144,7 +144,7 @@ namespace NGit
 		/// Rebuild the
 		/// <see cref="Constants.PACKED_REFS">Constants.PACKED_REFS</see>
 		/// file.
-		/// <p>
+		/// <p/>
 		/// This method rebuilds the contents of the
 		/// <see cref="Constants.PACKED_REFS">Constants.PACKED_REFS</see>
 		/// file to match the passed list of references, including only those refs

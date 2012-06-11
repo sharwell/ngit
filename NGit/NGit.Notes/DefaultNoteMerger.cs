@@ -52,15 +52,15 @@ namespace NGit.Notes
 	/// Default implementation of the
 	/// <see cref="NoteMerger">NoteMerger</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// If ours and theirs are both non-null, which means they are either both edits
 	/// or both adds, then this merger will simply join the content of ours and
 	/// theirs (in that order) and return that as the merge result.
-	/// <p>
+	/// <p/>
 	/// If one or ours/theirs is non-null and the other one is null then the non-null
 	/// value is returned as the merge result. This means that an edit/delete
 	/// conflict is resolved by keeping the edit version.
-	/// <p>
+	/// <p/>
 	/// If both ours and theirs are null then the result of the merge is also null.
 	/// </summary>
 	public class DefaultNoteMerger : NoteMerger

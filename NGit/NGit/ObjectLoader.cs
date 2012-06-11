@@ -89,7 +89,7 @@ namespace NGit
 		/// <summary>Obtain a copy of the bytes of this object.</summary>
 		/// <remarks>
 		/// Obtain a copy of the bytes of this object.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="GetCachedBytes()">GetCachedBytes()</see>
 		/// this method returns an array that might
@@ -160,7 +160,7 @@ namespace NGit
 		/// <summary>Obtain a reference to the (possibly cached) bytes of this object.</summary>
 		/// <remarks>
 		/// Obtain a reference to the (possibly cached) bytes of this object.
-		/// <p>
+		/// <p/>
 		/// This method offers direct access to the internal caches, potentially
 		/// saving on data copies between the internal cache and higher level code.
 		/// Callers who receive this reference <b>must not</b> modify its contents.
@@ -265,13 +265,13 @@ namespace NGit
 		/// <summary>Copy this object to the output stream.</summary>
 		/// <remarks>
 		/// Copy this object to the output stream.
-		/// <p>
+		/// <p/>
 		/// For some object store implementations, this method may be more efficient
 		/// than reading from
 		/// <see cref="OpenStream()">OpenStream()</see>
 		/// into a temporary byte array, then
 		/// writing to the destination stream.
-		/// <p>
+		/// <p/>
 		/// The default implementation of this method is to copy with a temporary
 		/// byte array for large objects, or to pass through the cached byte array
 		/// for small objects.
@@ -333,7 +333,7 @@ namespace NGit
 		/// <summary>Simple loader around the cached byte array.</summary>
 		/// <remarks>
 		/// Simple loader around the cached byte array.
-		/// <p>
+		/// <p/>
 		/// ObjectReader implementations can use this stream type when the object's
 		/// content is small enough to be accessed as a single byte array.
 		/// </remarks>

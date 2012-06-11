@@ -236,7 +236,7 @@ namespace NGit
 		/// <summary>Run the diff operation.</summary>
 		/// <remarks>
 		/// Run the diff operation. Until this is called, all lists will be empty.
-		/// <p>
+		/// <p/>
 		/// The operation may be aborted by the progress monitor. In that event it
 		/// will report what was found before the cancel operation was detected.
 		/// Callers should ignore the result if monitor.isCancelled() is true. If a

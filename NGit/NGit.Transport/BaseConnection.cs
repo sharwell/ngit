@@ -89,7 +89,7 @@ namespace NGit.Transport
 		/// <summary>Denote the list of refs available on the remote repository.</summary>
 		/// <remarks>
 		/// Denote the list of refs available on the remote repository.
-		/// <p>
+		/// <p/>
 		/// Implementors should invoke this method once they have obtained the refs
 		/// that are available from the remote repository.
 		/// </remarks>

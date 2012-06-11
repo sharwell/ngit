@@ -69,7 +69,7 @@ namespace NGit
 		/// <summary>Load the configuration from the persistent store.</summary>
 		/// <remarks>
 		/// Load the configuration from the persistent store.
-		/// <p>
+		/// <p/>
 		/// If the configuration does not exist, this configuration is cleared, and
 		/// thus behaves the same as though the backing store exists, but is empty.
 		/// </remarks>

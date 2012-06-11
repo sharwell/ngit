@@ -72,9 +72,9 @@ namespace NGit.Storage.File
 	/// </ul>
 	/// </li>
 	/// </ul>
-	/// <p>
+	/// <p/>
 	/// This class is thread-safe.
-	/// <p>
+	/// <p/>
 	/// This implementation only handles a subtly undocumented subset of git features.
 	/// </remarks>
 	public class FileRepository : Repository
@@ -94,7 +94,7 @@ namespace NGit.Storage.File
 		/// <summary>Construct a representation of a Git repository.</summary>
 		/// <remarks>
 		/// Construct a representation of a Git repository.
-		/// <p>
+		/// <p/>
 		/// The work tree, object directory, alternate object directories and index
 		/// file locations are deduced from the given git directory and the default
 		/// rules by running
@@ -359,7 +359,7 @@ namespace NGit.Storage.File
 		/// Objects known to exist but not expressed by
 		/// <see cref="NGit.Repository.GetAllRefs()">NGit.Repository.GetAllRefs()</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// When a repository borrows objects from another repository, it can
 		/// advertise that it safely has that other repository's references, without
 		/// exposing any other details about the other repository.  This may help

@@ -50,11 +50,11 @@ namespace NGit.Util.IO
 	/// <summary>An InputStream which reads from one or more InputStreams.</summary>
 	/// <remarks>
 	/// An InputStream which reads from one or more InputStreams.
-	/// <p>
+	/// <p/>
 	/// This stream may enter into an EOF state, returning -1 from any of the read
 	/// methods, and then later successfully read additional bytes if a new
 	/// InputStream is added after reaching EOF.
-	/// <p>
+	/// <p/>
 	/// Currently this stream does not support the mark/reset APIs. If mark and later
 	/// reset functionality is needed the caller should wrap this stream with a
 	/// <see cref="Sharpen.BufferedInputStream">Sharpen.BufferedInputStream</see>
@@ -88,7 +88,7 @@ namespace NGit.Util.IO
 		/// <summary>Create an InputStream that is a union of the individual streams.</summary>
 		/// <remarks>
 		/// Create an InputStream that is a union of the individual streams.
-		/// <p>
+		/// <p/>
 		/// As each stream reaches EOF, it will be automatically closed before bytes
 		/// from the next stream are read.
 		/// </remarks>
@@ -119,7 +119,7 @@ namespace NGit.Util.IO
 		/// <summary>Add the given InputStream onto the end of the stream queue.</summary>
 		/// <remarks>
 		/// Add the given InputStream onto the end of the stream queue.
-		/// <p>
+		/// <p/>
 		/// When the stream reaches EOF it will be automatically closed.
 		/// </remarks>
 		/// <param name="in">the stream to add; must not be null.</param>
@@ -131,7 +131,7 @@ namespace NGit.Util.IO
 		/// <summary>Returns true if there are no more InputStreams in the stream queue.</summary>
 		/// <remarks>
 		/// Returns true if there are no more InputStreams in the stream queue.
-		/// <p>
+		/// <p/>
 		/// If this method returns
 		/// <code>true</code>
 		/// then all read methods will signal EOF

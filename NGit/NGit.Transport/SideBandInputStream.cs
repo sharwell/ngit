@@ -55,14 +55,14 @@ namespace NGit.Transport
 	/// <summary>Unmultiplexes the data portion of a side-band channel.</summary>
 	/// <remarks>
 	/// Unmultiplexes the data portion of a side-band channel.
-	/// <p>
+	/// <p/>
 	/// Reading from this input stream obtains data from channel 1, which is
 	/// typically the bulk data stream.
-	/// <p>
+	/// <p/>
 	/// Channel 2 is transparently unpacked and "scraped" to update a progress
 	/// monitor. The scraping is performed behind the scenes as part of any of the
 	/// read methods offered by this stream.
-	/// <p>
+	/// <p/>
 	/// Channel 3 results in an exception being thrown, as the remote side has issued
 	/// an unrecoverable error.
 	/// </remarks>

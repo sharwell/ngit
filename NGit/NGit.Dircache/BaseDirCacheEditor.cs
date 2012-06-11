@@ -51,7 +51,7 @@ namespace NGit.Dircache
 	/// Generic update/editing support for
 	/// <see cref="DirCache">DirCache</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// The different update strategies extend this class to provide their own unique
 	/// services to applications.
 	/// </summary>
@@ -68,7 +68,7 @@ namespace NGit.Dircache
 		/// Entry table this builder will eventually replace into
 		/// <see cref="cache">cache</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// Use
 		/// <see cref="FastAdd(DirCacheEntry)">FastAdd(DirCacheEntry)</see>
 		/// or
@@ -76,7 +76,7 @@ namespace NGit.Dircache
 		/// to
 		/// make additions to this table. The table is automatically expanded if it
 		/// is too small for a new addition.
-		/// <p>
+		/// <p/>
 		/// Typically the entries in here are sorted by their path names, just like
 		/// they are in the DirCache instance.
 		/// </summary>
@@ -115,10 +115,10 @@ namespace NGit.Dircache
 		/// <summary>Append one entry into the resulting entry list.</summary>
 		/// <remarks>
 		/// Append one entry into the resulting entry list.
-		/// <p>
+		/// <p/>
 		/// The entry is placed at the end of the entry list. The caller is
 		/// responsible for making sure the final table is correctly sorted.
-		/// <p>
+		/// <p/>
 		/// The
 		/// <see cref="entries">entries</see>
 		/// table is automatically expanded if there is
@@ -139,16 +139,16 @@ namespace NGit.Dircache
 		/// <summary>Add a range of existing entries from the destination cache.</summary>
 		/// <remarks>
 		/// Add a range of existing entries from the destination cache.
-		/// <p>
+		/// <p/>
 		/// The entries are placed at the end of the entry list, preserving their
 		/// current order. The caller is responsible for making sure the final table
 		/// is correctly sorted.
-		/// <p>
+		/// <p/>
 		/// This method copies from the destination cache, which has not yet been
 		/// updated with this editor's new table. So all offsets into the destination
 		/// cache are not affected by any updates that may be currently taking place
 		/// in this editor.
-		/// <p>
+		/// <p/>
 		/// The
 		/// <see cref="entries">entries</see>
 		/// table is automatically expanded if there is
@@ -174,16 +174,16 @@ namespace NGit.Dircache
 		/// Finish this builder and update the destination
 		/// <see cref="DirCache">DirCache</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// When this method completes this builder instance is no longer usable by
 		/// the calling application. A new builder must be created to make additional
 		/// changes to the index entries.
-		/// <p>
+		/// <p/>
 		/// After completion the DirCache returned by
 		/// <see cref="GetDirCache()">GetDirCache()</see>
 		/// will
 		/// contain all modifications.
-		/// <p>
+		/// <p/>
 		/// <i>Note to implementors:</i> Make sure
 		/// <see cref="entries">entries</see>
 		/// is fully sorted
@@ -197,7 +197,7 @@ namespace NGit.Dircache
 		/// Update the DirCache with the contents of
 		/// <see cref="entries">entries</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This method should be invoked only during an implementation of
 		/// <see cref="Finish()">Finish()</see>
 		/// , and only after
@@ -218,9 +218,9 @@ namespace NGit.Dircache
 		/// <summary>Finish, write, commit this change, and release the index lock.</summary>
 		/// <remarks>
 		/// Finish, write, commit this change, and release the index lock.
-		/// <p>
+		/// <p/>
 		/// If this method fails (returns false) the lock is still released.
-		/// <p>
+		/// <p/>
 		/// This is a utility method for applications as the finish-write-commit
 		/// pattern is very common after using a builder to update entries.
 		/// </remarks>

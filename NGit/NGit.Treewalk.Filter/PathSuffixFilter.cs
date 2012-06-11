@@ -57,7 +57,7 @@ namespace NGit.Treewalk.Filter
 		/// <summary>Create a new tree filter for a user supplied path.</summary>
 		/// <remarks>
 		/// Create a new tree filter for a user supplied path.
-		/// <p>
+		/// <p/>
 		/// Path strings use '/' to delimit directories on all platforms.
 		/// </remarks>
 		/// <param name="path">the path (suffix) to filter on. Must not be the empty string.</param>

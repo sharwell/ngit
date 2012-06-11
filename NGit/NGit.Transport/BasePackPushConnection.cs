@@ -56,20 +56,20 @@ namespace NGit.Transport
 	/// <summary>Push implementation using the native Git pack transfer service.</summary>
 	/// <remarks>
 	/// Push implementation using the native Git pack transfer service.
-	/// <p>
+	/// <p/>
 	/// This is the canonical implementation for transferring objects to the remote
 	/// repository from the local repository by talking to the 'git-receive-pack'
 	/// service. Objects are packed on the local side into a pack file and then sent
 	/// to the remote repository.
-	/// <p>
+	/// <p/>
 	/// This connection requires only a bi-directional pipe or socket, and thus is
 	/// easily wrapped up into a local process pipe, anonymous TCP socket, or a
 	/// command executed through an SSH tunnel.
-	/// <p>
+	/// <p/>
 	/// This implementation honors
 	/// <see cref="Transport.IsPushThin()">Transport.IsPushThin()</see>
 	/// option.
-	/// <p>
+	/// <p/>
 	/// Concrete implementations should just call
 	/// <see cref="BasePackConnection.Init(Sharpen.InputStream, Sharpen.OutputStream)">BasePackConnection.Init(Sharpen.InputStream, Sharpen.OutputStream)
 	/// 	</see>

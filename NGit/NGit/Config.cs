@@ -78,7 +78,7 @@ namespace NGit
 		/// <summary>Immutable current state of the configuration data.</summary>
 		/// <remarks>
 		/// Immutable current state of the configuration data.
-		/// <p>
+		/// <p/>
 		/// This state is copy-on-write. It should always contain an immutable list
 		/// of the configuration keys/values.
 		/// </remarks>
@@ -89,7 +89,7 @@ namespace NGit
 		/// <summary>Magic value indicating a missing entry.</summary>
 		/// <remarks>
 		/// Magic value indicating a missing entry.
-		/// <p>
+		/// <p/>
 		/// This value is tested for reference equality in some contexts, so we
 		/// must ensure it is a special copy of the empty string.  It also must
 		/// be treated like the empty string.
@@ -470,13 +470,13 @@ namespace NGit
 
 		/// <summary>
 		/// Get a list of string values
-		/// <p>
+		/// <p/>
 		/// If this instance was created with a base, the base's values are returned
 		/// first (if any).
 		/// </summary>
 		/// <remarks>
 		/// Get a list of string values
-		/// <p>
+		/// <p/>
 		/// If this instance was created with a base, the base's values are returned
 		/// first (if any).
 		/// </remarks>
@@ -578,7 +578,7 @@ namespace NGit
 		/// <summary>Remove a cached configuration object.</summary>
 		/// <remarks>
 		/// Remove a cached configuration object.
-		/// <p>
+		/// <p/>
 		/// If the associated configuration object has not yet been cached, this
 		/// method has no effect.
 		/// </remarks>
@@ -592,7 +592,7 @@ namespace NGit
 		/// <summary>Adds a listener to be notified about changes.</summary>
 		/// <remarks>
 		/// Adds a listener to be notified about changes.
-		/// <p>
+		/// <p/>
 		/// Clients are supposed to remove the listeners after they are done with
 		/// them using the
 		/// <see cref="NGit.Events.ListenerHandle.Remove()">NGit.Events.ListenerHandle.Remove()
@@ -609,11 +609,11 @@ namespace NGit
 		/// <summary>Determine whether to issue change events for transient changes.</summary>
 		/// <remarks>
 		/// Determine whether to issue change events for transient changes.
-		/// <p>
+		/// <p/>
 		/// If <code>true</code> is returned (which is the default behavior),
 		/// <see cref="FireConfigChangedEvent()">FireConfigChangedEvent()</see>
 		/// will be called upon each change.
-		/// <p>
+		/// <p/>
 		/// Subclasses that override this to return <code>false</code> are
 		/// responsible for issuing
 		/// <see cref="FireConfigChangedEvent()">FireConfigChangedEvent()</see>
@@ -1420,12 +1420,12 @@ namespace NGit
 		/// <summary>Parses a section of the configuration into an application model object.</summary>
 		/// <remarks>
 		/// Parses a section of the configuration into an application model object.
-		/// <p>
+		/// <p/>
 		/// Instances must implement hashCode and equals such that model objects can
 		/// be cached by using the
 		/// <code>SectionParser</code>
 		/// as a key of a HashMap.
-		/// <p>
+		/// <p/>
 		/// As the
 		/// <code>SectionParser</code>
 		/// itself is used as the key of the internal

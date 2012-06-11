@@ -60,18 +60,18 @@ namespace NGit.Storage.File
 	/// Traditional file system based
 	/// <see cref="NGit.ObjectDatabase">NGit.ObjectDatabase</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// This is the classical object database representation for a Git repository,
 	/// where objects are stored loose by hashing them into directories by their
 	/// <see cref="NGit.ObjectId">NGit.ObjectId</see>
 	/// , or are stored in compressed containers known as
 	/// <see cref="PackFile">PackFile</see>
 	/// s.
-	/// <p>
+	/// <p/>
 	/// Optionally an object database can reference one or more alternates; other
 	/// ObjectDatabase instances that are searched in addition to the current
 	/// database.
-	/// <p>
+	/// <p/>
 	/// Databases are divided into two halves: a half that is considered to be fast
 	/// to search (the
 	/// <code>PackFile</code>

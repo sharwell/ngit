@@ -50,7 +50,7 @@ namespace NGit.Transport
 	/// <summary>
 	/// <see cref="PreReceiveHook">PreReceiveHook</see>
 	/// that delegates to a list of other hooks.
-	/// <p>
+	/// <p/>
 	/// Hooks are run in the order passed to the constructor.
 	/// </summary>
 	public class PreReceiveHookChain : PreReceiveHook

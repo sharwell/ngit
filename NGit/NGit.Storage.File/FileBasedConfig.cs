@@ -106,7 +106,7 @@ namespace NGit.Storage.File
 		/// <summary>Load the configuration as a Git text style configuration file.</summary>
 		/// <remarks>
 		/// Load the configuration as a Git text style configuration file.
-		/// <p>
+		/// <p/>
 		/// If the file does not exist, this configuration is cleared, and thus
 		/// behaves the same as though the file exists, but is empty.
 		/// </remarks>
@@ -162,7 +162,7 @@ namespace NGit.Storage.File
 		/// <summary>Save the configuration as a Git text style configuration file.</summary>
 		/// <remarks>
 		/// Save the configuration as a Git text style configuration file.
-		/// <p>
+		/// <p/>
 		/// <b>Warning:</b> Although this method uses the traditional Git file
 		/// locking approach to protect against concurrent writes of the
 		/// configuration file, it does not ensure that the file has not been

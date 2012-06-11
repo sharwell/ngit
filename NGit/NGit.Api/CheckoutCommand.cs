@@ -253,7 +253,7 @@ namespace NGit.Api
 
 		/// <summary>
 		/// Set whether to checkout all paths
-		/// <p>
+		/// <p/>
 		/// This options should be used when you want to do a path checkout on the
 		/// entire repository and so calling
 		/// <see cref="AddPath(string)">AddPath(string)</see>

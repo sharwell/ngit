@@ -50,11 +50,11 @@ namespace NGit
 	/// Pairing of a name and the
 	/// <see cref="ObjectId">ObjectId</see>
 	/// it currently has.
-	/// <p>
+	/// <p/>
 	/// A ref in Git is (more or less) a variable that holds a single object
 	/// identifier. The object identifier can be any valid Git object (blob, tree,
 	/// commit, annotated tag, ...).
-	/// <p>
+	/// <p/>
 	/// The ref name has the attributes of the ref that was asked for as well as the
 	/// ref it was resolved to for symbolic refs plus the object id it points to and
 	/// (for tags) the peeled target object id, i.e. the tag resolved recursively
@@ -70,7 +70,7 @@ namespace NGit
 		/// <summary>Test if this reference is a symbolic reference.</summary>
 		/// <remarks>
 		/// Test if this reference is a symbolic reference.
-		/// <p>
+		/// <p/>
 		/// A symbolic reference does not have its own
 		/// <see cref="ObjectId">ObjectId</see>
 		/// value, but
@@ -89,13 +89,13 @@ namespace NGit
 		/// Traverse target references until
 		/// <see cref="IsSymbolic()">IsSymbolic()</see>
 		/// is false.
-		/// <p>
+		/// <p/>
 		/// If
 		/// <see cref="IsSymbolic()">IsSymbolic()</see>
 		/// is false, returns
 		/// <code>this</code>
 		/// .
-		/// <p>
+		/// <p/>
 		/// If
 		/// <see cref="IsSymbolic()">IsSymbolic()</see>
 		/// is true, this method recursively traverses
@@ -103,7 +103,7 @@ namespace NGit
 		/// until
 		/// <see cref="IsSymbolic()">IsSymbolic()</see>
 		/// returns false.
-		/// <p>
+		/// <p/>
 		/// This method is effectively
 		/// <pre>
 		/// return isSymbolic() ? getTarget().getLeaf() : this;
@@ -116,13 +116,13 @@ namespace NGit
 		/// Get the reference this reference points to, or
 		/// <code>this</code>
 		/// .
-		/// <p>
+		/// <p/>
 		/// If
 		/// <see cref="IsSymbolic()">IsSymbolic()</see>
 		/// is true this method returns the reference it
 		/// directly names, which might not be the leaf reference, but could be
 		/// another symbolic reference.
-		/// <p>
+		/// <p/>
 		/// If this is a leaf level reference that contains its own ObjectId,this
 		/// method returns
 		/// <code>this</code>
@@ -154,13 +154,13 @@ namespace NGit
 
 		/// <summary>
 		/// How was this ref obtained?
-		/// <p>
+		/// <p/>
 		/// The current storage model of a Ref may influence how the ref must be
 		/// updated or deleted from the repository.
 		/// </summary>
 		/// <remarks>
 		/// How was this ref obtained?
-		/// <p>
+		/// <p/>
 		/// The current storage model of a Ref may influence how the ref must be
 		/// updated or deleted from the repository.
 		/// </remarks>
@@ -178,7 +178,7 @@ namespace NGit
 		/// <summary>The ref does not exist yet, updating it may create it.</summary>
 		/// <remarks>
 		/// The ref does not exist yet, updating it may create it.
-		/// <p>
+		/// <p/>
 		/// Creation is likely to choose
 		/// <see cref="LOOSE">LOOSE</see>
 		/// storage.
@@ -188,7 +188,7 @@ namespace NGit
 		/// <summary>The ref is stored in a file by itself.</summary>
 		/// <remarks>
 		/// The ref is stored in a file by itself.
-		/// <p>
+		/// <p/>
 		/// Updating this ref affects only this ref.
 		/// </remarks>
 		public static RefStorage LOOSE = new RefStorage(true, false);
@@ -196,7 +196,7 @@ namespace NGit
 		/// <summary>The ref is stored in the <code>packed-refs</code> file, with others.</summary>
 		/// <remarks>
 		/// The ref is stored in the <code>packed-refs</code> file, with others.
-		/// <p>
+		/// <p/>
 		/// Updating this ref requires rewriting the file, with perhaps many
 		/// other refs being included at the same time.
 		/// </remarks>
@@ -208,7 +208,7 @@ namespace NGit
 		/// and
 		/// <see cref="PACKED">PACKED</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// Updating this ref requires only updating the loose file, but deletion
 		/// requires updating both the loose file and the packed refs file.
 		/// </summary>
@@ -217,7 +217,7 @@ namespace NGit
 		/// <summary>The ref came from a network advertisement and storage is unknown.</summary>
 		/// <remarks>
 		/// The ref came from a network advertisement and storage is unknown.
-		/// <p>
+		/// <p/>
 		/// This ref cannot be updated without Git-aware support on the remote
 		/// side, as Git-aware code consolidate the remote refs and reported them
 		/// to this process.

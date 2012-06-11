@@ -56,13 +56,13 @@ namespace NGit.Transport
 	/// <summary>Transport over the non-Git aware SFTP (SSH based FTP) protocol.</summary>
 	/// <remarks>
 	/// Transport over the non-Git aware SFTP (SSH based FTP) protocol.
-	/// <p>
+	/// <p/>
 	/// The SFTP transport does not require any specialized Git support on the remote
 	/// (server side) repository. Object files are retrieved directly through secure
 	/// shell's FTP protocol, making it possible to copy objects from a remote
 	/// repository that is available over SSH, but whose remote host does not have
 	/// Git installed.
-	/// <p>
+	/// <p/>
 	/// Unlike the HTTP variant (see
 	/// <see cref="TransportHttp">TransportHttp</see>
 	/// ) we rely upon being able
@@ -70,7 +70,7 @@ namespace NGit.Transport
 	/// listing files through SFTP we can avoid needing to have current
 	/// <code>objects/info/packs</code> or <code>info/refs</code> files on the
 	/// remote repository and access the data directly, much as Git itself would.
-	/// <p>
+	/// <p/>
 	/// Concurrent pushing over this transport is not supported. Multiple concurrent
 	/// push operations may cause confusion in the repository state.
 	/// </remarks>

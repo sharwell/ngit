@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// <summary>
 	/// <see cref="PreUploadHook">PreUploadHook</see>
 	/// that delegates to a list of other hooks.
-	/// <p>
+	/// <p/>
 	/// Hooks are run in the order passed to the constructor. If running a method on
 	/// one hook throws an exception, execution of remaining hook methods is aborted.
 	/// </summary>

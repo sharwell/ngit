@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// Hook invoked by
 	/// <see cref="ReceivePack">ReceivePack</see>
 	/// after all updates are executed.
-	/// <p>
+	/// <p/>
 	/// The hook is called after all commands have been processed. Only commands with
 	/// a status of
 	/// <see cref="Result.OK">Result.OK</see>
@@ -59,11 +59,11 @@ namespace NGit.Transport
 	/// all commands within the hook, see
 	/// <see cref="ReceivePack.GetAllCommands()">ReceivePack.GetAllCommands()</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Any post-receive hook implementation should not update the status of a
 	/// command, as the command has already completed or failed, and the status has
 	/// already been returned to the client.
-	/// <p>
+	/// <p/>
 	/// Hooks should execute quickly, as they block the server and the client from
 	/// completing the connection.
 	/// </summary>

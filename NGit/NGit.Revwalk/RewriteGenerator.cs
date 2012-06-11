@@ -49,12 +49,12 @@ namespace NGit.Revwalk
 	/// <summary>Replaces a RevCommit's parents until not colored with REWRITE.</summary>
 	/// <remarks>
 	/// Replaces a RevCommit's parents until not colored with REWRITE.
-	/// <p>
+	/// <p/>
 	/// Before a RevCommit is returned to the caller its parents are updated to
 	/// create a dense DAG. Instead of reporting the actual parents as recorded when
 	/// the commit was created the returned commit will reflect the next closest
 	/// commit that matched the revision walker's filters.
-	/// <p>
+	/// <p/>
 	/// This generator is the second phase of a path limited revision walk and
 	/// assumes it is receiving RevCommits from
 	/// <see cref="RewriteTreeFilter">RewriteTreeFilter</see>

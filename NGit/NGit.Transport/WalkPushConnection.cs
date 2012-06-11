@@ -56,21 +56,21 @@ namespace NGit.Transport
 	/// <summary>Generic push support for dumb transport protocols.</summary>
 	/// <remarks>
 	/// Generic push support for dumb transport protocols.
-	/// <p>
+	/// <p/>
 	/// Since there are no Git-specific smarts on the remote side of the connection
 	/// the client side must handle everything on its own. The generic push support
 	/// requires being able to delete, create and overwrite files on the remote side,
 	/// as well as create any missing directories (if necessary). Typically this can
 	/// be handled through an FTP style protocol.
-	/// <p>
+	/// <p/>
 	/// Objects not on the remote side are uploaded as pack files, using one pack
 	/// file per invocation. This simplifies the implementation as only two data
 	/// files need to be written to the remote repository.
-	/// <p>
+	/// <p/>
 	/// Push support supplied by this class is not multiuser safe. Concurrent pushes
 	/// to the same repository may yield an inconsistent reference database which may
 	/// confuse fetch clients.
-	/// <p>
+	/// <p/>
 	/// A single push is concurrently safe with multiple fetch requests, due to the
 	/// careful order of operations used to update the repository. Clients fetching
 	/// may receive transient failures due to short reads on certain files if the
@@ -98,7 +98,7 @@ namespace NGit.Transport
 		/// <summary>Packs already known to reside in the remote repository.</summary>
 		/// <remarks>
 		/// Packs already known to reside in the remote repository.
-		/// <p>
+		/// <p/>
 		/// This is a LinkedHashMap to maintain the original order.
 		/// </remarks>
 		private LinkedHashMap<string, string> packNames;
@@ -110,7 +110,7 @@ namespace NGit.Transport
 		/// <summary>Updates which require altering the packed-refs file to complete.</summary>
 		/// <remarks>
 		/// Updates which require altering the packed-refs file to complete.
-		/// <p>
+		/// <p/>
 		/// If this collection is non-empty then any refs listed in
 		/// <see cref="newRefs">newRefs</see>
 		/// with a storage class of

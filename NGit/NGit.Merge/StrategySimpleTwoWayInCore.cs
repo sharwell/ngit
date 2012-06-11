@@ -53,11 +53,11 @@ namespace NGit.Merge
 	/// <summary>Merges two commits together in-memory, ignoring any working directory.</summary>
 	/// <remarks>
 	/// Merges two commits together in-memory, ignoring any working directory.
-	/// <p>
+	/// <p/>
 	/// The strategy chooses a path from one of the two input trees if the path is
 	/// unchanged in the other relative to their common merge base tree. This is a
 	/// trivial 3-way merge (at the file path level only).
-	/// <p>
+	/// <p/>
 	/// Modifications of the same file path (content and/or file mode) by both input
 	/// trees will cause a merge conflict, as this strategy does not attempt to merge
 	/// file contents.

@@ -50,11 +50,11 @@ namespace NGit.Transport
 	/// <summary>Creates and destroys SSH connections to a remote system.</summary>
 	/// <remarks>
 	/// Creates and destroys SSH connections to a remote system.
-	/// <p>
+	/// <p/>
 	/// Different implementations of the session factory may be used to control
 	/// communicating with the end-user as well as reading their personal SSH
 	/// configuration settings, such as known hosts and private keys.
-	/// <p>
+	/// <p/>
 	/// A
 	/// <see cref="RemoteSession">RemoteSession</see>
 	/// must be returned to the factory that created it.
@@ -68,7 +68,7 @@ namespace NGit.Transport
 		/// <summary>Get the currently configured JVM-wide factory.</summary>
 		/// <remarks>
 		/// Get the currently configured JVM-wide factory.
-		/// <p>
+		/// <p/>
 		/// A factory is always available. By default the factory will read from the
 		/// user's <code>$HOME/.ssh</code> and assume OpenSSH compatibility.
 		/// </remarks>
@@ -99,10 +99,10 @@ namespace NGit.Transport
 		/// <summary>Open (or reuse) a session to a host.</summary>
 		/// <remarks>
 		/// Open (or reuse) a session to a host.
-		/// <p>
+		/// <p/>
 		/// A reasonable UserInfo that can interact with the end-user (if necessary)
 		/// is installed on the returned session by this method.
-		/// <p>
+		/// <p/>
 		/// The caller must connect the session by invoking <code>connect()</code>
 		/// if it has not already been connected.
 		/// </remarks>

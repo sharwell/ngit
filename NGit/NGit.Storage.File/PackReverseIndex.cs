@@ -51,11 +51,11 @@ using Sharpen;
 namespace NGit.Storage.File
 {
 	/// <summary>
-	/// <p>
+	/// <p/>
 	/// Reverse index for forward pack index.
 	/// </summary>
 	/// <remarks>
-	/// <p>
+	/// <p/>
 	/// Reverse index for forward pack index. Provides operations based on offset
 	/// instead of object id. Such offset-based reverse lookups are performed in
 	/// O(log n) time.

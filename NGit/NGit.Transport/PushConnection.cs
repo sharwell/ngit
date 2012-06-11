@@ -51,19 +51,19 @@ namespace NGit.Transport
 	/// <summary>Lists known refs from the remote and sends objects to the remote.</summary>
 	/// <remarks>
 	/// Lists known refs from the remote and sends objects to the remote.
-	/// <p>
+	/// <p/>
 	/// A push connection typically connects to the <code>git-receive-pack</code>
 	/// service running where the remote repository is stored. This provides a
 	/// one-way object transfer service to copy objects from the local repository
 	/// into the remote repository, as well as a way to modify the refs stored by the
 	/// remote repository.
-	/// <p>
+	/// <p/>
 	/// Instances of a PushConnection must be created by a
 	/// <see cref="Transport">Transport</see>
 	/// that
 	/// implements a specific object transfer protocol that both sides of the
 	/// connection understand.
-	/// <p>
+	/// <p/>
 	/// PushConnection instances are not thread safe and may be accessed by only one
 	/// thread at a time.
 	/// </remarks>
@@ -76,13 +76,13 @@ namespace NGit.Transport
 		/// possibly result in update/creation/deletion of refs on remote repository
 		/// and sending objects that remote repository need to have a consistent
 		/// objects graph from new refs.
-		/// <p>
-		/// <p>
+		/// <p/>
+		/// <p/>
 		/// Only one call per connection is allowed. Subsequent calls will result in
 		/// <see cref="NGit.Errors.TransportException">NGit.Errors.TransportException</see>
 		/// .
 		/// </p>
-		/// <p>
+		/// <p/>
 		/// Implementation may use local repository to send a minimum set of objects
 		/// needed by remote repository in efficient way.
 		/// <see cref="Transport.IsPushThin()">Transport.IsPushThin()</see>

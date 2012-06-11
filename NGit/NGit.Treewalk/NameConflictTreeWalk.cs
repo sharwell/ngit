@@ -50,7 +50,7 @@ namespace NGit.Treewalk
 	/// <summary>Specialized TreeWalk to detect directory-file (D/F) name conflicts.</summary>
 	/// <remarks>
 	/// Specialized TreeWalk to detect directory-file (D/F) name conflicts.
-	/// <p>
+	/// <p/>
 	/// Due to the way a Git tree is organized the standard
 	/// <see cref="TreeWalk">TreeWalk</see>
 	/// won't
@@ -58,12 +58,12 @@ namespace NGit.Treewalk
 	/// standard TreeWalk the file will be returned first, and then much later the
 	/// directory will be returned. This makes it impossible for the application to
 	/// efficiently detect and handle the conflict.
-	/// <p>
+	/// <p/>
 	/// Using this walk implementation causes the directory to report earlier than
 	/// usual, at the same time as the non-directory entry. This permits the
 	/// application to handle the D/F conflict in a single step. The directory is
 	/// returned only once, so it does not get returned later in the iteration.
-	/// <p>
+	/// <p/>
 	/// When a D/F conflict is detected
 	/// <see cref="TreeWalk.IsSubtree()">TreeWalk.IsSubtree()</see>
 	/// will return true
@@ -71,19 +71,19 @@ namespace NGit.Treewalk
 	/// <see cref="TreeWalk.EnterSubtree()">TreeWalk.EnterSubtree()</see>
 	/// will recurse into the subtree, no matter
 	/// which iterator originally supplied the subtree.
-	/// <p>
+	/// <p/>
 	/// Because conflicted directories report early, using this walk implementation
 	/// to populate a
 	/// <see cref="NGit.Dircache.DirCacheBuilder">NGit.Dircache.DirCacheBuilder</see>
 	/// may cause the automatic resorting to
 	/// run and fix the entry ordering.
-	/// <p>
+	/// <p/>
 	/// This walk implementation requires more CPU to implement a look-ahead and a
 	/// look-behind to merge a D/F pair together, or to skip a previously reported
 	/// directory. In typical Git repositories the look-ahead cost is 0 and the
 	/// look-behind doesn't trigger, as users tend not to create trees which contain
 	/// both "foo" as a directory and "foo.c" as a file.
-	/// <p>
+	/// <p/>
 	/// In the worst-case however several thousand look-ahead steps per walk step may
 	/// be necessary, making the overhead quite significant. Since this worst-case
 	/// should never happen this walk implementation has made the time/space tradeoff

@@ -93,7 +93,7 @@ namespace NGit.Patch
 		/// <summary>Add a single file to this patch.</summary>
 		/// <remarks>
 		/// Add a single file to this patch.
-		/// <p>
+		/// <p/>
 		/// Typically files should be added by parsing the text through one of this
 		/// class's parse methods.
 		/// </remarks>
@@ -126,7 +126,7 @@ namespace NGit.Patch
 		/// <summary>Parse a patch received from an InputStream.</summary>
 		/// <remarks>
 		/// Parse a patch received from an InputStream.
-		/// <p>
+		/// <p/>
 		/// Multiple parse calls on the same instance will concatenate the patch
 		/// data, but each parse input must start with a valid file header (don't
 		/// split a single file across parse calls).
@@ -162,7 +162,7 @@ namespace NGit.Patch
 		/// <summary>Parse a patch stored in a byte[].</summary>
 		/// <remarks>
 		/// Parse a patch stored in a byte[].
-		/// <p>
+		/// <p/>
 		/// Multiple parse calls on the same instance will concatenate the patch
 		/// data, but each parse input must start with a valid file header (don't
 		/// split a single file across parse calls).

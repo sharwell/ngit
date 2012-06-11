@@ -51,18 +51,18 @@ namespace NGit.Revwalk
 	/// <summary>Computes the merge base(s) of the starting commits.</summary>
 	/// <remarks>
 	/// Computes the merge base(s) of the starting commits.
-	/// <p>
+	/// <p/>
 	/// This generator is selected if the RevFilter is only
 	/// <see cref="NGit.Revwalk.Filter.RevFilter.MERGE_BASE">NGit.Revwalk.Filter.RevFilter.MERGE_BASE
 	/// 	</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// To compute the merge base we assign a temporary flag to each of the starting
 	/// commits. The maximum number of starting commits is bounded by the number of
 	/// free flags available in the RevWalk when the generator is initialized. These
 	/// flags will be automatically released on the next reset of the RevWalk, but
 	/// not until then, as they are assigned to commits throughout the history.
-	/// <p>
+	/// <p/>
 	/// Several internal flags are reused here for a different purpose, but this
 	/// should not have any impact as this generator should be run alone, and without
 	/// any other generators wrapped around it.

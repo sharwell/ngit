@@ -52,7 +52,7 @@ namespace NGit.Storage.File
 	/// Constructs a
 	/// <see cref="FileRepository">FileRepository</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Applications must set one of
 	/// <see cref="NGit.BaseRepositoryBuilder{B, R}.SetGitDir(Sharpen.FilePath)">NGit.BaseRepositoryBuilder&lt;B, R&gt;.SetGitDir(Sharpen.FilePath)
 	/// 	</see>
@@ -67,7 +67,7 @@ namespace NGit.Storage.File
 	/// 	</see>
 	/// in order to configure the minimum property set
 	/// necessary to open a repository.
-	/// <p>
+	/// <p/>
 	/// Single repository applications trying to be compatible with other Git
 	/// implementations are encouraged to use a model such as:
 	/// <pre>
@@ -84,7 +84,7 @@ namespace NGit.Storage.File
 		/// <summary>Create a repository matching the configuration in this builder.</summary>
 		/// <remarks>
 		/// Create a repository matching the configuration in this builder.
-		/// <p>
+		/// <p/>
 		/// If an option was not set, the build method will try to default the option
 		/// based on other options. If insufficient information is available, an
 		/// exception is thrown to the caller.

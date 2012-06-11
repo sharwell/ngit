@@ -54,7 +54,7 @@ namespace NGit.Transport
 	/// A command being processed by
 	/// <see cref="ReceivePack">ReceivePack</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// This command instance roughly translates to the server side representation of
 	/// the
 	/// <see cref="RemoteRefUpdate">RemoteRefUpdate</see>
@@ -250,7 +250,7 @@ namespace NGit.Transport
 		/// <summary>Execute this command during a receive-pack session.</summary>
 		/// <remarks>
 		/// Execute this command during a receive-pack session.
-		/// <p>
+		/// <p/>
 		/// Sets the status of the command as a side effect.
 		/// </remarks>
 		/// <param name="rp">receive-pack session.</param>

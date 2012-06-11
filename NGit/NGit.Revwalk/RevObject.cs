@@ -130,7 +130,7 @@ namespace NGit.Revwalk
 		/// <summary>Add a flag to this object.</summary>
 		/// <remarks>
 		/// Add a flag to this object.
-		/// <p>
+		/// <p/>
 		/// If the flag is already set on this object then the method has no effect.
 		/// </remarks>
 		/// <param name="flag">the flag to mark on this object, for later testing.</param>
@@ -150,7 +150,7 @@ namespace NGit.Revwalk
 		/// <summary>Remove a flag from this object.</summary>
 		/// <remarks>
 		/// Remove a flag from this object.
-		/// <p>
+		/// <p/>
 		/// If the flag is not set on this object then the method has no effect.
 		/// </remarks>
 		/// <param name="flag">the flag to remove from this object.</param>

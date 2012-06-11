@@ -56,12 +56,12 @@ namespace NGit.Revwalk
 	/// <summary>First phase of a path limited revision walk.</summary>
 	/// <remarks>
 	/// First phase of a path limited revision walk.
-	/// <p>
+	/// <p/>
 	/// This filter is ANDed to evaluate after all other filters and ties the
 	/// configured
 	/// <see cref="NGit.Treewalk.Filter.TreeFilter">NGit.Treewalk.Filter.TreeFilter</see>
 	/// into the revision walking process.
-	/// <p>
+	/// <p/>
 	/// Each commit is differenced concurrently against all of its parents to look
 	/// for tree entries that are interesting to the TreeFilter. If none are found
 	/// the commit is colored with

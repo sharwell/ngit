@@ -157,18 +157,18 @@ namespace NGit.Transport
 
 		/// <summary>
 		/// Is the client connection a bi-directional socket or pipe?
-		/// <p>
+		/// <p/>
 		/// If true, this class assumes it can perform multiple read and write cycles
 		/// with the client over the input and output streams.
 		/// </summary>
 		/// <remarks>
 		/// Is the client connection a bi-directional socket or pipe?
-		/// <p>
+		/// <p/>
 		/// If true, this class assumes it can perform multiple read and write cycles
 		/// with the client over the input and output streams. This matches the
 		/// functionality available with a standard TCP/IP connection, or a local
 		/// operating system or in-memory pipe.
-		/// <p>
+		/// <p/>
 		/// If false, this class runs in a read everything then output results mode,
 		/// making it suitable for single round-trip systems RPCs such as HTTP.
 		/// </remarks>
@@ -329,7 +329,7 @@ namespace NGit.Transport
 		/// <summary>Set the refs advertised by this UploadPack.</summary>
 		/// <remarks>
 		/// Set the refs advertised by this UploadPack.
-		/// <p>
+		/// <p/>
 		/// Intended to be called from a
 		/// <see cref="PreUploadHook">PreUploadHook</see>
 		/// .
@@ -440,7 +440,7 @@ namespace NGit.Transport
 		/// <summary>Set the hook used while advertising the refs to the client.</summary>
 		/// <remarks>
 		/// Set the hook used while advertising the refs to the client.
-		/// <p>
+		/// <p/>
 		/// If the
 		/// <see cref="AdvertiseRefsHook">AdvertiseRefsHook</see>
 		/// chooses to call
@@ -467,7 +467,7 @@ namespace NGit.Transport
 		/// <summary>Set the filter used while advertising the refs to the client.</summary>
 		/// <remarks>
 		/// Set the filter used while advertising the refs to the client.
-		/// <p>
+		/// <p/>
 		/// Only refs allowed by this filter will be sent to the client.
 		/// The filter is run against the refs specified by the
 		/// <see cref="AdvertiseRefsHook">AdvertiseRefsHook</see>

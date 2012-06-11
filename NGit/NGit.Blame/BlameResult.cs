@@ -53,15 +53,15 @@ namespace NGit.Blame
 	/// <summary>Collects line annotations for inspection by applications.</summary>
 	/// <remarks>
 	/// Collects line annotations for inspection by applications.
-	/// <p>
+	/// <p/>
 	/// A result is usually updated incrementally as the BlameGenerator digs back
 	/// further through history. Applications that want to lay annotations down text
 	/// to the original source file in a viewer may find the BlameResult structure an
 	/// easy way to acquire the information, at the expense of keeping tables in
 	/// memory tracking every line of the result file.
-	/// <p>
+	/// <p/>
 	/// This class is not thread-safe.
-	/// <p>
+	/// <p/>
 	/// During blame processing there are two files involved:
 	/// <ul>
 	/// <li>result - The file whose lines are being examined. This is the revision
@@ -178,7 +178,7 @@ namespace NGit.Blame
 		/// <summary>Get the commit that provided the specified line of the result.</summary>
 		/// <remarks>
 		/// Get the commit that provided the specified line of the result.
-		/// <p>
+		/// <p/>
 		/// The source commit may be null if the line was blamed to an uncommitted
 		/// revision, such as the working tree copy, or during a reverse blame if the
 		/// line survives to the end revision (e.g. the branch tip).
@@ -269,7 +269,7 @@ namespace NGit.Blame
 		/// <summary>Compute the next available segment and return the first index.</summary>
 		/// <remarks>
 		/// Compute the next available segment and return the first index.
-		/// <p>
+		/// <p/>
 		/// Computes one segment and returns to the caller the first index that is
 		/// available. After return the caller can also inspect
 		/// <see cref="LastLength()">LastLength()</see>

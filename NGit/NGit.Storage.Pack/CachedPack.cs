@@ -58,7 +58,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Objects that start this pack.</summary>
 		/// <remarks>
 		/// Objects that start this pack.
-		/// <p>
+		/// <p/>
 		/// All objects reachable from the tips are contained within this pack. If
 		/// <see cref="PackWriter">PackWriter</see>
 		/// is going to include everything reachable from all of
@@ -77,14 +77,14 @@ namespace NGit.Storage.Pack
 		/// <summary>Get the number of delta objects stored in this pack.</summary>
 		/// <remarks>
 		/// Get the number of delta objects stored in this pack.
-		/// <p>
+		/// <p/>
 		/// This is an optional method, not every cached pack storage system knows
 		/// the precise number of deltas stored within the pack. This number must be
 		/// smaller than
 		/// <see cref="GetObjectCount()">GetObjectCount()</see>
 		/// as deltas are not supposed to span
 		/// across pack files.
-		/// <p>
+		/// <p/>
 		/// This method must be fast, if the only way to determine delta counts is to
 		/// scan the pack file's contents one object at a time, implementors should
 		/// return 0 and avoid the high cost of the scan.
@@ -102,11 +102,11 @@ namespace NGit.Storage.Pack
 		/// <summary>Determine if this pack contains the object representation given.</summary>
 		/// <remarks>
 		/// Determine if this pack contains the object representation given.
-		/// <p>
+		/// <p/>
 		/// PackWriter uses this method during the finding sources phase to prune
 		/// away any objects from the leading thin-pack that already appear within
 		/// this pack and should not be sent twice.
-		/// <p>
+		/// <p/>
 		/// Implementors are strongly encouraged to rely on looking at
 		/// <code>rep</code>
 		/// only and using its internal state to decide if this object is within this

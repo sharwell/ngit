@@ -55,7 +55,7 @@ namespace NGit.Diff
 		/// <summary>Number of bits we need to express an index into src or dst list.</summary>
 		/// <remarks>
 		/// Number of bits we need to express an index into src or dst list.
-		/// <p>
+		/// <p/>
 		/// This must be 28, giving us a limit of 2^28 entries in either list, which
 		/// is an insane limit of 536,870,912 file names being considered in a single
 		/// rename pass. The other 8 bits are used to store the score, while staying
@@ -72,7 +72,7 @@ namespace NGit.Diff
 		/// <summary>All sources to consider for copies or renames.</summary>
 		/// <remarks>
 		/// All sources to consider for copies or renames.
-		/// <p>
+		/// <p/>
 		/// A source is typically a
 		/// <see cref="ChangeType.DELETE">ChangeType.DELETE</see>
 		/// change, but could be
@@ -84,7 +84,7 @@ namespace NGit.Diff
 		/// <summary>All destinations to consider looking for a rename.</summary>
 		/// <remarks>
 		/// All destinations to consider looking for a rename.
-		/// <p>
+		/// <p/>
 		/// A destination is typically an
 		/// <see cref="ChangeType.ADD">ChangeType.ADD</see>
 		/// , as the name has
@@ -96,11 +96,11 @@ namespace NGit.Diff
 		/// <summary>Matrix of all examined file pairs, and their scores.</summary>
 		/// <remarks>
 		/// Matrix of all examined file pairs, and their scores.
-		/// <p>
+		/// <p/>
 		/// The upper 8 bits of each long stores the score, but the score is bounded
 		/// to be in the range (0, 128] so that the highest bit is never set, and all
 		/// entries are therefore positive.
-		/// <p>
+		/// <p/>
 		/// List indexes to an element of
 		/// <see cref="srcs">srcs</see>
 		/// and

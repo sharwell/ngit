@@ -62,7 +62,7 @@ namespace NGit
 		/// <summary>A Git object hash is 160 bits, i.e.</summary>
 		/// <remarks>
 		/// A Git object hash is 160 bits, i.e. 20 bytes.
-		/// <p>
+		/// <p/>
 		/// Changing this assumption is not going to be as easy as changing this
 		/// declaration.
 		/// </remarks>
@@ -90,7 +90,7 @@ namespace NGit
 		/// <summary>Text string that identifies an object as a commit.</summary>
 		/// <remarks>
 		/// Text string that identifies an object as a commit.
-		/// <p>
+		/// <p/>
 		/// Commits connect trees into a string of project histories, where each
 		/// commit is an assertion that the best way to continue is to use this other
 		/// tree (set of files).
@@ -100,7 +100,7 @@ namespace NGit
 		/// <summary>Text string that identifies an object as a blob.</summary>
 		/// <remarks>
 		/// Text string that identifies an object as a blob.
-		/// <p>
+		/// <p/>
 		/// Blobs store whole file revisions. They are used for any user file, as
 		/// well as for symlinks. Blobs form the bulk of any project's storage space.
 		/// </remarks>
@@ -109,7 +109,7 @@ namespace NGit
 		/// <summary>Text string that identifies an object as a tree.</summary>
 		/// <remarks>
 		/// Text string that identifies an object as a tree.
-		/// <p>
+		/// <p/>
 		/// Trees attach object ids (hashes) to names and file modes. The normal use
 		/// for a tree is to store a version of a directory and its contents.
 		/// </remarks>
@@ -118,7 +118,7 @@ namespace NGit
 		/// <summary>Text string that identifies an object as an annotated tag.</summary>
 		/// <remarks>
 		/// Text string that identifies an object as an annotated tag.
-		/// <p>
+		/// <p/>
 		/// Annotated tags store a pointer to any other object, and an additional
 		/// message. It is most commonly used to record a stable release of the
 		/// project.
@@ -140,7 +140,7 @@ namespace NGit
 		/// <summary>In-pack object type: extended types.</summary>
 		/// <remarks>
 		/// In-pack object type: extended types.
-		/// <p>
+		/// <p/>
 		/// This header code is reserved for future expansion. It is currently
 		/// undefined/unsupported.
 		/// </remarks>
@@ -149,9 +149,9 @@ namespace NGit
 		/// <summary>In-pack object type: commit.</summary>
 		/// <remarks>
 		/// In-pack object type: commit.
-		/// <p>
+		/// <p/>
 		/// Indicates the associated object is a commit.
-		/// <p>
+		/// <p/>
 		/// <b>This constant is fixed and is defined by the Git packfile format.</b>
 		/// </remarks>
 		/// <seealso cref="TYPE_COMMIT">TYPE_COMMIT</seealso>
@@ -160,9 +160,9 @@ namespace NGit
 		/// <summary>In-pack object type: tree.</summary>
 		/// <remarks>
 		/// In-pack object type: tree.
-		/// <p>
+		/// <p/>
 		/// Indicates the associated object is a tree.
-		/// <p>
+		/// <p/>
 		/// <b>This constant is fixed and is defined by the Git packfile format.</b>
 		/// </remarks>
 		/// <seealso cref="TYPE_BLOB">TYPE_BLOB</seealso>
@@ -171,9 +171,9 @@ namespace NGit
 		/// <summary>In-pack object type: blob.</summary>
 		/// <remarks>
 		/// In-pack object type: blob.
-		/// <p>
+		/// <p/>
 		/// Indicates the associated object is a blob.
-		/// <p>
+		/// <p/>
 		/// <b>This constant is fixed and is defined by the Git packfile format.</b>
 		/// </remarks>
 		/// <seealso cref="TYPE_BLOB">TYPE_BLOB</seealso>
@@ -182,9 +182,9 @@ namespace NGit
 		/// <summary>In-pack object type: annotated tag.</summary>
 		/// <remarks>
 		/// In-pack object type: annotated tag.
-		/// <p>
+		/// <p/>
 		/// Indicates the associated object is an annotated tag.
-		/// <p>
+		/// <p/>
 		/// <b>This constant is fixed and is defined by the Git packfile format.</b>
 		/// </remarks>
 		/// <seealso cref="TYPE_TAG">TYPE_TAG</seealso>
@@ -196,44 +196,44 @@ namespace NGit
 
 		/// <summary>
 		/// In-pack object type: offset delta
-		/// <p>
+		/// <p/>
 		/// Objects stored with this type actually have a different type which must
 		/// be obtained from their delta base object.
 		/// </summary>
 		/// <remarks>
 		/// In-pack object type: offset delta
-		/// <p>
+		/// <p/>
 		/// Objects stored with this type actually have a different type which must
 		/// be obtained from their delta base object. Delta objects store only the
 		/// changes needed to apply to the base object in order to recover the
 		/// original object.
-		/// <p>
+		/// <p/>
 		/// An offset delta uses a negative offset from the start of this object to
 		/// refer to its delta base. The base object must exist in this packfile
 		/// (even in the case of a thin pack).
-		/// <p>
+		/// <p/>
 		/// <b>This constant is fixed and is defined by the Git packfile format.</b>
 		/// </remarks>
 		public const int OBJ_OFS_DELTA = 6;
 
 		/// <summary>
 		/// In-pack object type: reference delta
-		/// <p>
+		/// <p/>
 		/// Objects stored with this type actually have a different type which must
 		/// be obtained from their delta base object.
 		/// </summary>
 		/// <remarks>
 		/// In-pack object type: reference delta
-		/// <p>
+		/// <p/>
 		/// Objects stored with this type actually have a different type which must
 		/// be obtained from their delta base object. Delta objects store only the
 		/// changes needed to apply to the base object in order to recover the
 		/// original object.
-		/// <p>
+		/// <p/>
 		/// A reference delta uses a full object id (hash) to reference the delta
 		/// base. The base object is allowed to be omitted from the packfile, but
 		/// only in the case of a thin pack being transferred over the network.
-		/// <p>
+		/// <p/>
 		/// <b>This constant is fixed and is defined by the Git packfile format.</b>
 		/// </remarks>
 		public const int OBJ_REF_DELTA = 7;
@@ -245,7 +245,7 @@ namespace NGit
 		/// <remarks>
 		/// Pack file signature that occurs at file header - identifies file as Git
 		/// packfile formatted.
-		/// <p>
+		/// <p/>
 		/// <b>This constant is fixed and is defined by the Git packfile format.</b>
 		/// </remarks>
 		public static readonly byte[] PACK_SIGNATURE = new byte[] { (byte)('P'), (byte)('A'
@@ -440,7 +440,7 @@ namespace NGit
 		/// <summary>Convert an OBJ_* type constant to an ASCII encoded string constant.</summary>
 		/// <remarks>
 		/// Convert an OBJ_* type constant to an ASCII encoded string constant.
-		/// <p>
+		/// <p/>
 		/// The ASCII encoded string is often the canonical representation of
 		/// the type within a loose object header, or within a tag header.
 		/// </remarks>

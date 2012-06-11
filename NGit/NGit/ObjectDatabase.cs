@@ -49,7 +49,7 @@ namespace NGit
 	/// <summary>Abstraction of arbitrary object storage.</summary>
 	/// <remarks>
 	/// Abstraction of arbitrary object storage.
-	/// <p>
+	/// <p/>
 	/// An object database stores one or more Git objects, indexed by their unique
 	/// <see cref="ObjectId">ObjectId</see>
 	/// .
@@ -87,7 +87,7 @@ namespace NGit
 		/// Create a new
 		/// <code>ObjectInserter</code>
 		/// to insert new objects.
-		/// <p>
+		/// <p/>
 		/// The returned inserter is not itself thread-safe, but multiple concurrent
 		/// inserter instances created from the same
 		/// <code>ObjectDatabase</code>
@@ -101,7 +101,7 @@ namespace NGit
 		/// Create a new
 		/// <code>ObjectReader</code>
 		/// to read existing objects.
-		/// <p>
+		/// <p/>
 		/// The returned reader is not itself thread-safe, but multiple concurrent
 		/// reader instances created from the same
 		/// <code>ObjectDatabase</code>
@@ -117,7 +117,7 @@ namespace NGit
 
 		/// <summary>
 		/// Does the requested object exist in this database?
-		/// <p>
+		/// <p/>
 		/// This is a one-shot call interface which may be faster than allocating a
 		/// <see cref="NewReader()">NewReader()</see>
 		/// to perform the lookup.
@@ -141,7 +141,7 @@ namespace NGit
 		/// <summary>Open an object from this database.</summary>
 		/// <remarks>
 		/// Open an object from this database.
-		/// <p>
+		/// <p/>
 		/// This is a one-shot call interface which may be faster than allocating a
 		/// <see cref="NewReader()">NewReader()</see>
 		/// to perform the lookup.
@@ -162,7 +162,7 @@ namespace NGit
 		/// <summary>Open an object from this database.</summary>
 		/// <remarks>
 		/// Open an object from this database.
-		/// <p>
+		/// <p/>
 		/// This is a one-shot call interface which may be faster than allocating a
 		/// <see cref="NewReader()">NewReader()</see>
 		/// to perform the lookup.

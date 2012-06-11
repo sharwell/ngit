@@ -52,7 +52,7 @@ namespace NGit.Transport
 	/// Hook invoked by
 	/// <see cref="UploadPack">UploadPack</see>
 	/// before during critical phases.
-	/// <p>
+	/// <p/>
 	/// If any hook function throws
 	/// <see cref="ServiceMayNotContinueException">ServiceMayNotContinueException</see>
 	/// then

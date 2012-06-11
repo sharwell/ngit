@@ -57,7 +57,7 @@ namespace NGit.Transport
 	/// <summary>Simple configuration parser for the OpenSSH ~/.ssh/config file.</summary>
 	/// <remarks>
 	/// Simple configuration parser for the OpenSSH ~/.ssh/config file.
-	/// <p>
+	/// <p/>
 	/// Since JSch does not (currently) have the ability to parse an OpenSSH
 	/// configuration file this is a simple parser to read that file and make the
 	/// critical options available to
@@ -73,7 +73,7 @@ namespace NGit.Transport
 		/// <summary>Obtain the user's configuration data.</summary>
 		/// <remarks>
 		/// Obtain the user's configuration data.
-		/// <p>
+		/// <p/>
 		/// The configuration file is always returned to the caller, even if no file
 		/// exists in the user's home directory at the time the call was made. Lookup
 		/// requests are cached and are automatically updated if the user modifies
@@ -433,13 +433,13 @@ namespace NGit.Transport
 		/// <summary>Configuration of one "Host" block in the configuration file.</summary>
 		/// <remarks>
 		/// Configuration of one "Host" block in the configuration file.
-		/// <p>
+		/// <p/>
 		/// If returned from
 		/// <see cref="OpenSshConfig.Lookup(string)">OpenSshConfig.Lookup(string)</see>
 		/// some or all of the
 		/// properties may not be populated. The properties which are not populated
 		/// should be defaulted by the caller.
-		/// <p>
+		/// <p/>
 		/// When returned from
 		/// <see cref="OpenSshConfig.Lookup(string)">OpenSshConfig.Lookup(string)</see>
 		/// any wildcard

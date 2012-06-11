@@ -53,7 +53,7 @@ namespace NGit.Fnmatch
 	/// <remarks>
 	/// This class can be used to match filenames against fnmatch like patterns. It
 	/// is not thread save.
-	/// <p>
+	/// <p/>
 	/// Supported are the wildcard characters * and ? and groups with:
 	/// <ul>
 	/// <li> characters e.g. [abc]</li>

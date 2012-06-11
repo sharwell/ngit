@@ -49,7 +49,7 @@ namespace NGit.Blame
 	/// <summary>Region of the result that still needs to be computed.</summary>
 	/// <remarks>
 	/// Region of the result that still needs to be computed.
-	/// <p>
+	/// <p/>
 	/// Regions are held in a singly-linked-list by
 	/// <see cref="Candidate">Candidate</see>
 	/// using the

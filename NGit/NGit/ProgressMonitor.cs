@@ -57,7 +57,7 @@ namespace NGit
 		/// <summary>Advise the monitor of the total number of subtasks.</summary>
 		/// <remarks>
 		/// Advise the monitor of the total number of subtasks.
-		/// <p>
+		/// <p/>
 		/// This should be invoked at most once per progress monitor interface.
 		/// </remarks>
 		/// <param name="totalTasks">
@@ -83,7 +83,7 @@ namespace NGit
 		/// <summary>Denote that some work units have been completed.</summary>
 		/// <remarks>
 		/// Denote that some work units have been completed.
-		/// <p>
+		/// <p/>
 		/// This is an incremental update; if invoked once per work unit the correct
 		/// value for our argument is <code>1</code>, to indicate a single unit of
 		/// work has been finished by the caller.

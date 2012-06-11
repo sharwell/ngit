@@ -58,14 +58,14 @@ namespace NGit.Blame
 	/// 	</summary>
 	/// <remarks>
 	/// Generate author information for lines based on introduction to the file.
-	/// <p>
+	/// <p/>
 	/// Applications that want a simple one-shot computation of blame for a file
 	/// should use
 	/// <see cref="ComputeBlameResult()">ComputeBlameResult()</see>
 	/// to prepare the entire result in one
 	/// method call. This may block for significant time as the history of the
 	/// repository must be traversed until information is gathered for every line.
-	/// <p>
+	/// <p/>
 	/// Applications that want more incremental update behavior may use either the
 	/// raw
 	/// <see cref="Next()">Next()</see>
@@ -79,12 +79,12 @@ namespace NGit.Blame
 	/// incrementally construct the result with
 	/// <see cref="BlameResult.ComputeNext()">BlameResult.ComputeNext()</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// This class is not thread-safe.
-	/// <p>
+	/// <p/>
 	/// An instance of BlameGenerator can only be used once. To blame multiple files
 	/// the application must create a new BlameGenerator.
-	/// <p>
+	/// <p/>
 	/// During blame processing there are two files involved:
 	/// <ul>
 	/// <li>result - The file whose lines are being examined. This is the revision
@@ -94,7 +94,7 @@ namespace NGit.Blame
 	/// rename). Source line numbers may differ from result line numbers due to lines
 	/// being added/removed in intermediate revisions.</li>
 	/// </ul>
-	/// <p>
+	/// <p/>
 	/// The blame algorithm is implemented by initially assigning responsibility for
 	/// all lines of the result to the starting commit. A difference against the
 	/// commit's ancestor is computed, and responsibility is passed to the ancestor
@@ -222,7 +222,7 @@ namespace NGit.Blame
 		/// <summary>Enable (or disable) following file renames, on by default.</summary>
 		/// <remarks>
 		/// Enable (or disable) following file renames, on by default.
-		/// <p>
+		/// <p/>
 		/// If true renames are followed using the standard FollowFilter behavior
 		/// used by RevWalk (which matches
 		/// <code>git log --follow</code>
@@ -267,7 +267,7 @@ namespace NGit.Blame
 		/// <summary>Push a candidate blob onto the generator's traversal stack.</summary>
 		/// <remarks>
 		/// Push a candidate blob onto the generator's traversal stack.
-		/// <p>
+		/// <p/>
 		/// Candidates should be pushed in history order from oldest-to-newest.
 		/// Applications should push the starting commit first, then the index
 		/// revision (if the index is interesting), and finally the working tree
@@ -290,7 +290,7 @@ namespace NGit.Blame
 		/// <summary>Push a candidate blob onto the generator's traversal stack.</summary>
 		/// <remarks>
 		/// Push a candidate blob onto the generator's traversal stack.
-		/// <p>
+		/// <p/>
 		/// Candidates should be pushed in history order from oldest-to-newest.
 		/// Applications should push the starting commit first, then the index
 		/// revision (if the index is interesting), and finally the working tree copy
@@ -322,7 +322,7 @@ namespace NGit.Blame
 		/// <summary>Push a candidate object onto the generator's traversal stack.</summary>
 		/// <remarks>
 		/// Push a candidate object onto the generator's traversal stack.
-		/// <p>
+		/// <p/>
 		/// Candidates should be pushed in history order from oldest-to-newest.
 		/// Applications should push the starting commit first, then the index
 		/// revision (if the index is interesting), and finally the working tree copy
@@ -370,7 +370,7 @@ namespace NGit.Blame
 		/// <summary>Configure the generator to compute reverse blame (history of deletes).</summary>
 		/// <remarks>
 		/// Configure the generator to compute reverse blame (history of deletes).
-		/// <p>
+		/// <p/>
 		/// This method is expensive as it immediately runs a RevWalk over the
 		/// history spanning the expression
 		/// <code>start..end</code>
@@ -383,7 +383,7 @@ namespace NGit.Blame
 		/// walking forwards through history until
 		/// <code>end</code>
 		/// blaming line deletions.
-		/// <p>
+		/// <p/>
 		/// A reverse blame may produce multiple sources for the same result line,
 		/// each of these is a descendant commit that removed the line, typically
 		/// this occurs when the same deletion appears in multiple side branches such
@@ -414,7 +414,7 @@ namespace NGit.Blame
 		/// <summary>Configure the generator to compute reverse blame (history of deletes).</summary>
 		/// <remarks>
 		/// Configure the generator to compute reverse blame (history of deletes).
-		/// <p>
+		/// <p/>
 		/// This method is expensive as it immediately runs a RevWalk over the
 		/// history spanning the expression
 		/// <code>start..end</code>
@@ -427,7 +427,7 @@ namespace NGit.Blame
 		/// walking forwards through history until
 		/// <code>end</code>
 		/// blaming line deletions.
-		/// <p>
+		/// <p/>
 		/// A reverse blame may produce multiple sources for the same result line,
 		/// each of these is a descendant commit that removed the line, typically
 		/// this occurs when the same deletion appears in multiple side branches such
@@ -954,7 +954,7 @@ namespace NGit.Blame
 		/// <summary>Get the revision blamed for the current region.</summary>
 		/// <remarks>
 		/// Get the revision blamed for the current region.
-		/// <p>
+		/// <p/>
 		/// The source commit may be null if the line was blamed to an uncommitted
 		/// revision, such as the working tree copy, or during a reverse blame if the
 		/// line survives to the end revision (e.g. the branch tip).

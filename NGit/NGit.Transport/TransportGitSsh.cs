@@ -59,11 +59,11 @@ namespace NGit.Transport
 	/// <summary>Transport through an SSH tunnel.</summary>
 	/// <remarks>
 	/// Transport through an SSH tunnel.
-	/// <p>
+	/// <p/>
 	/// The SSH transport requires the remote side to have Git installed, as the
 	/// transport logs into the remote system and executes a Git helper program on
 	/// the remote side to read (or write) the remote repository's files.
-	/// <p>
+	/// <p/>
 	/// This transport does not support direct SCP style of copying files, as it
 	/// assumes there are Git specific smarts on the remote side to perform object
 	/// enumeration, save file modification and hook execution.

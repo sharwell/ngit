@@ -53,7 +53,7 @@ namespace NGit.Revwalk
 	/// <summary>Initial RevWalk generator that bootstraps a new walk.</summary>
 	/// <remarks>
 	/// Initial RevWalk generator that bootstraps a new walk.
-	/// <p>
+	/// <p/>
 	/// Initially RevWalk starts with this generator as its chosen implementation.
 	/// The first request for a RevCommit from the RevWalk instance calls to our
 	/// <see cref="Next()">Next()</see>

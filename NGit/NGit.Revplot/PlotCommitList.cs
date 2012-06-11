@@ -54,10 +54,10 @@ namespace NGit.Revplot
 	/// An ordered list of
 	/// <see cref="PlotCommit{L}">PlotCommit&lt;L&gt;</see>
 	/// subclasses.
-	/// <p>
+	/// <p/>
 	/// Commits are allocated into lanes as they enter the list, based upon their
 	/// connections between descendant (child) commits and ancestor (parent) commits.
-	/// <p>
+	/// <p/>
 	/// The source of the list must be a
 	/// <see cref="PlotWalk">PlotWalk</see>
 	/// and
@@ -97,13 +97,13 @@ namespace NGit.Revplot
 		/// <summary>Find the set of lanes passing through a commit's row.</summary>
 		/// <remarks>
 		/// Find the set of lanes passing through a commit's row.
-		/// <p>
+		/// <p/>
 		/// Lanes passing through a commit are lanes that the commit is not directly
 		/// on, but that need to travel through this commit to connect a descendant
 		/// (child) commit to an ancestor (parent) commit. Typically these lanes will
 		/// be drawn as lines in the passed commit's box, and the passed commit won't
 		/// appear to be connected to those lines.
-		/// <p>
+		/// <p/>
 		/// This method modifies the passed collection by adding the lanes in any
 		/// order.
 		/// </remarks>

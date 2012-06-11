@@ -61,7 +61,7 @@ namespace NGit.Treewalk.Filter
 	/// . Please see the documentation of
 	/// <see cref="TreeFilter.ANY_DIFF">TreeFilter.ANY_DIFF</see>
 	/// for a basic description of the semantics.
-	/// <p>
+	/// <p/>
 	/// This filter tries to avoid computing content ids of the files in the
 	/// working-tree. In contrast to
 	/// <see cref="TreeFilter.ANY_DIFF">TreeFilter.ANY_DIFF</see>
@@ -75,14 +75,14 @@ namespace NGit.Treewalk.Filter
 	/// Since all those entries have fast access to content ids that is very fast. If
 	/// a difference is detected in this step this filter decides to include that
 	/// path before even looking at the working-tree entry.
-	/// <p>
+	/// <p/>
 	/// If no difference is found then we have to compare index and working-tree as
 	/// the last step. By making use of
 	/// <see cref="NGit.Treewalk.WorkingTreeIterator.IsModified(NGit.Dircache.DirCacheEntry, bool)
 	/// 	">NGit.Treewalk.WorkingTreeIterator.IsModified(NGit.Dircache.DirCacheEntry, bool)
 	/// 	</see>
 	/// we can avoid the computation of the content id if the file is not dirty.
-	/// <p>
+	/// <p/>
 	/// Instances of this filter should not be used for multiple
 	/// <see cref="NGit.Treewalk.TreeWalk">NGit.Treewalk.TreeWalk</see>
 	/// s.

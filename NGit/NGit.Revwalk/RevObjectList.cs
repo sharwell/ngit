@@ -63,7 +63,7 @@ namespace NGit.Revwalk
 		/// <summary>Items stored in this list.</summary>
 		/// <remarks>
 		/// Items stored in this list.
-		/// <p>
+		/// <p/>
 		/// If
 		/// <see cref="RevObjectListBlock.shift">RevObjectListBlock.shift</see>
 		/// = 0 this block holds the list elements; otherwise

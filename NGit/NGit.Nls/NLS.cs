@@ -55,7 +55,7 @@ namespace NGit.Nls
 	/// <remarks>
 	/// The purpose of this class is to provide NLS (National Language Support)
 	/// configurable per thread.
-	/// <p>
+	/// <p/>
 	/// The
 	/// <see cref="SetLocale(System.Globalization.CultureInfo)">SetLocale(System.Globalization.CultureInfo)
 	/// 	</see>
@@ -63,7 +63,7 @@ namespace NGit.Nls
 	/// calling thread. The locale setting is thread inheritable. This means that a
 	/// child thread will have the same locale setting as its creator thread until it
 	/// changes it explicitly.
-	/// <p>
+	/// <p/>
 	/// Example of usage:
 	/// <pre>
 	/// NLS.setLocale(Locale.GERMAN);
@@ -96,7 +96,7 @@ namespace NGit.Nls
 		/// <summary>Sets the locale for the calling thread.</summary>
 		/// <remarks>
 		/// Sets the locale for the calling thread.
-		/// <p>
+		/// <p/>
 		/// The
 		/// <see cref="GetBundleFor{T}(System.Type{T})">GetBundleFor&lt;T&gt;(System.Type&lt;T&gt;)
 		/// 	</see>
@@ -114,7 +114,7 @@ namespace NGit.Nls
 		/// <summary>Sets the JVM default locale as the locale for the calling thread.</summary>
 		/// <remarks>
 		/// Sets the JVM default locale as the locale for the calling thread.
-		/// <p>
+		/// <p/>
 		/// Semantically this is equivalent to <code>NLS.setLocale(Locale.getDefault())</code>.
 		/// </remarks>
 		public static void UseJVMDefaultLocale()

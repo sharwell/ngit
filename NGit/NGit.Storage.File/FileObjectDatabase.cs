@@ -72,12 +72,12 @@ namespace NGit.Storage.File
 
 		/// <summary>
 		/// Does the requested object exist in this database?
-		/// <p>
+		/// <p/>
 		/// Alternates (if present) are searched automatically.
 		/// </summary>
 		/// <remarks>
 		/// Does the requested object exist in this database?
-		/// <p>
+		/// <p/>
 		/// Alternates (if present) are searched automatically.
 		/// </remarks>
 		/// <param name="objectId">identity of the object to test for existence of.</param>
@@ -149,7 +149,7 @@ namespace NGit.Storage.File
 		/// <summary>Open an object from this database.</summary>
 		/// <remarks>
 		/// Open an object from this database.
-		/// <p>
+		/// <p/>
 		/// Alternates (if present) are searched automatically.
 		/// </remarks>
 		/// <param name="curs">temporary working space associated with the calling thread.</param>

@@ -51,7 +51,7 @@ namespace NGit.Errors
 	/// Indicates a checked exception was thrown inside of
 	/// <see cref="NGit.Revwalk.RevWalk">NGit.Revwalk.RevWalk</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Usually this exception is thrown from the Iterator created around a RevWalk
 	/// instance, as the Iterator API does not allow checked exceptions to be thrown
 	/// from hasNext() or next(). The

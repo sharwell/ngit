@@ -54,7 +54,7 @@ namespace NGit.Storage.File
 	/// <summary>Git style file locking and replacement.</summary>
 	/// <remarks>
 	/// Git style file locking and replacement.
-	/// <p>
+	/// <p/>
 	/// To modify a ref file Git tries to use an atomic update approach: we write the
 	/// new data into a brand new file, then rename it in place over the old name.
 	/// This way we can just delete the temporary file if anything goes wrong, and
@@ -70,7 +70,7 @@ namespace NGit.Storage.File
 		/// <summary>Unlock the given file.</summary>
 		/// <remarks>
 		/// Unlock the given file.
-		/// <p>
+		/// <p/>
 		/// This method can be used for recovering from a thrown
 		/// <see cref="NGit.Errors.LockFailedException">NGit.Errors.LockFailedException</see>
 		/// . This method does not validate that the lock
@@ -200,11 +200,11 @@ namespace NGit.Storage.File
 		/// <summary>Copy the current file content into the temporary file.</summary>
 		/// <remarks>
 		/// Copy the current file content into the temporary file.
-		/// <p>
+		/// <p/>
 		/// This method saves the current file content by inserting it into the
 		/// temporary file, so that the caller can safely append rather than replace
 		/// the primary file.
-		/// <p>
+		/// <p/>
 		/// This method does nothing if the current file does not exist, or exists
 		/// but is empty.
 		/// </remarks>
@@ -355,7 +355,7 @@ namespace NGit.Storage.File
 		/// <summary>Obtain the direct output stream for this lock.</summary>
 		/// <remarks>
 		/// Obtain the direct output stream for this lock.
-		/// <p>
+		/// <p/>
 		/// The stream may only be accessed once, and only after
 		/// <see cref="Lock()">Lock()</see>
 		/// has
@@ -454,7 +454,7 @@ namespace NGit.Storage.File
 		/// Request that
 		/// <see cref="Commit()">Commit()</see>
 		/// remember modification time.
-		/// <p>
+		/// <p/>
 		/// This is an alias for
 		/// <code>setNeedSnapshot(true)</code>
 		/// .
@@ -492,7 +492,7 @@ namespace NGit.Storage.File
 		/// <summary>Wait until the lock file information differs from the old file.</summary>
 		/// <remarks>
 		/// Wait until the lock file information differs from the old file.
-		/// <p>
+		/// <p/>
 		/// This method tests the last modification date. If both are the same, this
 		/// method sleeps until it can force the new lock file's modification date to
 		/// be later than the target file.
@@ -517,7 +517,7 @@ namespace NGit.Storage.File
 		/// <summary>Commit this change and release the lock.</summary>
 		/// <remarks>
 		/// Commit this change and release the lock.
-		/// <p>
+		/// <p/>
 		/// If this method fails (returns false) the lock is still released.
 		/// </remarks>
 		/// <returns>
@@ -633,7 +633,7 @@ namespace NGit.Storage.File
 		/// <summary>Unlock this file and abort this change.</summary>
 		/// <remarks>
 		/// Unlock this file and abort this change.
-		/// <p>
+		/// <p/>
 		/// The temporary file (if created) is deleted before returning.
 		/// </remarks>
 		public virtual void Unlock()

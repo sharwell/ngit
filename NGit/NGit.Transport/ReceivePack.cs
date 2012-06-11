@@ -116,18 +116,18 @@ namespace NGit.Transport
 
 		/// <summary>
 		/// Is the client connection a bi-directional socket or pipe?
-		/// <p>
+		/// <p/>
 		/// If true, this class assumes it can perform multiple read and write cycles
 		/// with the client over the input and output streams.
 		/// </summary>
 		/// <remarks>
 		/// Is the client connection a bi-directional socket or pipe?
-		/// <p>
+		/// <p/>
 		/// If true, this class assumes it can perform multiple read and write cycles
 		/// with the client over the input and output streams. This matches the
 		/// functionality available with a standard TCP/IP connection, or a local
 		/// operating system or in-memory pipe.
-		/// <p>
+		/// <p/>
 		/// If false, this class runs in a read everything then output results mode,
 		/// making it suitable for single round-trip systems RPCs such as HTTP.
 		/// </remarks>
@@ -307,7 +307,7 @@ namespace NGit.Transport
 		/// Output stream that wraps the current
 		/// <see cref="ReceivePack.msgOut">ReceivePack.msgOut</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// We don't want to expose
 		/// <see cref="ReceivePack.msgOut">ReceivePack.msgOut</see>
 		/// directly because it can change
@@ -402,7 +402,7 @@ namespace NGit.Transport
 		/// <summary>Set the refs advertised by this ReceivePack.</summary>
 		/// <remarks>
 		/// Set the refs advertised by this ReceivePack.
-		/// <p>
+		/// <p/>
 		/// Intended to be called from a
 		/// <see cref="PreReceiveHook">PreReceiveHook</see>
 		/// .
@@ -477,13 +477,13 @@ namespace NGit.Transport
 		/// <summary>Validate all referenced but not supplied objects are reachable.</summary>
 		/// <remarks>
 		/// Validate all referenced but not supplied objects are reachable.
-		/// <p>
+		/// <p/>
 		/// If enabled, this instance will verify that references to objects not
 		/// contained within the received pack are already reachable through at least
 		/// one other reference displayed as part of
 		/// <see cref="GetAdvertisedRefs()">GetAdvertisedRefs()</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This feature is useful when the application doesn't trust the client to
 		/// not provide a forged SHA-1 reference to an object, in an attempt to
 		/// access parts of the DAG that they aren't allowed to see and which have
@@ -492,7 +492,7 @@ namespace NGit.Transport
 		/// or
 		/// <see cref="RefFilter">RefFilter</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// Enabling this feature may imply at least some, if not all, of the same
 		/// functionality performed by
 		/// <see cref="SetCheckReceivedObjects(bool)">SetCheckReceivedObjects(bool)</see>
@@ -600,7 +600,7 @@ namespace NGit.Transport
 		/// <summary>Set the identity of the user appearing in the affected reflogs.</summary>
 		/// <remarks>
 		/// Set the identity of the user appearing in the affected reflogs.
-		/// <p>
+		/// <p/>
 		/// The timestamp portion of the identity is ignored. A new identity with the
 		/// current timestamp will be created automatically when the updates occur
 		/// and the log records are written.
@@ -630,7 +630,7 @@ namespace NGit.Transport
 		/// <summary>Set the hook used while advertising the refs to the client.</summary>
 		/// <remarks>
 		/// Set the hook used while advertising the refs to the client.
-		/// <p>
+		/// <p/>
 		/// If the
 		/// <see cref="AdvertiseRefsHook">AdvertiseRefsHook</see>
 		/// chooses to call
@@ -665,7 +665,7 @@ namespace NGit.Transport
 		/// <summary>Set the filter used while advertising the refs to the client.</summary>
 		/// <remarks>
 		/// Set the filter used while advertising the refs to the client.
-		/// <p>
+		/// <p/>
 		/// Only refs allowed by this filter will be shown to the client.
 		/// The filter is run against the refs specified by the
 		/// <see cref="AdvertiseRefsHook">AdvertiseRefsHook</see>
@@ -686,13 +686,13 @@ namespace NGit.Transport
 		/// <summary>Set the hook which is invoked prior to commands being executed.</summary>
 		/// <remarks>
 		/// Set the hook which is invoked prior to commands being executed.
-		/// <p>
+		/// <p/>
 		/// Only valid commands (those which have no obvious errors according to the
 		/// received input and this instance's configuration) are passed into the
 		/// hook. The hook may mark a command with a result of any value other than
 		/// <see cref="Result.NOT_ATTEMPTED">Result.NOT_ATTEMPTED</see>
 		/// to block its execution.
-		/// <p>
+		/// <p/>
 		/// The hook may be called with an empty command collection if the current
 		/// set is completely invalid.
 		/// </remarks>
@@ -711,7 +711,7 @@ namespace NGit.Transport
 		/// <summary>Set the hook which is invoked after commands are executed.</summary>
 		/// <remarks>
 		/// Set the hook which is invoked after commands are executed.
-		/// <p>
+		/// <p/>
 		/// Only successful commands (type is
 		/// <see cref="Result.OK">Result.OK</see>
 		/// ) are passed into the
@@ -745,7 +745,7 @@ namespace NGit.Transport
 		/// <summary>Set the maximum allowed Git object size.</summary>
 		/// <remarks>
 		/// Set the maximum allowed Git object size.
-		/// <p>
+		/// <p/>
 		/// If an object is larger than the given size the pack-parsing will throw an
 		/// exception aborting the receive-pack operation.
 		/// </remarks>
@@ -787,17 +787,17 @@ namespace NGit.Transport
 		/// <summary>Send an error message to the client.</summary>
 		/// <remarks>
 		/// Send an error message to the client.
-		/// <p>
+		/// <p/>
 		/// If any error messages are sent before the references are advertised to
 		/// the client, the errors will be sent instead of the advertisement and the
 		/// receive operation will be aborted. All clients should receive and display
 		/// such early stage errors.
-		/// <p>
+		/// <p/>
 		/// If the reference advertisements have already been sent, messages are sent
 		/// in a side channel. If the client doesn't support receiving messages, the
 		/// message will be discarded, with no other indication to the caller or to
 		/// the client.
-		/// <p>
+		/// <p/>
 		/// <see cref="PreReceiveHook">PreReceiveHook</see>
 		/// s should always try to use
 		/// <see cref="ReceiveCommand.SetResult(Result, string)">ReceiveCommand.SetResult(Result, string)
@@ -831,7 +831,7 @@ namespace NGit.Transport
 		/// <summary>Send a message to the client, if it supports receiving them.</summary>
 		/// <remarks>
 		/// Send a message to the client, if it supports receiving them.
-		/// <p>
+		/// <p/>
 		/// If the client doesn't support receiving messages, the message will be
 		/// discarded, with no other indication to the caller or to the client.
 		/// </remarks>

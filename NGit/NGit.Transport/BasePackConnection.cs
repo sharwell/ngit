@@ -181,13 +181,13 @@ namespace NGit.Transport
 		/// <summary>Reads the advertised references through the initialized stream.</summary>
 		/// <remarks>
 		/// Reads the advertised references through the initialized stream.
-		/// <p>
+		/// <p/>
 		/// Subclass implementations may call this method only after setting up the
 		/// input and output streams with
 		/// <see cref="Init(Sharpen.InputStream, Sharpen.OutputStream)">Init(Sharpen.InputStream, Sharpen.OutputStream)
 		/// 	</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// If any errors occur, this connection is automatically closed by invoking
 		/// <see cref="Close()">Close()</see>
 		/// and the exception is wrapped (if necessary) and thrown

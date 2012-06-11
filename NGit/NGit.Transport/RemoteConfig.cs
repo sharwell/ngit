@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// <summary>A remembered remote repository, including URLs and RefSpecs.</summary>
 	/// <remarks>
 	/// A remembered remote repository, including URLs and RefSpecs.
-	/// <p>
+	/// <p/>
 	/// A remote configuration remembers one or more URLs for a frequently accessed
 	/// remote repository as well as zero or more fetch and push specifications
 	/// describing how refs should be transferred between this repository and the
@@ -159,7 +159,7 @@ namespace NGit.Transport
 		/// <summary>Parse a remote block from an existing configuration file.</summary>
 		/// <remarks>
 		/// Parse a remote block from an existing configuration file.
-		/// <p>
+		/// <p/>
 		/// This constructor succeeds even if the requested remote is not defined
 		/// within the supplied configuration file. If that occurs then there will be
 		/// no URIs and no ref specifications known to the new instance.
@@ -527,7 +527,7 @@ namespace NGit.Transport
 		/// <summary>Override for the location of 'git-upload-pack' on the remote system.</summary>
 		/// <remarks>
 		/// Override for the location of 'git-upload-pack' on the remote system.
-		/// <p>
+		/// <p/>
 		/// This value is only useful for an SSH style connection, where Git is
 		/// asking the remote system to execute a program that provides the necessary
 		/// network protocol.
@@ -548,7 +548,7 @@ namespace NGit.Transport
 		/// <summary>Override for the location of 'git-receive-pack' on the remote system.</summary>
 		/// <remarks>
 		/// Override for the location of 'git-receive-pack' on the remote system.
-		/// <p>
+		/// <p/>
 		/// This value is only useful for an SSH style connection, where Git is
 		/// asking the remote system to execute a program that provides the necessary
 		/// network protocol.

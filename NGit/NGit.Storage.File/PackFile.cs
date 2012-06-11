@@ -117,7 +117,7 @@ namespace NGit.Storage.File
 		/// <summary>Objects we have tried to read, and discovered to be corrupt.</summary>
 		/// <remarks>
 		/// Objects we have tried to read, and discovered to be corrupt.
-		/// <p>
+		/// <p/>
 		/// The list is allocated after the first corruption is found, and filled in
 		/// as more entries are discovered. Typically this list is never used, as
 		/// pack files do not usually contain corrupt objects.
@@ -210,7 +210,7 @@ namespace NGit.Storage.File
 		/// <summary>Determine if an object is contained within the pack file.</summary>
 		/// <remarks>
 		/// Determine if an object is contained within the pack file.
-		/// <p>
+		/// <p/>
 		/// For performance reasons only the index file is searched; the main pack
 		/// content is ignored entirely.
 		/// </p>
@@ -267,7 +267,7 @@ namespace NGit.Storage.File
 		/// Provide iterator over entries in associated pack index, that should also
 		/// exist in this pack file. Objects returned by such iterator are mutable
 		/// during iteration.
-		/// <p>
+		/// <p/>
 		/// Iterator returns objects in SHA-1 lexicographical order.
 		/// </p>
 		/// </remarks>

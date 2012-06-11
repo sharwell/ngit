@@ -197,7 +197,7 @@ namespace NGit.Patch
 		/// <summary>Convert the patch script for this file into a string.</summary>
 		/// <remarks>
 		/// Convert the patch script for this file into a string.
-		/// <p>
+		/// <p/>
 		/// The default character encoding (
 		/// <see cref="NGit.Constants.CHARSET">NGit.Constants.CHARSET</see>
 		/// ) is assumed for

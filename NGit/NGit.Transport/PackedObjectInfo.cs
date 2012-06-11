@@ -49,7 +49,7 @@ namespace NGit.Transport
 	/// <summary>Description of an object stored in a pack file, including offset.</summary>
 	/// <remarks>
 	/// Description of an object stored in a pack file, including offset.
-	/// <p>
+	/// <p/>
 	/// When objects are stored in packs Git needs the ObjectId and the offset
 	/// (starting position of the object data) to perform random-access reads of
 	/// objects from the pack. This extension of ObjectId includes the offset.

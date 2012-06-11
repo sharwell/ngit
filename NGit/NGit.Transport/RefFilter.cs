@@ -51,14 +51,14 @@ namespace NGit.Transport
 	/// <summary>Filters the list of refs that are advertised to the client.</summary>
 	/// <remarks>
 	/// Filters the list of refs that are advertised to the client.
-	/// <p>
+	/// <p/>
 	/// The filter is called by
 	/// <see cref="ReceivePack">ReceivePack</see>
 	/// and
 	/// <see cref="UploadPack">UploadPack</see>
 	/// to ensure
 	/// that the refs are filtered before they are advertised to the client.
-	/// <p>
+	/// <p/>
 	/// This can be used by applications to control visibility of certain refs based
 	/// on a custom set of rules.
 	/// </remarks>

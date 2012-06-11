@@ -57,18 +57,18 @@ namespace NGit.Revwalk
 	/// <summary>Walks a commit graph and produces the matching commits in order.</summary>
 	/// <remarks>
 	/// Walks a commit graph and produces the matching commits in order.
-	/// <p>
+	/// <p/>
 	/// A RevWalk instance can only be used once to generate results. Running a
 	/// second time requires creating a new RevWalk instance, or invoking
 	/// <see cref="Reset()">Reset()</see>
 	/// before starting again. Resetting an existing instance may be
 	/// faster for some applications as commit body parsing can be avoided on the
 	/// later invocations.
-	/// <p>
+	/// <p/>
 	/// RevWalk instances are not thread-safe. Applications must either restrict
 	/// usage of a RevWalk instance to a single thread, or implement their own
 	/// synchronization at a higher level.
-	/// <p>
+	/// <p/>
 	/// Multiple simultaneous RevWalk instances per
 	/// <see cref="NGit.Repository">NGit.Repository</see>
 	/// are permitted,
@@ -79,7 +79,7 @@ namespace NGit.Revwalk
 	/// <see cref="NGit.ObjectId">NGit.ObjectId</see>
 	/// s
 	/// are equal (and thus they describe the same commit).
-	/// <p>
+	/// <p/>
 	/// The offered iterator is over the list of RevCommits described by the
 	/// configuration of this instance. Applications should restrict themselves to
 	/// using either the provided Iterator or
@@ -96,12 +96,12 @@ namespace NGit.Revwalk
 		/// <summary>Set on objects whose important header data has been loaded.</summary>
 		/// <remarks>
 		/// Set on objects whose important header data has been loaded.
-		/// <p>
+		/// <p/>
 		/// For a RevCommit this indicates we have pulled apart the tree and parent
 		/// references from the raw bytes available in the repository and translated
 		/// those to our own local RevTree and RevCommit instances. The raw buffer is
 		/// also available for message and other header filtering.
-		/// <p>
+		/// <p/>
 		/// For a RevTag this indicates we have pulled part the tag references to
 		/// find out who the tag refers to, and what that object's type is.
 		/// </remarks>
@@ -111,7 +111,7 @@ namespace NGit.Revwalk
 		/// Set on RevCommit instances added to our
 		/// <see cref="pending">pending</see>
 		/// queue.
-		/// <p>
+		/// <p/>
 		/// We use this flag to avoid adding the same commit instance twice to our
 		/// queue, especially if we reached it by more than one path.
 		/// </summary>
@@ -120,7 +120,7 @@ namespace NGit.Revwalk
 		/// <summary>Set on RevCommit instances the caller does not want output.</summary>
 		/// <remarks>
 		/// Set on RevCommit instances the caller does not want output.
-		/// <p>
+		/// <p/>
 		/// We flag commits as uninteresting if the caller does not want commits
 		/// reachable from a commit given to
 		/// <see cref="MarkUninteresting(RevCommit)">MarkUninteresting(RevCommit)</see>
@@ -133,7 +133,7 @@ namespace NGit.Revwalk
 		/// <summary>Set on a RevCommit that can collapse out of the history.</summary>
 		/// <remarks>
 		/// Set on a RevCommit that can collapse out of the history.
-		/// <p>
+		/// <p/>
 		/// If the
 		/// <see cref="treeFilter">treeFilter</see>
 		/// concluded that this commit matches his
@@ -148,7 +148,7 @@ namespace NGit.Revwalk
 		/// <summary>Temporary mark for use within generators or filters.</summary>
 		/// <remarks>
 		/// Temporary mark for use within generators or filters.
-		/// <p>
+		/// <p/>
 		/// This mark is only for local use within a single scope. If someone sets
 		/// the mark they must unset it before any other code can see the mark.
 		/// </remarks>
@@ -158,7 +158,7 @@ namespace NGit.Revwalk
 		/// Temporary mark for use within
 		/// <see cref="TopoSortGenerator">TopoSortGenerator</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This mark indicates the commit could not produce when it wanted to, as at
 		/// least one child was behind it. Commits with this flag are delayed until
 		/// all children have been output first.
@@ -247,7 +247,7 @@ namespace NGit.Revwalk
 		/// <summary>Release any resources used by this walker's reader.</summary>
 		/// <remarks>
 		/// Release any resources used by this walker's reader.
-		/// <p>
+		/// <p/>
 		/// A walker that has been released can be used again, but may need to be
 		/// released after the subsequent usage.
 		/// </remarks>
@@ -259,7 +259,7 @@ namespace NGit.Revwalk
 		/// <summary>Mark a commit to start graph traversal from.</summary>
 		/// <remarks>
 		/// Mark a commit to start graph traversal from.
-		/// <p>
+		/// <p/>
 		/// Callers are encouraged to use
 		/// <see cref="ParseCommit(NGit.AnyObjectId)">ParseCommit(NGit.AnyObjectId)</see>
 		/// to obtain
@@ -268,7 +268,7 @@ namespace NGit.Revwalk
 		/// , as
 		/// this method requires the commit to be parsed before it can be added as a
 		/// root for the traversal.
-		/// <p>
+		/// <p/>
 		/// The method will automatically parse an unparsed commit, but error
 		/// handling may be more difficult for the application to explain why a
 		/// RevCommit is not actually a commit. The object pool of this walker would
@@ -344,11 +344,11 @@ namespace NGit.Revwalk
 		/// <summary>Mark a commit to not produce in the output.</summary>
 		/// <remarks>
 		/// Mark a commit to not produce in the output.
-		/// <p>
+		/// <p/>
 		/// Uninteresting commits denote not just themselves but also their entire
 		/// ancestry chain, back until the merge base of an uninteresting commit and
 		/// an otherwise interesting commit.
-		/// <p>
+		/// <p/>
 		/// Callers are encouraged to use
 		/// <see cref="ParseCommit(NGit.AnyObjectId)">ParseCommit(NGit.AnyObjectId)</see>
 		/// to obtain
@@ -357,7 +357,7 @@ namespace NGit.Revwalk
 		/// , as
 		/// this method requires the commit to be parsed before it can be added as a
 		/// root for the traversal.
-		/// <p>
+		/// <p/>
 		/// The method will automatically parse an unparsed commit, but error
 		/// handling may be more difficult for the application to explain why a
 		/// RevCommit is not actually a commit. The object pool of this walker would
@@ -394,11 +394,11 @@ namespace NGit.Revwalk
 		/// <summary>Determine if a commit is reachable from another commit.</summary>
 		/// <remarks>
 		/// Determine if a commit is reachable from another commit.
-		/// <p>
+		/// <p/>
 		/// A commit <code>base</code> is an ancestor of <code>tip</code> if we
 		/// can find a path of commits that leads from <code>tip</code> and ends at
 		/// <code>base</code>.
-		/// <p>
+		/// <p/>
 		/// This utility function resets the walker, inserts the two supplied
 		/// commits, and then executes a walk until an answer can be obtained.
 		/// Currently allocated RevFlags that have been added to RevCommit instances
@@ -490,7 +490,7 @@ namespace NGit.Revwalk
 		/// <summary>Select a single sorting strategy for the returned commits.</summary>
 		/// <remarks>
 		/// Select a single sorting strategy for the returned commits.
-		/// <p>
+		/// <p/>
 		/// Disables all sorting strategies, then enables only the single strategy
 		/// supplied by the caller.
 		/// </remarks>
@@ -505,7 +505,7 @@ namespace NGit.Revwalk
 		/// <summary>Add or remove a sorting strategy for the returned commits.</summary>
 		/// <remarks>
 		/// Add or remove a sorting strategy for the returned commits.
-		/// <p>
+		/// <p/>
 		/// Multiple strategies can be applied at once, in which case some strategies
 		/// may take precedence over others. As an example,
 		/// <see cref="RevSort.TOPO">RevSort.TOPO</see>
@@ -555,12 +555,12 @@ namespace NGit.Revwalk
 		/// <summary>Set the commit filter for this walker.</summary>
 		/// <remarks>
 		/// Set the commit filter for this walker.
-		/// <p>
+		/// <p/>
 		/// Multiple filters may be combined by constructing an arbitrary tree of
 		/// <code>AndRevFilter</code> or <code>OrRevFilter</code> instances to
 		/// describe the boolean expression required by the application. Custom
 		/// filter implementations may also be constructed by applications.
-		/// <p>
+		/// <p/>
 		/// Note that filters are not thread-safe and may not be shared by concurrent
 		/// RevWalk instances. Every RevWalk must be supplied its own unique filter,
 		/// unless the filter implementation specifically states it is (and always
@@ -601,20 +601,20 @@ namespace NGit.Revwalk
 		/// <summary>Set the tree filter used to simplify commits by modified paths.</summary>
 		/// <remarks>
 		/// Set the tree filter used to simplify commits by modified paths.
-		/// <p>
+		/// <p/>
 		/// If null or
 		/// <see cref="NGit.Treewalk.Filter.TreeFilter.ALL">NGit.Treewalk.Filter.TreeFilter.ALL
 		/// 	</see>
 		/// the path limiter is removed. Commits
 		/// will not be simplified.
-		/// <p>
+		/// <p/>
 		/// If non-null and not
 		/// <see cref="NGit.Treewalk.Filter.TreeFilter.ALL">NGit.Treewalk.Filter.TreeFilter.ALL
 		/// 	</see>
 		/// then the tree filter will be
 		/// installed and commits will have their ancestry simplified to hide commits
 		/// that do not contain tree entries matched by the filter.
-		/// <p>
+		/// <p/>
 		/// Usually callers should be inserting a filter graph including
 		/// <see cref="NGit.Treewalk.Filter.TreeFilter.ANY_DIFF">NGit.Treewalk.Filter.TreeFilter.ANY_DIFF
 		/// 	</see>
@@ -638,14 +638,14 @@ namespace NGit.Revwalk
 
 		/// <summary>
 		/// Should the body of a commit or tag be retained after parsing its headers?
-		/// <p>
+		/// <p/>
 		/// Usually the body is always retained, but some application code might not
 		/// care and would prefer to discard the body of a commit as early as
 		/// possible, to reduce memory usage.
 		/// </summary>
 		/// <remarks>
 		/// Should the body of a commit or tag be retained after parsing its headers?
-		/// <p>
+		/// <p/>
 		/// Usually the body is always retained, but some application code might not
 		/// care and would prefer to discard the body of a commit as early as
 		/// possible, to reduce memory usage.
@@ -659,7 +659,7 @@ namespace NGit.Revwalk
 		/// <summary>Set whether or not the body of a commit or tag is retained.</summary>
 		/// <remarks>
 		/// Set whether or not the body of a commit or tag is retained.
-		/// <p>
+		/// <p/>
 		/// If a body of a commit or tag is not retained, the application must
 		/// call
 		/// <see cref="ParseBody(RevObject)">ParseBody(RevObject)</see>
@@ -675,7 +675,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to a blob without loading it.</summary>
 		/// <remarks>
 		/// Locate a reference to a blob without loading it.
-		/// <p>
+		/// <p/>
 		/// The blob may or may not exist in the repository. It is impossible to tell
 		/// from this method's return value.
 		/// </remarks>
@@ -695,7 +695,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to a tree without loading it.</summary>
 		/// <remarks>
 		/// Locate a reference to a tree without loading it.
-		/// <p>
+		/// <p/>
 		/// The tree may or may not exist in the repository. It is impossible to tell
 		/// from this method's return value.
 		/// </remarks>
@@ -715,7 +715,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to a commit without loading it.</summary>
 		/// <remarks>
 		/// Locate a reference to a commit without loading it.
-		/// <p>
+		/// <p/>
 		/// The commit may or may not exist in the repository. It is impossible to
 		/// tell from this method's return value.
 		/// </remarks>
@@ -735,7 +735,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to a tag without loading it.</summary>
 		/// <remarks>
 		/// Locate a reference to a tag without loading it.
-		/// <p>
+		/// <p/>
 		/// The tag may or may not exist in the repository. It is impossible to tell
 		/// from this method's return value.
 		/// </remarks>
@@ -755,7 +755,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to any object without loading it.</summary>
 		/// <remarks>
 		/// Locate a reference to any object without loading it.
-		/// <p>
+		/// <p/>
 		/// The object may or may not exist in the repository. It is impossible to
 		/// tell from this method's return value.
 		/// </remarks>
@@ -819,7 +819,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to a commit and immediately parse its content.</summary>
 		/// <remarks>
 		/// Locate a reference to a commit and immediately parse its content.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="LookupCommit(NGit.AnyObjectId)">LookupCommit(NGit.AnyObjectId)</see>
 		/// this method only returns
@@ -847,7 +847,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to a tree.</summary>
 		/// <remarks>
 		/// Locate a reference to a tree.
-		/// <p>
+		/// <p/>
 		/// This method only returns successfully if the tree object exists, is
 		/// verified to be a tree.
 		/// </remarks>
@@ -889,7 +889,7 @@ namespace NGit.Revwalk
 		/// 	</summary>
 		/// <remarks>
 		/// Locate a reference to an annotated tag and immediately parse its content.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="LookupTag(NGit.AnyObjectId)">LookupTag(NGit.AnyObjectId)</see>
 		/// this method only returns
@@ -917,7 +917,7 @@ namespace NGit.Revwalk
 		/// <summary>Locate a reference to any object and immediately parse its headers.</summary>
 		/// <remarks>
 		/// Locate a reference to any object and immediately parse its headers.
-		/// <p>
+		/// <p/>
 		/// This method only returns successfully if the object exists and was parsed
 		/// without error. Parsing an object can be expensive as the type must be
 		/// determined. For blobs this may mean the blob content was unpacked
@@ -1157,7 +1157,7 @@ namespace NGit.Revwalk
 		/// <summary>Ensure the object's critical headers have been parsed.</summary>
 		/// <remarks>
 		/// Ensure the object's critical headers have been parsed.
-		/// <p>
+		/// <p/>
 		/// This method only returns successfully if the object exists and was parsed
 		/// without error.
 		/// </remarks>
@@ -1177,7 +1177,7 @@ namespace NGit.Revwalk
 		/// <summary>Ensure the object's full body content is available.</summary>
 		/// <remarks>
 		/// Ensure the object's full body content is available.
-		/// <p>
+		/// <p/>
 		/// This method only returns successfully if the object exists and was parsed
 		/// without error.
 		/// </remarks>
@@ -1223,7 +1223,7 @@ namespace NGit.Revwalk
 		/// <summary>Create a new flag for application use during walking.</summary>
 		/// <remarks>
 		/// Create a new flag for application use during walking.
-		/// <p>
+		/// <p/>
 		/// Applications are only assured to be able to create 24 unique flags on any
 		/// given revision walker instance. Any flags beyond 24 are offered only if
 		/// the implementation has extra free space within its internal storage.
@@ -1253,7 +1253,7 @@ namespace NGit.Revwalk
 		/// <summary>Automatically carry a flag from a child commit to its parents.</summary>
 		/// <remarks>
 		/// Automatically carry a flag from a child commit to its parents.
-		/// <p>
+		/// <p/>
 		/// A carried flag is copied from the child commit onto its parents when the
 		/// child commit is popped from the lowest level of walk's internal graph.
 		/// </remarks>
@@ -1276,7 +1276,7 @@ namespace NGit.Revwalk
 		/// <summary>Automatically carry flags from a child commit to its parents.</summary>
 		/// <remarks>
 		/// Automatically carry flags from a child commit to its parents.
-		/// <p>
+		/// <p/>
 		/// A carried flag is copied from the child commit onto its parents when the
 		/// child commit is popped from the lowest level of walk's internal graph.
 		/// </remarks>
@@ -1292,12 +1292,12 @@ namespace NGit.Revwalk
 		/// <summary>Allow a flag to be recycled for a different use.</summary>
 		/// <remarks>
 		/// Allow a flag to be recycled for a different use.
-		/// <p>
+		/// <p/>
 		/// Recycled flags always come back as a different Java object instance when
 		/// assigned again by
 		/// <see cref="NewFlag(string)">NewFlag(string)</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// If the flag was previously being carried, the carrying request is
 		/// removed. Disposing of a carried flag while a traversal is in progress has
 		/// an undefined behavior.
@@ -1334,7 +1334,7 @@ namespace NGit.Revwalk
 		/// <summary>Resets internal state and allows this instance to be used again.</summary>
 		/// <remarks>
 		/// Resets internal state and allows this instance to be used again.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="Dispose()">Dispose()</see>
 		/// previously acquired RevObject (and RevCommit)
@@ -1349,7 +1349,7 @@ namespace NGit.Revwalk
 		/// <summary>Resets internal state and allows this instance to be used again.</summary>
 		/// <remarks>
 		/// Resets internal state and allows this instance to be used again.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="Dispose()">Dispose()</see>
 		/// previously acquired RevObject (and RevCommit)
@@ -1368,7 +1368,7 @@ namespace NGit.Revwalk
 		/// <summary>Resets internal state and allows this instance to be used again.</summary>
 		/// <remarks>
 		/// Resets internal state and allows this instance to be used again.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="Dispose()">Dispose()</see>
 		/// previously acquired RevObject (and RevCommit)
@@ -1392,7 +1392,7 @@ namespace NGit.Revwalk
 		/// <summary>Resets internal state and allows this instance to be used again.</summary>
 		/// <remarks>
 		/// Resets internal state and allows this instance to be used again.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="Dispose()">Dispose()</see>
 		/// previously acquired RevObject (and RevCommit)
@@ -1449,7 +1449,7 @@ namespace NGit.Revwalk
 		/// <summary>Dispose all internal state and invalidate all RevObject instances.</summary>
 		/// <remarks>
 		/// Dispose all internal state and invalidate all RevObject instances.
-		/// <p>
+		/// <p/>
 		/// All RevObject (and thus RevCommit, etc.) instances previously acquired
 		/// from this RevWalk are invalidated by a dispose call. Applications must
 		/// not retain or use RevObject instances obtained prior to the dispose call.
@@ -1471,15 +1471,15 @@ namespace NGit.Revwalk
 		/// <summary>Returns an Iterator over the commits of this walker.</summary>
 		/// <remarks>
 		/// Returns an Iterator over the commits of this walker.
-		/// <p>
+		/// <p/>
 		/// The returned iterator is only useful for one walk. If this RevWalk gets
 		/// reset a new iterator must be obtained to walk over the new results.
-		/// <p>
+		/// <p/>
 		/// Applications must not use both the Iterator and the
 		/// <see cref="Next()">Next()</see>
 		/// API
 		/// at the same time. Pick one API and use that for the entire walk.
-		/// <p>
+		/// <p/>
 		/// If a checked exception is thrown during the walk (see
 		/// <see cref="Next()">Next()</see>
 		/// )
@@ -1579,10 +1579,10 @@ namespace NGit.Revwalk
 		/// Create and return an
 		/// <see cref="ObjectWalk">ObjectWalk</see>
 		/// using the same objects.
-		/// <p>
+		/// <p/>
 		/// Prior to using this method, the caller must reset this RevWalk to clean
 		/// any flags that were used during the last traversal.
-		/// <p>
+		/// <p/>
 		/// The returned ObjectWalk uses the same ObjectReader, internal object pool,
 		/// and free RevFlags. Once the ObjectWalk is created, this RevWalk should
 		/// not be used anymore.

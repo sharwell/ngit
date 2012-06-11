@@ -58,7 +58,7 @@ namespace NGit.Api
 	/// but not added) you would inspect the collection returned by
 	/// <see cref="GetModified()">GetModified()</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// The same path can be returned by multiple getters. E.g. if a modification has
 	/// been added to the index and afterwards the corresponding working tree file is
 	/// again modified this path will be returned by

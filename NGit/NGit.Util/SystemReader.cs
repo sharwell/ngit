@@ -54,7 +54,7 @@ namespace NGit.Util
 	/// <summary>Interface to read values from the system.</summary>
 	/// <remarks>
 	/// Interface to read values from the system.
-	/// <p>
+	/// <p/>
 	/// When writing unit tests, extending this interface with a custom class
 	/// permits to simulate an access to a system variable or property and
 	/// permits to control the user's global configuration.

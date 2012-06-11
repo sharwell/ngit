@@ -131,12 +131,12 @@ namespace NGit.Util
 		/// <summary>Format a base 10 numeric into a temporary buffer.</summary>
 		/// <remarks>
 		/// Format a base 10 numeric into a temporary buffer.
-		/// <p>
+		/// <p/>
 		/// Formatting is performed backwards. The method starts at offset
 		/// <code>o-1</code> and ends at <code>o-1-digits</code>, where
 		/// <code>digits</code> is the number of positions necessary to store the
 		/// base 10 value.
-		/// <p>
+		/// <p/>
 		/// The argument and return values from this method make it easy to chain
 		/// writing, for example:
 		/// </p>
@@ -189,7 +189,7 @@ namespace NGit.Util
 		/// <summary>Parse a base 10 numeric from a sequence of ASCII digits into an int.</summary>
 		/// <remarks>
 		/// Parse a base 10 numeric from a sequence of ASCII digits into an int.
-		/// <p>
+		/// <p/>
 		/// Digit sequences can begin with an optional run of spaces before the
 		/// sequence, and may start with a '+' or a '-' to indicate sign position.
 		/// Any other characters will cause the method to stop and return the current
@@ -260,7 +260,7 @@ namespace NGit.Util
 		/// <summary>Parse a base 10 numeric from a sequence of ASCII digits into a long.</summary>
 		/// <remarks>
 		/// Parse a base 10 numeric from a sequence of ASCII digits into a long.
-		/// <p>
+		/// <p/>
 		/// Digit sequences can begin with an optional run of spaces before the
 		/// sequence, and may start with a '+' or a '-' to indicate sign position.
 		/// Any other characters will cause the method to stop and return the current
@@ -331,7 +331,7 @@ namespace NGit.Util
 		/// <summary>Parse 4 character base 16 (hex) formatted string to unsigned integer.</summary>
 		/// <remarks>
 		/// Parse 4 character base 16 (hex) formatted string to unsigned integer.
-		/// <p>
+		/// <p/>
 		/// The number is read in network byte order, that is, most significant
 		/// nybble first.
 		/// </remarks>
@@ -363,7 +363,7 @@ namespace NGit.Util
 		/// <summary>Parse 8 character base 16 (hex) formatted string to unsigned integer.</summary>
 		/// <remarks>
 		/// Parse 8 character base 16 (hex) formatted string to unsigned integer.
-		/// <p>
+		/// <p/>
 		/// The number is read in network byte order, that is, most significant
 		/// nybble first.
 		/// </remarks>
@@ -418,7 +418,7 @@ namespace NGit.Util
 		/// <summary>Parse a Git style timezone string.</summary>
 		/// <remarks>
 		/// Parse a Git style timezone string.
-		/// <p>
+		/// <p/>
 		/// The sequence "-0315" will be parsed as the numeric value -195, as the
 		/// lower two positions count minutes, not 100ths of an hour.
 		/// </remarks>
@@ -455,7 +455,7 @@ namespace NGit.Util
 		/// <summary>Locate the first position after the next LF.</summary>
 		/// <remarks>
 		/// Locate the first position after the next LF.
-		/// <p>
+		/// <p/>
 		/// This method stops on the first '\n' it finds.
 		/// </remarks>
 		/// <param name="b">buffer to scan.</param>
@@ -469,7 +469,7 @@ namespace NGit.Util
 		/// <summary>Locate the first position after either the given character or LF.</summary>
 		/// <remarks>
 		/// Locate the first position after either the given character or LF.
-		/// <p>
+		/// <p/>
 		/// This method stops on the first match it finds from either chrA or '\n'.
 		/// </remarks>
 		/// <param name="b">buffer to scan.</param>
@@ -515,7 +515,7 @@ namespace NGit.Util
 		/// <summary>Locate the first position before the previous LF.</summary>
 		/// <remarks>
 		/// Locate the first position before the previous LF.
-		/// <p>
+		/// <p/>
 		/// This method stops on the first '\n' it finds.
 		/// </remarks>
 		/// <param name="b">buffer to scan.</param>
@@ -529,7 +529,7 @@ namespace NGit.Util
 		/// <summary>Locate the previous position before either the given character or LF.</summary>
 		/// <remarks>
 		/// Locate the previous position before either the given character or LF.
-		/// <p>
+		/// <p/>
 		/// This method stops on the first match it finds from either chrA or '\n'.
 		/// </remarks>
 		/// <param name="b">buffer to scan.</param>
@@ -559,15 +559,15 @@ namespace NGit.Util
 		/// <summary>Index the region between <code>[ptr, end)</code> to find line starts.</summary>
 		/// <remarks>
 		/// Index the region between <code>[ptr, end)</code> to find line starts.
-		/// <p>
+		/// <p/>
 		/// The returned list is 1 indexed. Index 0 contains
 		/// <see cref="int.MinValue">int.MinValue</see>
 		/// to pad the list out.
-		/// <p>
+		/// <p/>
 		/// Using a 1 indexed list means that line numbers can be directly accessed
 		/// from the list, so <code>list.get(1)</code> (aka get line 1) returns
 		/// <code>ptr</code>.
-		/// <p>
+		/// <p/>
 		/// The last element (index <code>map.size()-1</code>) always contains
 		/// <code>end</code>.
 		/// </remarks>
@@ -727,12 +727,12 @@ namespace NGit.Util
 		/// <summary>Parse the "encoding " header into a character set reference.</summary>
 		/// <remarks>
 		/// Parse the "encoding " header into a character set reference.
-		/// <p>
+		/// <p/>
 		/// Locates the "encoding " header (if present) by first calling
 		/// <see cref="Encoding(byte[], int)">Encoding(byte[], int)</see>
 		/// and then returns the proper character set
 		/// to apply to this buffer to evaluate its contents as character data.
-		/// <p>
+		/// <p/>
 		/// If no encoding header is present,
 		/// <see cref="NGit.Constants.CHARSET">NGit.Constants.CHARSET</see>
 		/// is assumed.
@@ -775,7 +775,7 @@ namespace NGit.Util
 		/// <summary>Parse a name string (e.g.</summary>
 		/// <remarks>
 		/// Parse a name string (e.g. author, committer, tagger) into a PersonIdent.
-		/// <p>
+		/// <p/>
 		/// Leading spaces won't be trimmed from the string, i.e. will show up in the
 		/// parsed name afterwards.
 		/// </remarks>
@@ -792,7 +792,7 @@ namespace NGit.Util
 		/// <summary>Parse a name line (e.g.</summary>
 		/// <remarks>
 		/// Parse a name line (e.g. author, committer, tagger) into a PersonIdent.
-		/// <p>
+		/// <p/>
 		/// When passing in a value for <code>nameB</code> callers should use the
 		/// return value of
 		/// <see cref="Author(byte[], int)">Author(byte[], int)</see>
@@ -854,7 +854,7 @@ namespace NGit.Util
 		/// <summary>Parse a name data (e.g.</summary>
 		/// <remarks>
 		/// Parse a name data (e.g. as within a reflog) into a PersonIdent.
-		/// <p>
+		/// <p/>
 		/// When passing in a value for <code>nameB</code> callers should use the
 		/// return value of
 		/// <see cref="Author(byte[], int)">Author(byte[], int)</see>
@@ -913,7 +913,7 @@ namespace NGit.Util
 		/// <summary>Locate the end of a footer line key string.</summary>
 		/// <remarks>
 		/// Locate the end of a footer line key string.
-		/// <p>
+		/// <p/>
 		/// If the region at
 		/// <code>raw[ptr]</code>
 		/// matches
@@ -921,7 +921,7 @@ namespace NGit.Util
 		/// (e.g.
 		/// "Signed-off-by: A. U. Thor\n") then this method returns the position of
 		/// the first ':'.
-		/// <p>
+		/// <p/>
 		/// If the region at
 		/// <code>raw[ptr]</code>
 		/// does not match
@@ -1209,7 +1209,7 @@ namespace NGit.Util
 		/// <summary>Locate the end of a paragraph.</summary>
 		/// <remarks>
 		/// Locate the end of a paragraph.
-		/// <p>
+		/// <p/>
 		/// A paragraph is ended by two consecutive LF bytes.
 		/// </remarks>
 		/// <param name="b">buffer to scan.</param>

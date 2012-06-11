@@ -51,7 +51,7 @@ namespace NGit.Storage.File
 	/// <summary>A window of data currently stored within a cache.</summary>
 	/// <remarks>
 	/// A window of data currently stored within a cache.
-	/// <p>
+	/// <p/>
 	/// All bytes in the window can be assumed to be "immediately available", that is
 	/// they are very likely already in memory, unless the operating system's memory
 	/// is very low and has paged part of this process out to disk. Therefore copying

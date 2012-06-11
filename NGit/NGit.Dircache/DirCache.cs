@@ -59,12 +59,12 @@ namespace NGit.Dircache
 	/// <summary>Support for the Git dircache (aka index file).</summary>
 	/// <remarks>
 	/// Support for the Git dircache (aka index file).
-	/// <p>
+	/// <p/>
 	/// The index file keeps track of which objects are currently checked out in the
 	/// working directory, and the last modified time of those working files. Changes
 	/// in the working directory can be detected by comparing the modification times
 	/// to the cached modification time within the index file.
-	/// <p>
+	/// <p/>
 	/// Index files are also used during merges, where the merge happens within the
 	/// index file first, and the working directory is updated as a post-merge step.
 	/// Conflicts are stored in the index file to allow tool (and human) based
@@ -139,7 +139,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new in-core index representation and read an index from disk.</summary>
 		/// <remarks>
 		/// Create a new in-core index representation and read an index from disk.
-		/// <p>
+		/// <p/>
 		/// The new index will be read before it is returned to the caller. Read
 		/// failures are reported as exceptions and therefore prevent the method from
 		/// returning a partially populated index.
@@ -169,7 +169,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new in-core index representation, lock it, and read from disk.</summary>
 		/// <remarks>
 		/// Create a new in-core index representation, lock it, and read from disk.
-		/// <p>
+		/// <p/>
 		/// The new index will be locked and then read before it is returned to the
 		/// caller. Read failures are reported as exceptions and therefore prevent
 		/// the method from returning a partially populated index. On read failure,
@@ -224,7 +224,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new in-core index representation, lock it, and read from disk.</summary>
 		/// <remarks>
 		/// Create a new in-core index representation, lock it, and read from disk.
-		/// <p>
+		/// <p/>
 		/// The new index will be locked and then read before it is returned to the
 		/// caller. Read failures are reported as exceptions and therefore prevent
 		/// the method from returning a partially populated index. On read failure,
@@ -298,7 +298,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new in-core index representation.</summary>
 		/// <remarks>
 		/// Create a new in-core index representation.
-		/// <p>
+		/// <p/>
 		/// The new index will be empty. Callers may wish to read from the on disk
 		/// file first with
 		/// <see cref="Read()">Read()</see>
@@ -319,7 +319,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new builder to update this cache.</summary>
 		/// <remarks>
 		/// Create a new builder to update this cache.
-		/// <p>
+		/// <p/>
 		/// Callers should add all entries to the builder, then use
 		/// <see cref="DirCacheBuilder.Finish()">DirCacheBuilder.Finish()</see>
 		/// to update this instance.
@@ -333,7 +333,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new editor to recreate this cache.</summary>
 		/// <remarks>
 		/// Create a new editor to recreate this cache.
-		/// <p>
+		/// <p/>
 		/// Callers should add commands to the editor, then use
 		/// <see cref="DirCacheEditor.Finish()">DirCacheEditor.Finish()</see>
 		/// to update this instance.
@@ -354,7 +354,7 @@ namespace NGit.Dircache
 		/// <summary>Read the index from disk, if it has changed on disk.</summary>
 		/// <remarks>
 		/// Read the index from disk, if it has changed on disk.
-		/// <p>
+		/// <p/>
 		/// This method tries to avoid loading the index if it has not changed since
 		/// the last time we consulted it. A missing index file will be treated as
 		/// though it were present but had no file entries in it.
@@ -612,7 +612,7 @@ namespace NGit.Dircache
 		/// <summary>Write the entry records from memory to disk.</summary>
 		/// <remarks>
 		/// Write the entry records from memory to disk.
-		/// <p>
+		/// <p/>
 		/// The cache must be locked first by calling
 		/// <see cref="Lock()">Lock()</see>
 		/// and receiving
@@ -621,7 +621,7 @@ namespace NGit.Dircache
 		/// <see cref="Read()">Read()</see>
 		/// to ensure the in-memory data is current,
 		/// prior to updating the in-memory entries.
-		/// <p>
+		/// <p/>
 		/// Once written the lock is closed and must be either committed with
 		/// <see cref="Commit()">Commit()</see>
 		/// or rolled back with
@@ -717,7 +717,7 @@ namespace NGit.Dircache
 		/// <summary>Commit this change and release the lock.</summary>
 		/// <remarks>
 		/// Commit this change and release the lock.
-		/// <p>
+		/// <p/>
 		/// If this method fails (returns false) the lock is still released.
 		/// </remarks>
 		/// <returns>
@@ -760,7 +760,7 @@ namespace NGit.Dircache
 		/// <summary>Unlock this file and abort this change.</summary>
 		/// <remarks>
 		/// Unlock this file and abort this change.
-		/// <p>
+		/// <p/>
 		/// The temporary file (if created) is deleted before returning.
 		/// </remarks>
 		public virtual void Unlock()
@@ -776,11 +776,11 @@ namespace NGit.Dircache
 		/// <summary>Locate the position a path's entry is at in the index.</summary>
 		/// <remarks>
 		/// Locate the position a path's entry is at in the index.
-		/// <p>
+		/// <p/>
 		/// If there is at least one entry in the index for this path the position of
 		/// the lowest stage is returned. Subsequent stages can be identified by
 		/// testing consecutive entries until the path differs.
-		/// <p>
+		/// <p/>
 		/// If no path matches the entry -(position+1) is returned, where position is
 		/// the location it would have gone within the index.
 		/// </remarks>
@@ -832,7 +832,7 @@ namespace NGit.Dircache
 		/// <summary>Determine the next index position past all entries with the same name.</summary>
 		/// <remarks>
 		/// Determine the next index position past all entries with the same name.
-		/// <p>
+		/// <p/>
 		/// As index entries are sorted by path name, then stage number, this method
 		/// advances the supplied position to the first position in the index whose
 		/// path name does not match the path name of the supplied position's entry.
@@ -873,12 +873,12 @@ namespace NGit.Dircache
 		/// <summary>Total number of file entries stored in the index.</summary>
 		/// <remarks>
 		/// Total number of file entries stored in the index.
-		/// <p>
+		/// <p/>
 		/// This count includes unmerged stages for a file entry if the file is
 		/// currently conflicted in a merge. This means the total number of entries
 		/// in the index may be up to 3 times larger than the number of files in the
 		/// working directory.
-		/// <p>
+		/// <p/>
 		/// Note that this value counts only <i>files</i>.
 		/// </remarks>
 		/// <returns>number of entries available.</returns>
@@ -944,7 +944,7 @@ namespace NGit.Dircache
 		/// <summary>Obtain (or build) the current cache tree structure.</summary>
 		/// <remarks>
 		/// Obtain (or build) the current cache tree structure.
-		/// <p>
+		/// <p/>
 		/// This method can optionally recreate the cache tree, without flushing the
 		/// tree objects themselves to disk.
 		/// </remarks>

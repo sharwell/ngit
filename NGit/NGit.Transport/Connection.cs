@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// <summary>Represent connection for operation on a remote repository.</summary>
 	/// <remarks>
 	/// Represent connection for operation on a remote repository.
-	/// <p>
+	/// <p/>
 	/// Currently all operations on remote repository (fetch and push) provide
 	/// information about remote refs. Every connection is able to be closed and
 	/// should be closed - this is a connection client responsibility.
@@ -81,7 +81,7 @@ namespace NGit.Transport
 		/// <remarks>
 		/// Get the complete list of refs advertised as available for fetching or
 		/// pushing.
-		/// <p>
+		/// <p/>
 		/// The returned refs may appear in any order. If the caller needs these to
 		/// be sorted, they should be copied into a new array or List and then sorted
 		/// by the caller as necessary.
@@ -96,7 +96,7 @@ namespace NGit.Transport
 		/// <summary>Get a single advertised ref by name.</summary>
 		/// <remarks>
 		/// Get a single advertised ref by name.
-		/// <p>
+		/// <p/>
 		/// The name supplied should be valid ref name. To get a peeled value for a
 		/// ref (aka <code>refs/tags/v1.0^{}</code>) use the base name (without
 		/// the <code>^{}</code> suffix) and look at the peeled object id.
@@ -108,12 +108,12 @@ namespace NGit.Transport
 		/// <summary>Close any resources used by this connection.</summary>
 		/// <remarks>
 		/// Close any resources used by this connection.
-		/// <p>
+		/// <p/>
 		/// If the remote repository is contacted by a network socket this method
 		/// must close that network socket, disconnecting the two peers. If the
 		/// remote repository is actually local (same system) this method must close
 		/// any open file handles used to read the "remote" repository.
-		/// <p>
+		/// <p/>
 		/// If additional messages were produced by the remote peer, these should
 		/// still be retained in the connection instance for
 		/// <see cref="GetMessages()">GetMessages()</see>
@@ -124,12 +124,12 @@ namespace NGit.Transport
 		/// <summary>Get the additional messages, if any, returned by the remote process.</summary>
 		/// <remarks>
 		/// Get the additional messages, if any, returned by the remote process.
-		/// <p>
+		/// <p/>
 		/// These messages are most likely informational or error messages, sent by
 		/// the remote peer, to help the end-user correct any problems that may have
 		/// prevented the operation from completing successfully. Application UIs
 		/// should try to show these in an appropriate context.
-		/// <p>
+		/// <p/>
 		/// The message buffer is available after
 		/// <see cref="Close()">Close()</see>
 		/// has been called.

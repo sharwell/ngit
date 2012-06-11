@@ -53,7 +53,7 @@ namespace NGit.Dircache
 	/// Iterate and update a
 	/// <see cref="DirCache">DirCache</see>
 	/// as part of a <code>TreeWalk</code>.
-	/// <p>
+	/// <p/>
 	/// Like
 	/// <see cref="DirCacheIterator">DirCacheIterator</see>
 	/// this iterator allows a DirCache to be used in
@@ -63,7 +63,7 @@ namespace NGit.Dircache
 	/// <see cref="DirCacheBuilder">DirCacheBuilder</see>
 	/// , thus retaining it in the
 	/// newly updated index.
-	/// <p>
+	/// <p/>
 	/// This iterator is suitable for update processes, or even a simple delete
 	/// algorithm. For example deleting a path:
 	/// <pre>
@@ -86,7 +86,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new iterator for an already loaded DirCache instance.</summary>
 		/// <remarks>
 		/// Create a new iterator for an already loaded DirCache instance.
-		/// <p>
+		/// <p/>
 		/// The iterator implementation may copy part of the cache's data during
 		/// construction, so the cache must be read in prior to creating the
 		/// iterator.

@@ -50,7 +50,7 @@ namespace NGit.Notes
 	/// <summary>Three-way note merge operation.</summary>
 	/// <remarks>
 	/// Three-way note merge operation.
-	/// <p>
+	/// <p/>
 	/// This operation takes three versions of a note: base, ours and theirs,
 	/// performs the three-way merge and returns the merge result.
 	/// </remarks>
@@ -59,7 +59,7 @@ namespace NGit.Notes
 		/// <summary>Merges the conflicting note changes.</summary>
 		/// <remarks>
 		/// Merges the conflicting note changes.
-		/// <p>
+		/// <p/>
 		/// base, ours and their are all notes on the same object.
 		/// </remarks>
 		/// <param name="base">version of the Note</param>

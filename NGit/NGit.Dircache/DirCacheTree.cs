@@ -55,7 +55,7 @@ namespace NGit.Dircache
 	/// Single tree record from the 'TREE'
 	/// <see cref="DirCache">DirCache</see>
 	/// extension.
-	/// <p>
+	/// <p/>
 	/// A valid cache tree record contains the object id of a tree object and the
 	/// total number of
 	/// <see cref="DirCacheEntry">DirCacheEntry</see>
@@ -63,7 +63,7 @@ namespace NGit.Dircache
 	/// the DirCache contained within the tree. This information facilitates faster
 	/// traversal of the index and quicker generation of tree objects prior to
 	/// creating a new commit.
-	/// <p>
+	/// <p/>
 	/// An invalid cache tree record indicates a known subtree whose file entries
 	/// have changed in ways that cause the tree to no longer have a known object id.
 	/// Invalid cache tree records must be revalidated prior to use.
@@ -245,7 +245,7 @@ namespace NGit.Dircache
 		/// <summary>Determine if this cache is currently valid.</summary>
 		/// <remarks>
 		/// Determine if this cache is currently valid.
-		/// <p>
+		/// <p/>
 		/// A valid cache tree knows how many
 		/// <see cref="DirCacheEntry">DirCacheEntry</see>
 		/// instances from
@@ -267,7 +267,7 @@ namespace NGit.Dircache
 		/// <summary>Get the number of entries this tree spans within the DirCache.</summary>
 		/// <remarks>
 		/// Get the number of entries this tree spans within the DirCache.
-		/// <p>
+		/// <p/>
 		/// If this tree is not valid (see
 		/// <see cref="IsValid()">IsValid()</see>
 		/// ) this method's return
@@ -305,7 +305,7 @@ namespace NGit.Dircache
 		/// <summary>Get the tree's name within its parent.</summary>
 		/// <remarks>
 		/// Get the tree's name within its parent.
-		/// <p>
+		/// <p/>
 		/// This method is not very efficient and is primarily meant for debugging
 		/// and final output generation. Applications should try to avoid calling it,
 		/// and if invoked do so only once per interesting entry, where the name is
@@ -321,7 +321,7 @@ namespace NGit.Dircache
 		/// <summary>Get the tree's path within the repository.</summary>
 		/// <remarks>
 		/// Get the tree's path within the repository.
-		/// <p>
+		/// <p/>
 		/// This method is not very efficient and is primarily meant for debugging
 		/// and final output generation. Applications should try to avoid calling it,
 		/// and if invoked do so only once per interesting entry, where the name is

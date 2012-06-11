@@ -310,7 +310,7 @@ namespace NGit.Diff
 		/// <summary>Get the old name associated with this file.</summary>
 		/// <remarks>
 		/// Get the old name associated with this file.
-		/// <p>
+		/// <p/>
 		/// The meaning of the old name can differ depending on the semantic meaning
 		/// of this patch:
 		/// <ul>
@@ -332,7 +332,7 @@ namespace NGit.Diff
 		/// <summary>Get the new name associated with this file.</summary>
 		/// <remarks>
 		/// Get the new name associated with this file.
-		/// <p>
+		/// <p/>
 		/// The meaning of the new name can differ depending on the semantic meaning
 		/// of this patch:
 		/// <ul>

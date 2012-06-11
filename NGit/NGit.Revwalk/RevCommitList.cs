@@ -68,7 +68,7 @@ namespace NGit.Revwalk
 		/// <summary>Apply a flag to all commits matching the specified filter.</summary>
 		/// <remarks>
 		/// Apply a flag to all commits matching the specified filter.
-		/// <p>
+		/// <p/>
 		/// Same as <code>applyFlag(matching, flag, 0, size())</code>, but without
 		/// the incremental behavior.
 		/// </remarks>
@@ -104,7 +104,7 @@ namespace NGit.Revwalk
 		/// <summary>Apply a flag to all commits matching the specified filter.</summary>
 		/// <remarks>
 		/// Apply a flag to all commits matching the specified filter.
-		/// <p>
+		/// <p/>
 		/// This version allows incremental testing and application, such as from a
 		/// background thread that needs to periodically halt processing and send
 		/// updates to the UI.
@@ -175,7 +175,7 @@ namespace NGit.Revwalk
 		/// <summary>Remove the given flag from all commits.</summary>
 		/// <remarks>
 		/// Remove the given flag from all commits.
-		/// <p>
+		/// <p/>
 		/// Same as <code>clearFlag(flag, 0, size())</code>, but without the
 		/// incremental behavior.
 		/// </remarks>
@@ -191,7 +191,7 @@ namespace NGit.Revwalk
 		/// <summary>Remove the given flag from all commits.</summary>
 		/// <remarks>
 		/// Remove the given flag from all commits.
-		/// <p>
+		/// <p/>
 		/// This method is actually implemented in terms of:
 		/// <code>applyFlag(RevFilter.NONE, flag, rangeBegin, rangeEnd)</code>.
 		/// </remarks>
@@ -317,7 +317,7 @@ namespace NGit.Revwalk
 		/// <summary>Ensure this list contains at least a specified number of commits.</summary>
 		/// <remarks>
 		/// Ensure this list contains at least a specified number of commits.
-		/// <p>
+		/// <p/>
 		/// The revision walker specified by
 		/// <see cref="RevCommitList{E}.Source(RevWalk)">RevCommitList&lt;E&gt;.Source(RevWalk)
 		/// 	</see>
@@ -397,7 +397,7 @@ namespace NGit.Revwalk
 		/// <summary>Optional callback invoked when commits enter the list by fillTo.</summary>
 		/// <remarks>
 		/// Optional callback invoked when commits enter the list by fillTo.
-		/// <p>
+		/// <p/>
 		/// This method is only called during
 		/// <see cref="RevCommitList{E}.FillTo(int)">RevCommitList&lt;E&gt;.FillTo(int)</see>
 		/// .

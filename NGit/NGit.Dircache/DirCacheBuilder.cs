@@ -56,11 +56,11 @@ namespace NGit.Dircache
 	/// by adding individual
 	/// <see cref="DirCacheEntry">DirCacheEntry</see>
 	/// s.
-	/// <p>
+	/// <p/>
 	/// A builder always starts from a clean slate and appends in every single
 	/// <code>DirCacheEntry</code> which the final updated index must have to reflect
 	/// its new content.
-	/// <p>
+	/// <p/>
 	/// For maximum performance applications should add entries in path name order.
 	/// Adding entries out of order is permitted, however a final sorting pass will
 	/// be implicitly performed during
@@ -87,13 +87,13 @@ namespace NGit.Dircache
 		/// <summary>Append one entry into the resulting entry list.</summary>
 		/// <remarks>
 		/// Append one entry into the resulting entry list.
-		/// <p>
+		/// <p/>
 		/// The entry is placed at the end of the entry list. If the entry causes the
 		/// list to now be incorrectly sorted a final sorting phase will be
 		/// automatically enabled within
 		/// <see cref="Finish()">Finish()</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// The internal entry table is automatically expanded if there is
 		/// insufficient space for the new addition.
 		/// </remarks>
@@ -114,18 +114,18 @@ namespace NGit.Dircache
 		/// <summary>Add a range of existing entries from the destination cache.</summary>
 		/// <remarks>
 		/// Add a range of existing entries from the destination cache.
-		/// <p>
+		/// <p/>
 		/// The entries are placed at the end of the entry list. If any of the
 		/// entries causes the list to now be incorrectly sorted a final sorting
 		/// phase will be automatically enabled within
 		/// <see cref="Finish()">Finish()</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This method copies from the destination cache, which has not yet been
 		/// updated with this editor's new table. So all offsets into the destination
 		/// cache are not affected by any updates that may be currently taking place
 		/// in this editor.
-		/// <p>
+		/// <p/>
 		/// The internal entry table is automatically expanded if there is
 		/// insufficient space for the new additions.
 		/// </remarks>
@@ -140,10 +140,10 @@ namespace NGit.Dircache
 		/// <summary>Recursively add an entire tree into this builder.</summary>
 		/// <remarks>
 		/// Recursively add an entire tree into this builder.
-		/// <p>
+		/// <p/>
 		/// If pathPrefix is "a/b" and the tree contains file "c" then the resulting
 		/// DirCacheEntry will have the path "a/b/c".
-		/// <p>
+		/// <p/>
 		/// All entries are inserted at stage 0, therefore assuming that the
 		/// application will not insert any other paths with the same pathPrefix.
 		/// </remarks>

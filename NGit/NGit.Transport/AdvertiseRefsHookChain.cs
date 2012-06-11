@@ -50,7 +50,7 @@ namespace NGit.Transport
 	/// <summary>
 	/// <see cref="AdvertiseRefsHook">AdvertiseRefsHook</see>
 	/// that delegates to a list of other hooks.
-	/// <p>
+	/// <p/>
 	/// Hooks are run in the order passed to the constructor. A hook may inspect or
 	/// modify the results of the previous hooks in the chain by calling
 	/// <see cref="UploadPack.GetAdvertisedRefs()">UploadPack.GetAdvertisedRefs()</see>

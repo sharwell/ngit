@@ -54,7 +54,7 @@ namespace NGit.Transport
 		/// <summary>Automatically follow tags if we fetch the thing they point at.</summary>
 		/// <remarks>
 		/// Automatically follow tags if we fetch the thing they point at.
-		/// <p>
+		/// <p/>
 		/// This is the default behavior and tries to balance the benefit of having
 		/// an annotated tag against the cost of possibly objects that are only on
 		/// branches we care nothing about. Annotated tags are fetched only if we can
@@ -67,7 +67,7 @@ namespace NGit.Transport
 		/// <summary>Never fetch tags, even if we have the thing it points at.</summary>
 		/// <remarks>
 		/// Never fetch tags, even if we have the thing it points at.
-		/// <p>
+		/// <p/>
 		/// This option must be requested by the user and always avoids fetching
 		/// annotated tags. It is most useful if the location you are fetching from
 		/// publishes annotated tags, but you are not interested in the tags and only
@@ -79,7 +79,7 @@ namespace NGit.Transport
 		/// <summary>Always fetch tags, even if we do not have the thing it points at.</summary>
 		/// <remarks>
 		/// Always fetch tags, even if we do not have the thing it points at.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="AUTO_FOLLOW">AUTO_FOLLOW</see>
 		/// the tag is always obtained. This may cause

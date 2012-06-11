@@ -57,10 +57,10 @@ namespace NGit.Revwalk.Filter
 		/// <summary>Create a new committer filter.</summary>
 		/// <remarks>
 		/// Create a new committer filter.
-		/// <p>
+		/// <p/>
 		/// An optimized substring search may be automatically selected if the
 		/// pattern does not contain any regular expression meta-characters.
-		/// <p>
+		/// <p/>
 		/// The search is performed using a case-insensitive comparison. The
 		/// character encoding of the commit message itself is not respected. The
 		/// filter matches on raw UTF-8 byte sequences.

@@ -59,7 +59,7 @@ namespace NGit.Storage.File
 	/// Consumes a pack stream and stores as a pack file in
 	/// <see cref="ObjectDirectory">ObjectDirectory</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// To obtain an instance of a parser, applications should use
 	/// <see cref="NGit.ObjectInserter.NewPackParser(Sharpen.InputStream)">NGit.ObjectInserter.NewPackParser(Sharpen.InputStream)
 	/// 	</see>
@@ -160,7 +160,7 @@ namespace NGit.Storage.File
 		/// <summary>Configure this index pack instance to keep an empty pack.</summary>
 		/// <remarks>
 		/// Configure this index pack instance to keep an empty pack.
-		/// <p>
+		/// <p/>
 		/// By default an empty pack (a pack with no objects) is not kept, as doi so
 		/// is completely pointless. With no objects in the pack there is no d stored
 		/// by it, so the pack is unnecessary.
@@ -175,7 +175,7 @@ namespace NGit.Storage.File
 		/// Get the imported
 		/// <see cref="PackFile">PackFile</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This method is supplied only to support testing; applications shouldn't
 		/// be using it directly to access the imported data.
 		/// </summary>

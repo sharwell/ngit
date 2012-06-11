@@ -52,18 +52,18 @@ namespace NGit.Transport
 	/// <summary>Lists known refs from the remote and copies objects of selected refs.</summary>
 	/// <remarks>
 	/// Lists known refs from the remote and copies objects of selected refs.
-	/// <p>
+	/// <p/>
 	/// A fetch connection typically connects to the <code>git-upload-pack</code>
 	/// service running where the remote repository is stored. This provides a
 	/// one-way object transfer service to copy objects from the remote repository
 	/// into this local repository.
-	/// <p>
+	/// <p/>
 	/// Instances of a FetchConnection must be created by a
 	/// <see cref="Transport">Transport</see>
 	/// that
 	/// implements a specific object transfer protocol that both sides of the
 	/// connection understand.
-	/// <p>
+	/// <p/>
 	/// FetchConnection instances are not thread safe and may be accessed by only one
 	/// thread at a time.
 	/// </remarks>
@@ -74,12 +74,12 @@ namespace NGit.Transport
 		/// 	</summary>
 		/// <remarks>
 		/// Fetch objects we don't have but that are reachable from advertised refs.
-		/// <p>
+		/// <p/>
 		/// Only one call per connection is allowed. Subsequent calls will result in
 		/// <see cref="NGit.Errors.TransportException">NGit.Errors.TransportException</see>
 		/// .
 		/// </p>
-		/// <p>
+		/// <p/>
 		/// Implementations are free to use network connections as necessary to
 		/// efficiently (for both client and server) transfer objects from the remote
 		/// repository into this repository. When possible implementations should
@@ -120,7 +120,7 @@ namespace NGit.Transport
 		/// 	">Fetch(NGit.ProgressMonitor, System.Collections.Generic.ICollection&lt;E&gt;, System.Collections.Generic.ICollection&lt;E&gt;)
 		/// 	</see>
 		/// get tags?
-		/// <p>
+		/// <p/>
 		/// Some Git aware transports are able to implicitly grab an annotated tag if
 		/// <see cref="TagOpt.AUTO_FOLLOW">TagOpt.AUTO_FOLLOW</see>
 		/// or
@@ -134,7 +134,7 @@ namespace NGit.Transport
 		/// call. If it is
 		/// possible for such tags to have been included in the transfer this method
 		/// returns true, allowing the caller to attempt tag discovery.
-		/// <p>
+		/// <p/>
 		/// By returning only true/false (and not the actual list of tags obtained)
 		/// the transport itself does not need to be aware of whether or not tags
 		/// were included in the transfer.
@@ -152,14 +152,14 @@ namespace NGit.Transport
 		/// 	</see>
 		/// validate
 		/// graph?
-		/// <p>
+		/// <p/>
 		/// Some transports walk the object graph on the client side, with the client
 		/// looking for what objects it is missing and requesting them individually
 		/// from the remote peer. By virtue of completing the fetch call the client
 		/// implicitly tested the object connectivity, as every object in the graph
 		/// was either already local or was requested successfully from the peer. In
 		/// such transports this method returns true.
-		/// <p>
+		/// <p/>
 		/// Some transports assume the remote peer knows the Git object graph and is
 		/// able to supply a fully connected graph to the client (although it may
 		/// only be transferring the parts the client does not yet have). Its faster
@@ -177,7 +177,7 @@ namespace NGit.Transport
 		/// 	</summary>
 		/// <remarks>
 		/// Set the lock message used when holding a pack out of garbage collection.
-		/// <p>
+		/// <p/>
 		/// Callers that set a lock message <b>must</b> ensure they call
 		/// <see cref="GetPackLocks()">GetPackLocks()</see>
 		/// after

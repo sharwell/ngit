@@ -54,7 +54,7 @@ namespace NGit.Dircache
 	/// Iterate a
 	/// <see cref="DirCache">DirCache</see>
 	/// as part of a <code>TreeWalk</code>.
-	/// <p>
+	/// <p/>
 	/// This is an iterator to adapt a loaded <code>DirCache</code> instance (such as
 	/// read from an existing <code>.git/index</code> file) to the tree structure
 	/// used by a <code>TreeWalk</code>, making it possible for applications to walk
@@ -118,7 +118,7 @@ namespace NGit.Dircache
 		/// <summary>Create a new iterator for an already loaded DirCache instance.</summary>
 		/// <remarks>
 		/// Create a new iterator for an already loaded DirCache instance.
-		/// <p>
+		/// <p/>
 		/// The iterator implementation may copy part of the cache's data during
 		/// construction, so the cache must be read in prior to creating the
 		/// iterator.

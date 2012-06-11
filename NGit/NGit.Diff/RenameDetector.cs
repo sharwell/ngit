@@ -167,7 +167,7 @@ namespace NGit.Diff
 		/// <summary>Set the minimum score required to pair an add/delete as a rename.</summary>
 		/// <remarks>
 		/// Set the minimum score required to pair an add/delete as a rename.
-		/// <p>
+		/// <p/>
 		/// When comparing two files together their score must be greater than or
 		/// equal to the rename score for them to be considered a rename match. The
 		/// score is computed based on content similarity, so a score of 60 implies
@@ -218,7 +218,7 @@ namespace NGit.Diff
 		/// 	</summary>
 		/// <remarks>
 		/// Set the limit on the number of files to perform inexact rename detection.
-		/// <p>
+		/// <p/>
 		/// The rename detector has to build a square matrix of the rename limit on
 		/// each side, then perform that many file compares to determine similarity.
 		/// If 1000 files are added, and 1000 files are deleted, a 1000*1000 matrix
@@ -233,7 +233,7 @@ namespace NGit.Diff
 		/// <summary>Check if the detector is over the rename limit.</summary>
 		/// <remarks>
 		/// Check if the detector is over the rename limit.
-		/// <p>
+		/// <p/>
 		/// This method can be invoked either before or after
 		/// <code>getEntries</code>
 		/// has
@@ -326,7 +326,7 @@ namespace NGit.Diff
 		/// <summary>Detect renames in the current file set.</summary>
 		/// <remarks>
 		/// Detect renames in the current file set.
-		/// <p>
+		/// <p/>
 		/// This convenience function runs without a progress monitor.
 		/// </remarks>
 		/// <returns>

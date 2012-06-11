@@ -55,7 +55,7 @@ namespace NGit.Util
 	/// <remarks>
 	/// Utilities for creating and working with Change-Id's, like the one used by
 	/// Gerrit Code Review.
-	/// <p>
+	/// <p/>
 	/// A Change-Id is a SHA-1 computed from the content of a commit, in a similar
 	/// fashion to how the commit id is computed. Unlike the commit id a Change-Id is
 	/// retained in the commit and subsequent revised commits in the footer of the
@@ -141,7 +141,7 @@ namespace NGit.Util
 		/// <summary>Find the right place to insert a Change-Id and return it.</summary>
 		/// <remarks>
 		/// Find the right place to insert a Change-Id and return it.
-		/// <p>
+		/// <p/>
 		/// The Change-Id is inserted before the first footer line but after a Bug
 		/// line.
 		/// </remarks>
@@ -156,7 +156,7 @@ namespace NGit.Util
 		/// <summary>Find the right place to insert a Change-Id and return it.</summary>
 		/// <remarks>
 		/// Find the right place to insert a Change-Id and return it.
-		/// <p>
+		/// <p/>
 		/// If no Change-Id is found the Change-Id is inserted before
 		/// the first footer line but after a Bug line.
 		/// If Change-Id is found and replaceExisting is set to false,

@@ -51,7 +51,7 @@ namespace NGit
 	/// A reference that indirectly points at another
 	/// <see cref="Ref">Ref</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// A symbolic reference always derives its current value from the target
 	/// reference.
 	/// </summary>

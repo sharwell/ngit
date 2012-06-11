@@ -49,7 +49,7 @@ namespace NGit.Transport
 	/// <summary>Create a remote "session" for executing remote commands.</summary>
 	/// <remarks>
 	/// Create a remote "session" for executing remote commands.
-	/// <p>
+	/// <p/>
 	/// Clients should subclass RemoteSession to create an alternate way for JGit to
 	/// execute remote commands. (The client application may already have this
 	/// functionality available.) Note that this class is just a factory for creating

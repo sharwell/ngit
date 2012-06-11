@@ -54,7 +54,7 @@ namespace NGit.Revwalk.Filter
 	/// <summary>Includes a commit if any subfilters include the same commit.</summary>
 	/// <remarks>
 	/// Includes a commit if any subfilters include the same commit.
-	/// <p>
+	/// <p/>
 	/// Classic shortcut behavior is used, so evaluation of the
 	/// <see cref="RevFilter.Include(NGit.Revwalk.RevWalk, NGit.Revwalk.RevCommit)">RevFilter.Include(NGit.Revwalk.RevWalk, NGit.Revwalk.RevCommit)
 	/// 	</see>

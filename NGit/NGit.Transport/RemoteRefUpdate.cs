@@ -58,7 +58,7 @@ namespace NGit.Transport
 	/// <see cref="PushProcess">PushProcess</see>
 	/// class,
 	/// being read-only for client.
-	/// <p>
+	/// <p/>
 	/// Client can create instances of this class directly, basing on user
 	/// specification and advertised refs (
 	/// <see cref="Connection">Connection</see>

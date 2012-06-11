@@ -54,7 +54,7 @@ namespace NGit.Blame
 	/// <summary>A source that may have supplied some (or all) of the result file.</summary>
 	/// <remarks>
 	/// A source that may have supplied some (or all) of the result file.
-	/// <p>
+	/// <p/>
 	/// Candidates are kept in a queue by BlameGenerator, allowing the generator to
 	/// perform a parallel search down the parents of any merges that are discovered
 	/// during the history traversal. Each candidate retains a
@@ -102,7 +102,7 @@ namespace NGit.Blame
 		/// <summary>Chain of regions this candidate may be blamed for.</summary>
 		/// <remarks>
 		/// Chain of regions this candidate may be blamed for.
-		/// <p>
+		/// <p/>
 		/// This list is always kept sorted by resultStart order, making it simple to
 		/// merge-join with the sorted EditList during blame assignment.
 		/// </remarks>
@@ -111,7 +111,7 @@ namespace NGit.Blame
 		/// <summary>Score assigned to the rename to this candidate.</summary>
 		/// <remarks>
 		/// Score assigned to the rename to this candidate.
-		/// <p>
+		/// <p/>
 		/// Consider the history "A&lt;-B&lt;-C". If the result file S in C was renamed to
 		/// R in B, the rename score for this rename will be held in this field by
 		/// the candidate object for B. By storing the score with B, the application
@@ -334,7 +334,7 @@ namespace NGit.Blame
 		/// <summary>Special candidate type used for reverse blame.</summary>
 		/// <remarks>
 		/// Special candidate type used for reverse blame.
-		/// <p>
+		/// <p/>
 		/// Reverse blame inverts the commit history graph to follow from a commit to
 		/// its descendant children, rather than the normal history direction of
 		/// child to parent. These types require a
@@ -379,7 +379,7 @@ namespace NGit.Blame
 		/// <summary>Candidate loaded from a file source, and not a commit.</summary>
 		/// <remarks>
 		/// Candidate loaded from a file source, and not a commit.
-		/// <p>
+		/// <p/>
 		/// The
 		/// <see cref="Candidate.sourceCommit">Candidate.sourceCommit</see>
 		/// field is always null on this type of
@@ -393,7 +393,7 @@ namespace NGit.Blame
 			/// <summary>Next candidate to pass blame onto.</summary>
 			/// <remarks>
 			/// Next candidate to pass blame onto.
-			/// <p>
+			/// <p/>
 			/// When computing the differences that this candidate introduced to the
 			/// file content, the parent's sourceText is used as the base.
 			/// </remarks>

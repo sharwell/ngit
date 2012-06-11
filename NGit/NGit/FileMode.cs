@@ -49,7 +49,7 @@ namespace NGit
 	/// <summary>Constants describing various file modes recognized by GIT.</summary>
 	/// <remarks>
 	/// Constants describing various file modes recognized by GIT.
-	/// <p>
+	/// <p/>
 	/// GIT uses a subset of the available UNIX file permission bits. The
 	/// <code>FileMode</code> class provides access to constants defining the modes
 	/// actually used by GIT.
@@ -318,7 +318,7 @@ namespace NGit
 		/// <summary>Copy this mode as a sequence of octal US-ASCII bytes.</summary>
 		/// <remarks>
 		/// Copy this mode as a sequence of octal US-ASCII bytes.
-		/// <p>
+		/// <p/>
 		/// The mode is copied as a sequence of octal digits using the US-ASCII
 		/// character encoding. The sequence does not use a leading '0' prefix to
 		/// indicate octal notation. This method is suitable for generation of a mode
@@ -365,7 +365,7 @@ namespace NGit
 		/// <summary>Get the object type that should appear for this type of mode.</summary>
 		/// <remarks>
 		/// Get the object type that should appear for this type of mode.
-		/// <p>
+		/// <p/>
 		/// See the object type constants in
 		/// <see cref="Constants">Constants</see>
 		/// .

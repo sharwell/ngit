@@ -59,7 +59,7 @@ namespace NGit.Util
 		/// <summary>Quoting style used by the Bourne shell.</summary>
 		/// <remarks>
 		/// Quoting style used by the Bourne shell.
-		/// <p>
+		/// <p/>
 		/// Quotes are unconditionally inserted during
 		/// <see cref="Quote(string)">Quote(string)</see>
 		/// . This
@@ -79,10 +79,10 @@ namespace NGit.Util
 		/// <summary>Quote an input string by the quoting rules.</summary>
 		/// <remarks>
 		/// Quote an input string by the quoting rules.
-		/// <p>
+		/// <p/>
 		/// If the input string does not require any quoting, the same String
 		/// reference is returned to the caller.
-		/// <p>
+		/// <p/>
 		/// Otherwise a quoted string is returned, including the opening and closing
 		/// quotation marks at the start and end of the string. If the style does not
 		/// permit raw Unicode characters then the string will first be encoded in
@@ -95,7 +95,7 @@ namespace NGit.Util
 		/// <summary>Clean a previously quoted input, decoding the result via UTF-8.</summary>
 		/// <remarks>
 		/// Clean a previously quoted input, decoding the result via UTF-8.
-		/// <p>
+		/// <p/>
 		/// This method must match quote such that:
 		/// <pre>
 		/// a.equals(dequote(quote(a)));
@@ -114,13 +114,13 @@ namespace NGit.Util
 		/// <summary>Decode a previously quoted input, scanning a UTF-8 encoded buffer.</summary>
 		/// <remarks>
 		/// Decode a previously quoted input, scanning a UTF-8 encoded buffer.
-		/// <p>
+		/// <p/>
 		/// This method must match quote such that:
 		/// <pre>
 		/// a.equals(dequote(Constants.encode(quote(a))));
 		/// </pre>
 		/// is true for any <code>a</code>.
-		/// <p>
+		/// <p/>
 		/// This method removes any opening/closing quotation marks added by
 		/// <see cref="Quote(string)">Quote(string)</see>
 		/// .
@@ -134,7 +134,7 @@ namespace NGit.Util
 		/// <summary>Quoting style used by the Bourne shell.</summary>
 		/// <remarks>
 		/// Quoting style used by the Bourne shell.
-		/// <p>
+		/// <p/>
 		/// Quotes are unconditionally inserted during
 		/// <see cref="Quote(string)">Quote(string)</see>
 		/// . This

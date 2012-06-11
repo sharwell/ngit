@@ -56,10 +56,10 @@ namespace NGit.Transport
 	/// <summary>Read Git style pkt-line formatting from an input stream.</summary>
 	/// <remarks>
 	/// Read Git style pkt-line formatting from an input stream.
-	/// <p>
+	/// <p/>
 	/// This class is not thread safe and may issue multiple reads to the underlying
 	/// stream for each method call made.
-	/// <p>
+	/// <p/>
 	/// This class performs no buffering on its own. This makes it suitable to
 	/// interleave reads performed by this class with reads performed directly
 	/// against the underlying InputStream.
@@ -145,7 +145,7 @@ namespace NGit.Transport
 		/// <summary>Read a single UTF-8 encoded string packet from the input stream.</summary>
 		/// <remarks>
 		/// Read a single UTF-8 encoded string packet from the input stream.
-		/// <p>
+		/// <p/>
 		/// If the string ends with an LF, it will be removed before returning the
 		/// value to the caller. If this automatic trimming behavior is not desired,
 		/// use
@@ -192,7 +192,7 @@ namespace NGit.Transport
 		/// <summary>Read a single UTF-8 encoded string packet from the input stream.</summary>
 		/// <remarks>
 		/// Read a single UTF-8 encoded string packet from the input stream.
-		/// <p>
+		/// <p/>
 		/// Unlike
 		/// <see cref="ReadString()">ReadString()</see>
 		/// a trailing LF will be retained.

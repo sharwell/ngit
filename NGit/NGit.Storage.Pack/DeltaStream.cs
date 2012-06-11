@@ -52,7 +52,7 @@ namespace NGit.Storage.Pack
 	/// <summary>Inflates a delta in an incremental way.</summary>
 	/// <remarks>
 	/// Inflates a delta in an incremental way.
-	/// <p>
+	/// <p/>
 	/// Implementations must provide a means to access a stream for the base object.
 	/// This stream may be accessed multiple times, in order to randomly position it
 	/// to match the copy instructions. A
@@ -146,7 +146,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Open the base stream.</summary>
 		/// <remarks>
 		/// Open the base stream.
-		/// <p>
+		/// <p/>
 		/// The
 		/// <code>DeltaStream</code>
 		/// may close and reopen the base stream multiple

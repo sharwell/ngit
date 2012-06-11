@@ -59,7 +59,7 @@ namespace NGit.Api
 	/// Base class for commands that use a
 	/// <see cref="NGit.Transport.Transport">NGit.Transport.Transport</see>
 	/// during execution.
-	/// <p>
+	/// <p/>
 	/// This class provides standard configuration of a transport for options such as
 	/// a
 	/// <see cref="NGit.Transport.CredentialsProvider">NGit.Transport.CredentialsProvider

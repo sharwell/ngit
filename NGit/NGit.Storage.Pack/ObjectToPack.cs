@@ -54,7 +54,7 @@ namespace NGit.Storage.Pack
 	/// Per-object state used by
 	/// <see cref="PackWriter">PackWriter</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// <code>PackWriter</code>
 	/// uses this class to track the things it needs to include in
 	/// the newly generated pack file, and how to efficiently obtain the raw data for
@@ -262,7 +262,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Forget the reuse information previously stored.</summary>
 		/// <remarks>
 		/// Forget the reuse information previously stored.
-		/// <p>
+		/// <p/>
 		/// Implementations may subclass this method, but they must also invoke the
 		/// super version with
 		/// <code>super.clearReuseAsIs()</code>
@@ -407,7 +407,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Remember a specific representation for reuse at a later time.</summary>
 		/// <remarks>
 		/// Remember a specific representation for reuse at a later time.
-		/// <p>
+		/// <p/>
 		/// Implementers should remember the representation chosen, so it can be
 		/// reused at a later time.
 		/// <see cref="PackWriter">PackWriter</see>

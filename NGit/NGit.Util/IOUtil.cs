@@ -285,7 +285,7 @@ namespace NGit.Util
 		/// <summary>Skip an entire region of an input stream.</summary>
 		/// <remarks>
 		/// Skip an entire region of an input stream.
-		/// <p>
+		/// <p/>
 		/// The input stream's position is moved forward by the number of requested
 		/// bytes, discarding them from the input. This method does not return until
 		/// the exact number of bytes requested has been skipped.

@@ -50,10 +50,10 @@ namespace NGit.Treewalk.Filter
 	/// <summary>Selects interesting tree entries during walking.</summary>
 	/// <remarks>
 	/// Selects interesting tree entries during walking.
-	/// <p>
+	/// <p/>
 	/// This is an abstract interface. Applications may implement a subclass, or use
 	/// one of the predefined implementations already available within this package.
-	/// <p>
+	/// <p/>
 	/// Unless specifically noted otherwise a TreeFilter implementation is not thread
 	/// safe and may not be shared by different TreeWalk instances at the same time.
 	/// This restriction allows TreeFilter implementations to cache state within
@@ -64,21 +64,21 @@ namespace NGit.Treewalk.Filter
 	/// <see cref="Clone()">Clone()</see>
 	/// may be used to
 	/// construct a thread-safe copy of an existing filter.
-	/// <p>
+	/// <p/>
 	/// <b>Path filters:</b>
 	/// <ul>
 	/// <li>Matching pathname:
 	/// <see cref="PathFilter">PathFilter</see>
 	/// </li>
 	/// </ul>
-	/// <p>
+	/// <p/>
 	/// <b>Difference filters:</b>
 	/// <ul>
 	/// <li>Only select differences:
 	/// <see cref="ANY_DIFF">ANY_DIFF</see>
 	/// .</li>
 	/// </ul>
-	/// <p>
+	/// <p/>
 	/// <b>Boolean modifiers:</b>
 	/// <ul>
 	/// <li>AND:
@@ -124,18 +124,18 @@ namespace NGit.Treewalk.Filter
 		/// <summary>Selects only tree entries which differ between at least 2 trees.</summary>
 		/// <remarks>
 		/// Selects only tree entries which differ between at least 2 trees.
-		/// <p>
+		/// <p/>
 		/// This filter also prevents a TreeWalk from recursing into a subtree if all
 		/// parent trees have the identical subtree at the same path. This
 		/// dramatically improves walk performance as only the changed subtrees are
 		/// entered into.
-		/// <p>
+		/// <p/>
 		/// If this filter is applied to a walker with only one tree it behaves like
 		/// <see cref="ALL">ALL</see>
 		/// , or as though the walker was matching a virtual empty tree
 		/// against the single tree it was actually given. Applications may wish to
 		/// treat such a difference as "all names added".
-		/// <p>
+		/// <p/>
 		/// When comparing
 		/// <see cref="NGit.Treewalk.WorkingTreeIterator">NGit.Treewalk.WorkingTreeIterator</see>
 		/// and
@@ -194,7 +194,7 @@ namespace NGit.Treewalk.Filter
 		/// <summary>Determine if the current entry is interesting to report.</summary>
 		/// <remarks>
 		/// Determine if the current entry is interesting to report.
-		/// <p>
+		/// <p/>
 		/// This method is consulted for subtree entries even if
 		/// <see cref="NGit.Treewalk.TreeWalk.Recursive()">NGit.Treewalk.TreeWalk.Recursive()
 		/// 	</see>
@@ -226,14 +226,14 @@ namespace NGit.Treewalk.Filter
 
 		/// <summary>
 		/// Does this tree filter require a recursive walk to match everything?
-		/// <p>
+		/// <p/>
 		/// If this tree filter is matching on full entry path names and its pattern
 		/// is looking for a '/' then the filter would require a recursive TreeWalk
 		/// to accurately make its decisions.
 		/// </summary>
 		/// <remarks>
 		/// Does this tree filter require a recursive walk to match everything?
-		/// <p>
+		/// <p/>
 		/// If this tree filter is matching on full entry path names and its pattern
 		/// is looking for a '/' then the filter would require a recursive TreeWalk
 		/// to accurately make its decisions. The walker is not required to enable
@@ -249,7 +249,7 @@ namespace NGit.Treewalk.Filter
 		/// <summary>Clone this tree filter, including its parameters.</summary>
 		/// <remarks>
 		/// Clone this tree filter, including its parameters.
-		/// <p>
+		/// <p/>
 		/// This is a deep clone. If this filter embeds objects or other filters it
 		/// must also clone those, to ensure the instances do not share mutable data.
 		/// </remarks>

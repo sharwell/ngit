@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// <summary>Multiplexes data and progress messages.</summary>
 	/// <remarks>
 	/// Multiplexes data and progress messages.
-	/// <p>
+	/// <p/>
 	/// This stream is buffered at packet sizes, so the caller doesn't need to wrap
 	/// it in yet another buffered stream.
 	/// </remarks>
@@ -87,7 +87,7 @@ namespace NGit.Transport
 		/// Number of bytes in
 		/// <see cref="buffer">buffer</see>
 		/// that are valid data.
-		/// <p>
+		/// <p/>
 		/// Initialized to
 		/// <see cref="HDR_SIZE">HDR_SIZE</see>
 		/// if there is no application data in the

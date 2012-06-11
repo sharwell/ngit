@@ -90,7 +90,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Maximum delta chain depth the current object can have.</summary>
 		/// <remarks>
 		/// Maximum delta chain depth the current object can have.
-		/// <p>
+		/// <p/>
 		/// This can be smaller than
 		/// <see cref="maxDepth">maxDepth</see>
 		/// .

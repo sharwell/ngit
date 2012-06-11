@@ -55,7 +55,7 @@ namespace NGit.Api
 	/// <summary>
 	/// Common superclass of all commands in the package
 	/// <code>org.eclipse.jgit.api</code>
-	/// <p>
+	/// <p/>
 	/// This class ensures that all commands fulfill the
 	/// <see cref="Sharpen.Callable{V}">Sharpen.Callable&lt;V&gt;</see>
 	/// interface.
@@ -64,7 +64,7 @@ namespace NGit.Api
 	/// holding a reference to the git
 	/// <see cref="NGit.Repository">NGit.Repository</see>
 	/// this command should work with.
-	/// <p>
+	/// <p/>
 	/// Finally this class stores a state telling whether it is allowed to call
 	/// <see cref="Sharpen.Callable{V}.Call()">Sharpen.Callable&lt;V&gt;.Call()</see>
 	/// on this instance. Instances of

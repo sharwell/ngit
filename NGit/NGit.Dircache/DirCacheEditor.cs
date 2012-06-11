@@ -54,7 +54,7 @@ namespace NGit.Dircache
 	/// Updates a
 	/// <see cref="DirCache">DirCache</see>
 	/// by supplying discrete edit commands.
-	/// <p>
+	/// <p/>
 	/// An editor updates a DirCache by taking a list of
 	/// <see cref="PathEdit">PathEdit</see>
 	/// commands
@@ -65,7 +65,7 @@ namespace NGit.Dircache
 	/// than
 	/// <see cref="DirCacheBuilder">DirCacheBuilder</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// </summary>
 	/// <seealso cref="DirCacheBuilder">DirCacheBuilder</seealso>
 	public class DirCacheEditor : BaseDirCacheEditor
@@ -104,7 +104,7 @@ namespace NGit.Dircache
 		/// <summary>Append one edit command to the list of commands to be applied.</summary>
 		/// <remarks>
 		/// Append one edit command to the list of commands to be applied.
-		/// <p>
+		/// <p/>
 		/// Edit commands may be added in any order chosen by the application. They
 		/// are automatically rearranged by the builder to provide the most efficient
 		/// update possible.
@@ -193,7 +193,7 @@ namespace NGit.Dircache
 		/// <summary>Any index record update.</summary>
 		/// <remarks>
 		/// Any index record update.
-		/// <p>
+		/// <p/>
 		/// Applications should subclass and provide their own implementation for the
 		/// <see cref="Apply(DirCacheEntry)">Apply(DirCacheEntry)</see>
 		/// method. The editor will invoke apply once
@@ -227,7 +227,7 @@ namespace NGit.Dircache
 			/// <summary>Apply the update to a single cache entry matching the path.</summary>
 			/// <remarks>
 			/// Apply the update to a single cache entry matching the path.
-			/// <p>
+			/// <p/>
 			/// After apply is invoked the entry is added to the output table, and
 			/// will be included in the new index.
 			/// </remarks>
@@ -241,7 +241,7 @@ namespace NGit.Dircache
 		/// <summary>Deletes a single file entry from the index.</summary>
 		/// <remarks>
 		/// Deletes a single file entry from the index.
-		/// <p>
+		/// <p/>
 		/// This deletion command removes only a single file at the given location,
 		/// but removes multiple stages (if present) for that path. To remove a
 		/// complete subtree use
@@ -277,13 +277,13 @@ namespace NGit.Dircache
 		/// <summary>Recursively deletes all paths under a subtree.</summary>
 		/// <remarks>
 		/// Recursively deletes all paths under a subtree.
-		/// <p>
+		/// <p/>
 		/// This deletion command is more generic than
 		/// <see cref="DeletePath">DeletePath</see>
 		/// as it can
 		/// remove all records which appear recursively under the same subtree.
 		/// Multiple stages are removed (if present) for any deleted entry.
-		/// <p>
+		/// <p/>
 		/// This command will not remove a single file entry. To remove a single file
 		/// use
 		/// <see cref="DeletePath">DeletePath</see>

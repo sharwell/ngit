@@ -50,7 +50,7 @@ namespace NGit.Util.IO
 	/// <summary>An OutputStream that expands LF to CRLF.</summary>
 	/// <remarks>
 	/// An OutputStream that expands LF to CRLF.
-	/// <p>
+	/// <p/>
 	/// Existing CRLF are not expanded to CRCRLF, but retained as is.
 	/// </remarks>
 	public class AutoCRLFOutputStream : OutputStream

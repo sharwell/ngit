@@ -52,11 +52,11 @@ namespace NGit.Api
 	/// <summary>Offers a "GitPorcelain"-like API to interact with a git repository.</summary>
 	/// <remarks>
 	/// Offers a "GitPorcelain"-like API to interact with a git repository.
-	/// <p>
+	/// <p/>
 	/// The GitPorcelain commands are described in the &lt;a href=
 	/// "http://www.kernel.org/pub/software/scm/git/docs/git.html#_high_level_commands_porcelain"
 	/// &gt;Git Documentation</a>.
-	/// <p>
+	/// <p/>
 	/// This class only offers methods to construct so-called command classes. Each
 	/// GitPorcelain command is represented by one command class.<br />
 	/// Example: this class offers a
@@ -80,7 +80,7 @@ namespace NGit.Api
 	/// All mandatory parameters for commands have to be specified in the methods of
 	/// this class, the optional parameters have to be specified by the
 	/// setter-methods of the Command class.
-	/// <p>
+	/// <p/>
 	/// This class is intended to be used internally (e.g. by JGit tests) or by
 	/// external components (EGit, third-party tools) when they need exactly the
 	/// functionality of a GitPorcelain command. There are use-cases where this class

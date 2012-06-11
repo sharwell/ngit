@@ -52,7 +52,7 @@ namespace NGit.Revwalk
 	/// 	</summary>
 	/// <remarks>
 	/// Single line at the end of a message, such as a "Signed-off-by: someone".
-	/// <p>
+	/// <p/>
 	/// These footer lines tend to be used to represent additional information about
 	/// a commit, like the path it followed through reviewers before finally being
 	/// accepted into the project's main repository as an immutable commit.
@@ -137,7 +137,7 @@ namespace NGit.Revwalk
 		/// <summary>Extract the email address (if present) from the footer.</summary>
 		/// <remarks>
 		/// Extract the email address (if present) from the footer.
-		/// <p>
+		/// <p/>
 		/// If there is an email address looking string inside of angle brackets
 		/// (e.g. "<a@b>"), the return value is the part extracted from inside the
 		/// brackets. If no brackets are found, then

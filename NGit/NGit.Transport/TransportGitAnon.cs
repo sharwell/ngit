@@ -58,7 +58,7 @@ namespace NGit.Transport
 	/// <summary>Transport through a git-daemon waiting for anonymous TCP connections.</summary>
 	/// <remarks>
 	/// Transport through a git-daemon waiting for anonymous TCP connections.
-	/// <p>
+	/// <p/>
 	/// This transport supports the <code>git://</code> protocol, usually run on
 	/// the IANA registered port 9418. It is a popular means for distributing open
 	/// source projects, as there are no authentication or authorization overheads.

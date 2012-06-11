@@ -80,7 +80,7 @@ namespace NGit
 		/// <summary>Test a string of characters to verify it is a hex format.</summary>
 		/// <remarks>
 		/// Test a string of characters to verify it is a hex format.
-		/// <p>
+		/// <p/>
 		/// If true the string can be parsed with
 		/// <see cref="FromString(string)">FromString(string)</see>
 		/// .
@@ -256,7 +256,7 @@ namespace NGit
 		/// <summary>Initialize this instance by copying another existing ObjectId.</summary>
 		/// <remarks>
 		/// Initialize this instance by copying another existing ObjectId.
-		/// <p>
+		/// <p/>
 		/// This constructor is mostly useful for subclasses who want to extend an
 		/// ObjectId with more properties, but initialize from an existing ObjectId
 		/// instance acquired by other means.

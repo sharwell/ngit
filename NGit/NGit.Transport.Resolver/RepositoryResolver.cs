@@ -77,7 +77,7 @@ namespace NGit.Transport.Resolver
 		/// Locate and open a reference to a
 		/// <see cref="NGit.Repository">NGit.Repository</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// The caller is responsible for closing the returned Repository.
 		/// </summary>
 		/// <param name="req">

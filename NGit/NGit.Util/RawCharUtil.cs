@@ -47,12 +47,12 @@ namespace NGit.Util
 {
 	/// <summary>
 	/// Utility class for character functions on raw bytes
-	/// <p>
+	/// <p/>
 	/// Characters are assumed to be 8-bit US-ASCII.
 	/// </summary>
 	/// <remarks>
 	/// Utility class for character functions on raw bytes
-	/// <p>
+	/// <p/>
 	/// Characters are assumed to be 8-bit US-ASCII.
 	/// </remarks>
 	public class RawCharUtil

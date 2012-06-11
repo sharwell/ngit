@@ -57,7 +57,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Maximum number of bytes to be copied in pack v2 format.</summary>
 		/// <remarks>
 		/// Maximum number of bytes to be copied in pack v2 format.
-		/// <p>
+		/// <p/>
 		/// Historical limitations have this at 64k, even though current delta
 		/// decoders recognize larger copy instructions.
 		/// </remarks>

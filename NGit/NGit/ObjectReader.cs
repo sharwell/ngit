@@ -53,7 +53,7 @@ namespace NGit
 	/// Reads an
 	/// <see cref="ObjectDatabase">ObjectDatabase</see>
 	/// for a single thread.
-	/// <p>
+	/// <p/>
 	/// Readers that can support efficient reuse of pack encoded objects should also
 	/// implement the companion interface
 	/// <see cref="NGit.Storage.Pack.ObjectReuseAsIs">NGit.Storage.Pack.ObjectReuseAsIs</see>
@@ -68,7 +68,7 @@ namespace NGit
 		/// <summary>Construct a new reader from the same data.</summary>
 		/// <remarks>
 		/// Construct a new reader from the same data.
-		/// <p>
+		/// <p/>
 		/// Applications can use this method to build a new reader from the same data
 		/// source, but for an different thread.
 		/// </remarks>
@@ -333,7 +333,7 @@ namespace NGit
 		/// <summary>Get only the size of an object.</summary>
 		/// <remarks>
 		/// Get only the size of an object.
-		/// <p>
+		/// <p/>
 		/// The default implementation of this method opens an ObjectLoader.
 		/// Databases are encouraged to override this if a faster access method is
 		/// available to them.
@@ -482,7 +482,7 @@ namespace NGit
 		/// <summary>Release any resources used by this reader.</summary>
 		/// <remarks>
 		/// Release any resources used by this reader.
-		/// <p>
+		/// <p/>
 		/// A reader that has been released can be used again, but may need to be
 		/// released after the subsequent usage.
 		/// </remarks>

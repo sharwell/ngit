@@ -63,7 +63,7 @@ namespace NGit
 		/// <summary>Open an existing repository, reusing a cached instance if possible.</summary>
 		/// <remarks>
 		/// Open an existing repository, reusing a cached instance if possible.
-		/// <p>
+		/// <p/>
 		/// When done with the repository, the caller must call
 		/// <see cref="Repository.Close()">Repository.Close()</see>
 		/// to decrement the repository's usage counter.
@@ -88,7 +88,7 @@ namespace NGit
 		/// <summary>Open a repository, reusing a cached instance if possible.</summary>
 		/// <remarks>
 		/// Open a repository, reusing a cached instance if possible.
-		/// <p>
+		/// <p/>
 		/// When done with the repository, the caller must call
 		/// <see cref="Repository.Close()">Repository.Close()</see>
 		/// to decrement the repository's usage counter.
@@ -122,7 +122,7 @@ namespace NGit
 		/// <summary>Register one repository into the cache.</summary>
 		/// <remarks>
 		/// Register one repository into the cache.
-		/// <p>
+		/// <p/>
 		/// During registration the cache automatically increments the usage counter,
 		/// permitting it to retain the reference. A
 		/// <see cref="FileKey">FileKey</see>
@@ -131,7 +131,7 @@ namespace NGit
 		/// <see cref="Repository.Directory()">Repository.Directory()</see>
 		/// is used to index the
 		/// repository in the cache.
-		/// <p>
+		/// <p/>
 		/// If another repository already is registered in the cache at this
 		/// location, the other instance is closed.
 		/// </remarks>
@@ -149,7 +149,7 @@ namespace NGit
 		/// <summary>Remove a repository from the cache.</summary>
 		/// <remarks>
 		/// Remove a repository from the cache.
-		/// <p>
+		/// <p/>
 		/// Removes a repository from the cache, if it is still registered here,
 		/// permitting it to close.
 		/// </remarks>
@@ -262,7 +262,7 @@ namespace NGit
 		/// Abstract hash key for
 		/// <see cref="RepositoryCache">RepositoryCache</see>
 		/// entries.
-		/// <p>
+		/// <p/>
 		/// A Key instance should be lightweight, and implement hashCode() and
 		/// equals() such that two Key instances are equal if they represent the same
 		/// Repository location.
@@ -273,7 +273,7 @@ namespace NGit
 			/// Called by
 			/// <see cref="RepositoryCache.Open(Key)">RepositoryCache.Open(Key)</see>
 			/// if it doesn't exist yet.
-			/// <p>
+			/// <p/>
 			/// If a repository does not exist yet in the cache, the cache will call
 			/// this method to acquire a handle to it.
 			/// </summary>
@@ -303,7 +303,7 @@ namespace NGit
 			/// <summary>Obtain a pointer to an exact location on disk.</summary>
 			/// <remarks>
 			/// Obtain a pointer to an exact location on disk.
-			/// <p>
+			/// <p/>
 			/// No guessing is performed, the given location is exactly the GIT_DIR
 			/// directory of the repository.
 			/// </remarks>
@@ -323,7 +323,7 @@ namespace NGit
 			/// <summary>Obtain a pointer to a location on disk.</summary>
 			/// <remarks>
 			/// Obtain a pointer to a location on disk.
-			/// <p>
+			/// <p/>
 			/// The method performs some basic guessing to locate the repository.
 			/// Searched paths are:
 			/// <ol>
@@ -414,7 +414,7 @@ namespace NGit
 			/// <summary>Guess if a directory contains a Git repository.</summary>
 			/// <remarks>
 			/// Guess if a directory contains a Git repository.
-			/// <p>
+			/// <p/>
 			/// This method guesses by looking for the existence of some key files
 			/// and directories.
 			/// </remarks>
@@ -465,7 +465,7 @@ namespace NGit
 			/// <summary>Guess the proper path for a Git repository.</summary>
 			/// <remarks>
 			/// Guess the proper path for a Git repository.
-			/// <p>
+			/// <p/>
 			/// The method performs some basic guessing to locate the repository.
 			/// Searched paths are:
 			/// <ol>

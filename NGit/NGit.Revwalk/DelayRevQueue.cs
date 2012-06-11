@@ -50,14 +50,14 @@ namespace NGit.Revwalk
 	/// Delays commits to be at least
 	/// <see cref="PendingGenerator.OVER_SCAN">PendingGenerator.OVER_SCAN</see>
 	/// late.
-	/// <p>
+	/// <p/>
 	/// This helps to "fix up" weird corner cases resulting from clock skew, by
 	/// slowing down what we produce to the caller we get a better chance to ensure
 	/// PendingGenerator reached back far enough in the graph to correctly mark
 	/// commits
 	/// <see cref="RevWalk.UNINTERESTING">RevWalk.UNINTERESTING</see>
 	/// if necessary.
-	/// <p>
+	/// <p/>
 	/// This generator should appear before
 	/// <see cref="FixUninterestingGenerator">FixUninterestingGenerator</see>
 	/// if the

@@ -57,7 +57,7 @@ namespace NGit.Transport
 	/// <summary>Transfers object data through a dumb transport.</summary>
 	/// <remarks>
 	/// Transfers object data through a dumb transport.
-	/// <p>
+	/// <p/>
 	/// Implementations are responsible for resolving path names relative to the
 	/// <code>objects/</code> subdirectory of a single remote Git repository or
 	/// naked object database and make the content available as a Java input stream
@@ -84,7 +84,7 @@ namespace NGit.Transport
 		/// <summary>Obtain the list of available packs (if any).</summary>
 		/// <remarks>
 		/// Obtain the list of available packs (if any).
-		/// <p>
+		/// <p/>
 		/// Pack names should be the file name in the packs directory, that is
 		/// <code>pack-035760ab452d6eebd123add421f253ce7682355a.pack</code>. Index
 		/// names should not be included in the returned collection.
@@ -99,7 +99,7 @@ namespace NGit.Transport
 		/// <summary>Obtain alternate connections to alternate object databases (if any).</summary>
 		/// <remarks>
 		/// Obtain alternate connections to alternate object databases (if any).
-		/// <p>
+		/// <p/>
 		/// Alternates are typically read from the file
 		/// <see cref="INFO_ALTERNATES">INFO_ALTERNATES</see>
 		/// or
@@ -107,7 +107,7 @@ namespace NGit.Transport
 		/// . The content of each line must be resolved
 		/// by the implementation and a new database reference should be returned to
 		/// represent the additional location.
-		/// <p>
+		/// <p/>
 		/// Alternates may reuse the same network connection handle, however the
 		/// fetch connection will
 		/// <see cref="Close()">Close()</see>
@@ -126,7 +126,7 @@ namespace NGit.Transport
 		/// <summary>Open a single file for reading.</summary>
 		/// <remarks>
 		/// Open a single file for reading.
-		/// <p>
+		/// <p/>
 		/// Implementors should make every attempt possible to ensure
 		/// <see cref="System.IO.FileNotFoundException">System.IO.FileNotFoundException</see>
 		/// is used when the remote object does not
@@ -158,7 +158,7 @@ namespace NGit.Transport
 
 		/// <summary>
 		/// Create a new connection for a discovered alternate object database
-		/// <p>
+		/// <p/>
 		/// This method is typically called by
 		/// <see cref="ReadAlternates(string)">ReadAlternates(string)</see>
 		/// when
@@ -186,7 +186,7 @@ namespace NGit.Transport
 		/// <summary>Close any resources used by this connection.</summary>
 		/// <remarks>
 		/// Close any resources used by this connection.
-		/// <p>
+		/// <p/>
 		/// If the remote repository is contacted by a network socket this method
 		/// must close that network socket, disconnecting the two peers. If the
 		/// remote repository is actually local (same system) this method must close
@@ -197,13 +197,13 @@ namespace NGit.Transport
 		/// <summary>Delete a file from the object database.</summary>
 		/// <remarks>
 		/// Delete a file from the object database.
-		/// <p>
+		/// <p/>
 		/// Path may start with <code>../</code> to request deletion of a file that
 		/// resides in the repository itself.
-		/// <p>
+		/// <p/>
 		/// When possible empty directories must be removed, up to but not including
 		/// the current object database directory itself.
-		/// <p>
+		/// <p/>
 		/// This method does not support deletion of directories.
 		/// </remarks>
 		/// <param name="path">
@@ -221,13 +221,13 @@ namespace NGit.Transport
 		/// <summary>Open a remote file for writing.</summary>
 		/// <remarks>
 		/// Open a remote file for writing.
-		/// <p>
+		/// <p/>
 		/// Path may start with <code>../</code> to request writing of a file that
 		/// resides in the repository itself.
-		/// <p>
+		/// <p/>
 		/// The requested path may or may not exist. If the path already exists as a
 		/// file the file should be truncated and completely replaced.
-		/// <p>
+		/// <p/>
 		/// This method creates any missing parent directories, if necessary.
 		/// </remarks>
 		/// <param name="path">
@@ -260,18 +260,18 @@ namespace NGit.Transport
 		/// <summary>Atomically write a remote file.</summary>
 		/// <remarks>
 		/// Atomically write a remote file.
-		/// <p>
+		/// <p/>
 		/// This method attempts to perform as atomic of an update as it can,
 		/// reducing (or eliminating) the time that clients might be able to see
 		/// partial file content. This method is not suitable for very large
 		/// transfers as the complete content must be passed as an argument.
-		/// <p>
+		/// <p/>
 		/// Path may start with <code>../</code> to request writing of a file that
 		/// resides in the repository itself.
-		/// <p>
+		/// <p/>
 		/// The requested path may or may not exist. If the path already exists as a
 		/// file the file should be truncated and completely replaced.
-		/// <p>
+		/// <p/>
 		/// This method creates any missing parent directories, if necessary.
 		/// </remarks>
 		/// <param name="path">
@@ -325,7 +325,7 @@ namespace NGit.Transport
 		/// <summary>Overwrite (or create) a loose ref in the remote repository.</summary>
 		/// <remarks>
 		/// Overwrite (or create) a loose ref in the remote repository.
-		/// <p>
+		/// <p/>
 		/// This method creates any missing parent directories, if necessary.
 		/// </remarks>
 		/// <param name="name">
@@ -350,7 +350,7 @@ namespace NGit.Transport
 		/// Rebuild the
 		/// <see cref="INFO_PACKS">INFO_PACKS</see>
 		/// for dumb transport clients.
-		/// <p>
+		/// <p/>
 		/// This method rebuilds the contents of the
 		/// <see cref="INFO_PACKS">INFO_PACKS</see>
 		/// file to
@@ -380,7 +380,7 @@ namespace NGit.Transport
 		/// <summary>Open a buffered reader around a file.</summary>
 		/// <remarks>
 		/// Open a buffered reader around a file.
-		/// <p>
+		/// <p/>
 		/// This is shorthand for calling
 		/// <see cref="Open(string)">Open(string)</see>
 		/// and then wrapping it
@@ -408,11 +408,11 @@ namespace NGit.Transport
 		/// <summary>Read a standard Git alternates file to discover other object databases.</summary>
 		/// <remarks>
 		/// Read a standard Git alternates file to discover other object databases.
-		/// <p>
+		/// <p/>
 		/// This method is suitable for reading the standard formats of the
 		/// alternates file, such as found in <code>objects/info/alternates</code>
 		/// or <code>objects/info/http-alternates</code> within a Git repository.
-		/// <p>
+		/// <p/>
 		/// Alternates appear one per line, with paths expressed relative to this
 		/// object database.
 		/// </remarks>

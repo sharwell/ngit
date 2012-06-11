@@ -60,16 +60,16 @@ namespace NGit.Transport
 	/// <summary>Fetch implementation using the native Git pack transfer service.</summary>
 	/// <remarks>
 	/// Fetch implementation using the native Git pack transfer service.
-	/// <p>
+	/// <p/>
 	/// This is the canonical implementation for transferring objects from the remote
 	/// repository to the local repository by talking to the 'git-upload-pack'
 	/// service. Objects are packed on the remote side into a pack file and then sent
 	/// down the pipe to us.
-	/// <p>
+	/// <p/>
 	/// This connection requires only a bi-directional pipe or socket, and thus is
 	/// easily wrapped up into a local process pipe, anonymous TCP socket, or a
 	/// command executed through an SSH tunnel.
-	/// <p>
+	/// <p/>
 	/// If
 	/// <see cref="BasePackConnection.statelessRPC">BasePackConnection.statelessRPC</see>
 	/// is
@@ -78,7 +78,7 @@ namespace NGit.Transport
 	/// can be tunneled over a request-response style RPC system like HTTP.  The RPC
 	/// call boundary is determined by this class switching from writing to the
 	/// OutputStream to reading from the InputStream.
-	/// <p>
+	/// <p/>
 	/// Concrete implementations should just call
 	/// <see cref="BasePackConnection.Init(Sharpen.InputStream, Sharpen.OutputStream)">BasePackConnection.Init(Sharpen.InputStream, Sharpen.OutputStream)
 	/// 	</see>
@@ -95,7 +95,7 @@ namespace NGit.Transport
 		/// <summary>Maximum number of 'have' lines to send before giving up.</summary>
 		/// <remarks>
 		/// Maximum number of 'have' lines to send before giving up.
-		/// <p>
+		/// <p/>
 		/// During
 		/// <see cref="Negotiate(NGit.ProgressMonitor)">Negotiate(NGit.ProgressMonitor)</see>
 		/// we send at most this many
@@ -107,7 +107,7 @@ namespace NGit.Transport
 		/// <summary>Amount of data the client sends before starting to read.</summary>
 		/// <remarks>
 		/// Amount of data the client sends before starting to read.
-		/// <p>
+		/// <p/>
 		/// Any output stream given to the client must be able to buffer this many
 		/// bytes before the client will stop writing and start reading from the
 		/// input stream. If the output stream blocks before this many bytes are in

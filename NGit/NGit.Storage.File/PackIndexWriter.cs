@@ -57,7 +57,7 @@ namespace NGit.Storage.File
 	/// Creates a table of contents to support random access by
 	/// <see cref="PackFile">PackFile</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Pack index files (the <code>.idx</code> suffix in a pack file pair)
 	/// provides random access to any object in the pack by associating an ObjectId
 	/// to the byte offset within the pack where the object's data can be read.
@@ -72,11 +72,11 @@ namespace NGit.Storage.File
 		/// <summary>Create a new writer for the oldest (most widely understood) format.</summary>
 		/// <remarks>
 		/// Create a new writer for the oldest (most widely understood) format.
-		/// <p>
+		/// <p/>
 		/// This method selects an index format that can accurate describe the
 		/// supplied objects and that will be the most compatible format with older
 		/// Git implementations.
-		/// <p>
+		/// <p/>
 		/// Index version 1 is widely recognized by all Git implementations, but
 		/// index version 2 (and later) is not as well recognized as it was
 		/// introduced more than a year later. Index version 1 can only be used if
@@ -202,7 +202,7 @@ LOOP_break: ;
 		/// <summary>Write all object entries to the index stream.</summary>
 		/// <remarks>
 		/// Write all object entries to the index stream.
-		/// <p>
+		/// <p/>
 		/// After writing the stream passed to the factory is flushed but remains
 		/// open. Callers are always responsible for closing the output stream.
 		/// </remarks>
@@ -236,7 +236,7 @@ LOOP_break: ;
 		/// Writes the index file to
 		/// <see cref="@out">@out</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// Implementations should go something like:
 		/// <pre>
 		/// writeFanOutTable();
@@ -244,7 +244,7 @@ LOOP_break: ;
 		/// writeOneEntry(po);
 		/// writeChecksumFooter();
 		/// </pre>
-		/// <p>
+		/// <p/>
 		/// Where the logic for <code>writeOneEntry</code> is specific to the index
 		/// format in use. Additional headers/footers may be used if necessary and
 		/// the
@@ -261,7 +261,7 @@ LOOP_break: ;
 		/// <summary>Output the version 2 (and later) TOC header, with version number.</summary>
 		/// <remarks>
 		/// Output the version 2 (and later) TOC header, with version number.
-		/// <p>
+		/// <p/>
 		/// Post version 1 all index files start with a TOC header that makes the
 		/// file an invalid version 1 file, and then includes the version number.
 		/// This header is necessary to recognize a version 1 from a version 2
@@ -280,7 +280,7 @@ LOOP_break: ;
 		/// <summary>Output the standard 256 entry first-level fan-out table.</summary>
 		/// <remarks>
 		/// Output the standard 256 entry first-level fan-out table.
-		/// <p>
+		/// <p/>
 		/// The fan-out table is 4 KB in size, holding 256 32-bit unsigned integer
 		/// counts. Each count represents the number of objects within this index
 		/// whose
@@ -311,7 +311,7 @@ LOOP_break: ;
 		/// <summary>Output the standard two-checksum index footer.</summary>
 		/// <remarks>
 		/// Output the standard two-checksum index footer.
-		/// <p>
+		/// <p/>
 		/// The standard footer contains two checksums (20 byte SHA-1 values):
 		/// <ol>
 		/// <li>Pack data checksum - taken from the last 20 bytes of the pack file.</li>

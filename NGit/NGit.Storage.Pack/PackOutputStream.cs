@@ -81,7 +81,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Initialize a pack output stream.</summary>
 		/// <remarks>
 		/// Initialize a pack output stream.
-		/// <p>
+		/// <p/>
 		/// This constructor is exposed to support debugging the JGit library only.
 		/// Application or storage level code should not create a PackOutputStream,
 		/// instead use
@@ -169,7 +169,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Commits the object header onto the stream.</summary>
 		/// <remarks>
 		/// Commits the object header onto the stream.
-		/// <p>
+		/// <p/>
 		/// Once the header has been written, the object representation must be fully
 		/// output, or packing must abort abnormally.
 		/// </remarks>

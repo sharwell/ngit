@@ -49,7 +49,7 @@ namespace NGit.Storage.Pack
 	/// <summary>Index of blocks in a source file.</summary>
 	/// <remarks>
 	/// Index of blocks in a source file.
-	/// <p>
+	/// <p/>
 	/// The index can be passed a result buffer, and output an instruction sequence
 	/// that transforms the source buffer used by the index into the result buffer.
 	/// The instruction sequence can be executed by
@@ -57,7 +57,7 @@ namespace NGit.Storage.Pack
 	/// or
 	/// <see cref="DeltaStream">DeltaStream</see>
 	/// to recreate the result buffer.
-	/// <p>
+	/// <p/>
 	/// An index stores the entire contents of the source buffer, but also a table of
 	/// block identities mapped to locations where the block appears in the source
 	/// buffer. The mapping table uses 12 bytes for every 16 bytes of source buffer,
@@ -68,7 +68,7 @@ namespace NGit.Storage.Pack
 	/// <see cref="GetIndexSize()">GetIndexSize()</see>
 	/// to obtain a reasonably accurate estimate of
 	/// the complete heap space used by this index.
-	/// <p>
+	/// <p/>
 	/// A
 	/// <code>DeltaIndex</code>
 	/// is thread-safe. Concurrent threads can use the same
@@ -84,7 +84,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Estimate the size of an index for a given source.</summary>
 		/// <remarks>
 		/// Estimate the size of an index for a given source.
-		/// <p>
+		/// <p/>
 		/// This is roughly a worst-case estimate. The actual index may be smaller.
 		/// </remarks>
 		/// <param name="sourceLength">length of the source, in bytes.</param>
@@ -101,7 +101,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Maximum number of positions to consider for a given content hash.</summary>
 		/// <remarks>
 		/// Maximum number of positions to consider for a given content hash.
-		/// <p>
+		/// <p/>
 		/// All positions with the same content hash are stored into a single chain.
 		/// The chain size is capped to ensure delta encoding stays linear time at
 		/// O(len_src + len_dst) rather than quadratic at O(len_src * len_dst).
@@ -116,7 +116,7 @@ namespace NGit.Storage.Pack
 		/// Pointers into the
 		/// <see cref="entries">entries</see>
 		/// table, indexed by block hash.
-		/// <p>
+		/// <p/>
 		/// A block hash is masked with
 		/// <see cref="tableMask">tableMask</see>
 		/// to become the array index
@@ -124,7 +124,7 @@ namespace NGit.Storage.Pack
 		/// <see cref="entries">entries</see>
 		/// that starts the consecutive list of blocks with that
 		/// same masked hash. If there are no matching blocks, 0 is stored instead.
-		/// <p>
+		/// <p/>
 		/// Note that this table is always a power of 2 in size, to support fast
 		/// normalization of a block hash into an array index.
 		/// </summary>
@@ -134,7 +134,7 @@ namespace NGit.Storage.Pack
 		/// Pairs of block hash value and
 		/// <see cref="src">src</see>
 		/// offsets.
-		/// <p>
+		/// <p/>
 		/// The very first entry in this table at index 0 is always empty, this is to
 		/// allow fast evaluation when
 		/// <see cref="table">table</see>
@@ -277,7 +277,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Generate a delta sequence to recreate the result buffer.</summary>
 		/// <remarks>
 		/// Generate a delta sequence to recreate the result buffer.
-		/// <p>
+		/// <p/>
 		/// There is no limit on the size of the delta sequence created. This is the
 		/// same as
 		/// <code>encode(out, res, 0)</code>

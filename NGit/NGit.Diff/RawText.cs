@@ -50,11 +50,11 @@ namespace NGit.Diff
 	/// <summary>A Sequence supporting UNIX formatted text in byte[] format.</summary>
 	/// <remarks>
 	/// A Sequence supporting UNIX formatted text in byte[] format.
-	/// <p>
+	/// <p/>
 	/// Elements of the sequence are the lines of the file, as delimited by the UNIX
 	/// newline character ('\n'). The file content is treated as 8 bit binary text,
 	/// with no assumptions or requirements on character encoding.
-	/// <p>
+	/// <p/>
 	/// Note that the first line of the file is element 0, as defined by the Sequence
 	/// interface API. Traditionally in a text editor a patch file the first line is
 	/// line number 1. Callers may need to subtract 1 prior to invoking methods if
@@ -87,7 +87,7 @@ namespace NGit.Diff
 		/// <summary>Create a new sequence from an existing content byte array.</summary>
 		/// <remarks>
 		/// Create a new sequence from an existing content byte array.
-		/// <p>
+		/// <p/>
 		/// The entire array (indexes 0 through length-1) is used as the content.
 		/// </remarks>
 		/// <param name="input">
@@ -103,7 +103,7 @@ namespace NGit.Diff
 		/// <summary>Create a new sequence from a file.</summary>
 		/// <remarks>
 		/// Create a new sequence from a file.
-		/// <p>
+		/// <p/>
 		/// The entire file contents are used.
 		/// </remarks>
 		/// <param name="file">the text file.</param>
@@ -126,10 +126,10 @@ namespace NGit.Diff
 		/// <summary>Write a specific line to the output stream, without its trailing LF.</summary>
 		/// <remarks>
 		/// Write a specific line to the output stream, without its trailing LF.
-		/// <p>
+		/// <p/>
 		/// The specified line is copied as-is, with no character encoding
 		/// translation performed.
-		/// <p>
+		/// <p/>
 		/// If the specified line ends with an LF ('\n'), the LF is <b>not</b>
 		/// copied. It is up to the caller to write the LF, if desired, between
 		/// output lines.

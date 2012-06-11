@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// Logs activity that occurred within
 	/// <see cref="UploadPack">UploadPack</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Implementors of the interface are responsible for associating the current
 	/// thread to a particular connection, if they need to also include connection
 	/// information. One method is to use a

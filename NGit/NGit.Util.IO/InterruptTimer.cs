@@ -52,7 +52,7 @@ namespace NGit.Util.IO
 	/// 	</summary>
 	/// <remarks>
 	/// Triggers an interrupt on the calling thread if it doesn't complete a block.
-	/// <p>
+	/// <p/>
 	/// Classes can use this to trip an alarm interrupting the calling thread if it
 	/// doesn't complete a block within the specified timeout. Typical calling
 	/// pattern is:
@@ -67,18 +67,18 @@ namespace NGit.Util.IO
 	/// }
 	/// }
 	/// </pre>
-	/// <p>
+	/// <p/>
 	/// An InterruptTimer is not recursive. To implement recursive timers,
 	/// independent InterruptTimer instances are required. A single InterruptTimer
 	/// may be shared between objects which won't recursively call each other.
-	/// <p>
+	/// <p/>
 	/// Each InterruptTimer spawns one background thread to sleep the specified time
 	/// and interrupt the thread which called
 	/// <see cref="Begin(int)">Begin(int)</see>
 	/// . It is up to the
 	/// caller to ensure that the operations within the work block between the
 	/// matched begin and end calls tests the interrupt flag (most IO operations do).
-	/// <p>
+	/// <p/>
 	/// To terminate the background thread, use
 	/// <see cref="Terminate()">Terminate()</see>
 	/// . If the
@@ -103,7 +103,7 @@ namespace NGit.Util.IO
 		/// <summary>Create a new timer to signal on interrupt on the caller.</summary>
 		/// <remarks>
 		/// Create a new timer to signal on interrupt on the caller.
-		/// <p>
+		/// <p/>
 		/// The timer thread is created in the calling thread's ThreadGroup.
 		/// </remarks>
 		/// <param name="threadName">name of the timer thread.</param>

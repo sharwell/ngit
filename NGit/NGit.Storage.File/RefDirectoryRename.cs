@@ -54,10 +54,10 @@ namespace NGit.Storage.File
 	/// Rename any reference stored by
 	/// <see cref="RefDirectory">RefDirectory</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// This class works by first renaming the source reference to a temporary name,
 	/// then renaming the temporary name to the final destination reference.
-	/// <p>
+	/// <p/>
 	/// This strategy permits switching a reference like
 	/// <code>refs/heads/foo</code>
 	/// ,
@@ -73,7 +73,7 @@ namespace NGit.Storage.File
 		/// <summary>The value of the source reference at the start of the rename.</summary>
 		/// <remarks>
 		/// The value of the source reference at the start of the rename.
-		/// <p>
+		/// <p/>
 		/// At the end of the rename the destination reference must have this same
 		/// value, otherwise we have a concurrent update and the rename must fail
 		/// without making any changes.

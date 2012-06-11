@@ -114,8 +114,8 @@ namespace NGit.Transport
 		/// <summary>Toggle tag peeling.</summary>
 		/// <remarks>
 		/// Toggle tag peeling.
-		/// <p>
-		/// <p>
+		/// <p/>
+		/// <p/>
 		/// This method must be invoked prior to any of the following:
 		/// <ul>
 		/// <li>
@@ -135,7 +135,7 @@ namespace NGit.Transport
 		/// <summary>Add one protocol capability to the initial advertisement.</summary>
 		/// <remarks>
 		/// Add one protocol capability to the initial advertisement.
-		/// <p>
+		/// <p/>
 		/// This method must be invoked prior to any of the following:
 		/// <ul>
 		/// <li>
@@ -211,7 +211,7 @@ namespace NGit.Transport
 		/// Advertise one object is available using the magic
 		/// <code>.have</code>
 		/// .
-		/// <p>
+		/// <p/>
 		/// The magic
 		/// <code>.have</code>
 		/// advertisement is not available for fetching by a
@@ -256,7 +256,7 @@ namespace NGit.Transport
 		/// <summary>Advertise one object under a specific name.</summary>
 		/// <remarks>
 		/// Advertise one object under a specific name.
-		/// <p>
+		/// <p/>
 		/// If the advertised object is a tag, this method does not advertise the
 		/// peeled version of it.
 		/// </remarks>

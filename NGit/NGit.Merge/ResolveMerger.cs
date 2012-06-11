@@ -900,7 +900,7 @@ namespace NGit.Merge
 		/// Sets the WorkingTreeIterator to be used by this merger. If no
 		/// WorkingTreeIterator is set this merger will ignore the working tree and
 		/// fail if a content merge is necessary.
-		/// <p>
+		/// <p/>
 		/// TODO: enhance WorkingTreeIterator to support write operations. Then this
 		/// merger will be able to merge with a different working tree abstraction.
 		/// </remarks>

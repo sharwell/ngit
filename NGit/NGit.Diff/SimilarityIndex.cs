@@ -51,13 +51,13 @@ namespace NGit.Diff
 	/// <summary>Index structure of lines/blocks in one file.</summary>
 	/// <remarks>
 	/// Index structure of lines/blocks in one file.
-	/// <p>
+	/// <p/>
 	/// This structure can be used to compute an approximation of the similarity
 	/// between two files. The index is used by
 	/// <see cref="SimilarityRenameDetector">SimilarityRenameDetector</see>
 	/// to
 	/// compute scores between files.
-	/// <p>
+	/// <p/>
 	/// To save space in memory, this index uses a space efficient encoding which
 	/// will not exceed 1 MiB per instance. The index starts out at a smaller size
 	/// (closer to 2 KiB), but may grow as more distinct blocks within the scanned
@@ -76,7 +76,7 @@ namespace NGit.Diff
 		/// <summary>Shift to apply before storing a key.</summary>
 		/// <remarks>
 		/// Shift to apply before storing a key.
-		/// <p>
+		/// <p/>
 		/// Within the 64 bit table record space, we leave the highest bit unset so
 		/// all values are positive. The lower 32 bits to count bytes.
 		/// </remarks>
@@ -108,7 +108,7 @@ namespace NGit.Diff
 		/// <summary>Pairings of content keys and counters.</summary>
 		/// <remarks>
 		/// Pairings of content keys and counters.
-		/// <p>
+		/// <p/>
 		/// Slots in the table are actually two ints wedged into a single long. The
 		/// upper 32 bits stores the content key, and the remaining lower bits stores
 		/// the number of bytes associated with that key. Empty slots are denoted by
@@ -228,7 +228,7 @@ namespace NGit.Diff
 		/// <summary>Sort the internal table so it can be used for efficient scoring.</summary>
 		/// <remarks>
 		/// Sort the internal table so it can be used for efficient scoring.
-		/// <p>
+		/// <p/>
 		/// Once sorted, additional lines/blocks cannot be added to the index.
 		/// </remarks>
 		internal virtual void Sort()

@@ -53,7 +53,7 @@ namespace NGit.Storage.Pack
 	/// Extension of
 	/// <see cref="NGit.ObjectReader">NGit.ObjectReader</see>
 	/// that supports reusing objects in packs.
-	/// <p>
+	/// <p/>
 	/// <code>ObjectReader</code>
 	/// implementations may also optionally implement this
 	/// interface to support
@@ -68,7 +68,7 @@ namespace NGit.Storage.Pack
 		/// Allocate a new
 		/// <code>PackWriter</code>
 		/// state structure for an object.
-		/// <p>
+		/// <p/>
 		/// <see cref="PackWriter">PackWriter</see>
 		/// allocates these objects to keep track of the
 		/// per-object state, and how to load the objects efficiently into the
@@ -87,7 +87,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Select the best object representation for a packer.</summary>
 		/// <remarks>
 		/// Select the best object representation for a packer.
-		/// <p>
+		/// <p/>
 		/// Implementations should iterate through all available representations of
 		/// an object, and pass them in turn to the PackWriter though
 		/// <see cref="PackWriter.Select(ObjectToPack, StoredObjectRepresentation)">PackWriter.Select(ObjectToPack, StoredObjectRepresentation)
@@ -95,7 +95,7 @@ namespace NGit.Storage.Pack
 		/// so
 		/// the writer can select the most suitable representation to reuse into the
 		/// output stream.
-		/// <p>
+		/// <p/>
 		/// If the implementation returns CachedPack from
 		/// <see cref="GetCachedPacks()">GetCachedPacks()</see>
 		/// ,
@@ -103,7 +103,7 @@ namespace NGit.Storage.Pack
 		/// of the offered CachedPacks. PackWriter relies on this behavior to prune
 		/// duplicate objects out of the pack stream when it selects a CachedPack and
 		/// the object was also reached through the thin-pack enumeration.
-		/// <p>
+		/// <p/>
 		/// The implementation may choose to consider multiple objects at once on
 		/// concurrent threads, but must evaluate all representations of an object
 		/// within the same thread.
@@ -168,7 +168,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Output a previously selected representation.</summary>
 		/// <remarks>
 		/// Output a previously selected representation.
-		/// <p>
+		/// <p/>
 		/// <code>PackWriter</code>
 		/// invokes this method only if a representation
 		/// previously given to it by
@@ -181,7 +181,7 @@ namespace NGit.Storage.Pack
 		/// <code>newObjectToPack</code>
 		/// , and the
 		/// representation data saved within it also originated from this reader.
-		/// <p>
+		/// <p/>
 		/// Implementors must write the object header before copying the raw data to
 		/// the output stream. The typical implementation is like:
 		/// <pre>
@@ -223,7 +223,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Obtain the available cached packs.</summary>
 		/// <remarks>
 		/// Obtain the available cached packs.
-		/// <p>
+		/// <p/>
 		/// A cached pack has known starting points and may be sent entirely as-is,
 		/// with almost no effort on the sender's part.
 		/// </remarks>
@@ -238,7 +238,7 @@ namespace NGit.Storage.Pack
 		/// <summary>Append an entire pack's contents onto the output stream.</summary>
 		/// <remarks>
 		/// Append an entire pack's contents onto the output stream.
-		/// <p>
+		/// <p/>
 		/// The entire pack, excluding its header and trailing footer is sent.
 		/// </remarks>
 		/// <param name="out">stream to append the pack onto.</param>

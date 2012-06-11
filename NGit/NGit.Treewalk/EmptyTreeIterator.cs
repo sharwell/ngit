@@ -66,7 +66,7 @@ namespace NGit.Treewalk
 		/// <summary>Create an iterator for a subtree of an existing iterator.</summary>
 		/// <remarks>
 		/// Create an iterator for a subtree of an existing iterator.
-		/// <p>
+		/// <p/>
 		/// The caller is responsible for setting up the path of the child iterator.
 		/// </remarks>
 		/// <param name="p">parent tree iterator.</param>

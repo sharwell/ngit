@@ -53,7 +53,7 @@ namespace NGit.Revwalk
 	/// 	</summary>
 	/// <remarks>
 	/// Default (and first pass) RevCommit Generator implementation for RevWalk.
-	/// <p>
+	/// <p/>
 	/// This generator starts from a set of one or more commits and process them in
 	/// descending (newest to oldest) commit time order. Commits automatically cause
 	/// their parents to be enqueued for further processing, allowing the entire
@@ -73,7 +73,7 @@ namespace NGit.Revwalk
 		/// <summary>Number of additional commits to scan after we think we are done.</summary>
 		/// <remarks>
 		/// Number of additional commits to scan after we think we are done.
-		/// <p>
+		/// <p/>
 		/// This small buffer of commits is scanned to ensure we didn't miss anything
 		/// as a result of clock skew when the commits were made. We need to set our
 		/// constant to 1 additional commit due to the use of a pre-increment
@@ -112,7 +112,7 @@ namespace NGit.Revwalk
 		/// <summary>Number of commits we have remaining in our over-scan allotment.</summary>
 		/// <remarks>
 		/// Number of commits we have remaining in our over-scan allotment.
-		/// <p>
+		/// <p/>
 		/// Only relevant if there are
 		/// <see cref="UNINTERESTING">UNINTERESTING</see>
 		/// commits in the

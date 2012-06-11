@@ -58,7 +58,7 @@ namespace NGit.Revwalk.Filter
 		/// <summary>Encode a string pattern for faster matching on byte arrays.</summary>
 		/// <remarks>
 		/// Encode a string pattern for faster matching on byte arrays.
-		/// <p>
+		/// <p/>
 		/// Force the characters to our funny UTF-8 only convention that we use on
 		/// raw buffers. This avoids needing to perform character set decodes on the
 		/// individual commit buffers.

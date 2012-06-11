@@ -54,7 +54,7 @@ namespace NGit.Patch
 	/// <summary>A file in the Git "diff --cc" or "diff --combined" format.</summary>
 	/// <remarks>
 	/// A file in the Git "diff --cc" or "diff --combined" format.
-	/// <p>
+	/// <p/>
 	/// A combined diff shows an n-way comparison between two or more ancestors and
 	/// the final revision. Its primary function is to perform code reviews on a
 	/// merge which introduces changes not in any ancestor.

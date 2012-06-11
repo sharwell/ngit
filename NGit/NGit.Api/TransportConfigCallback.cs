@@ -53,11 +53,11 @@ namespace NGit.Api
 	/// <remarks>
 	/// Receives a callback allowing type-specific configuration to be set
 	/// on the Transport instance after it's been created.
-	/// <p>
+	/// <p/>
 	/// This allows consumers of the JGit command API to perform custom
 	/// configuration that would be difficult anticipate and expose on the
 	/// API command builders.
-	/// <p>
+	/// <p/>
 	/// For instance, if a client needs to replace the SshSessionFactorys
 	/// on any SSHTransport used (eg to control available SSH identities),
 	/// they can set the TransportConfigCallback on the JGit API command -

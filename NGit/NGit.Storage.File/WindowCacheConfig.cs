@@ -204,7 +204,7 @@ namespace NGit.Storage.File
 		/// <summary>Update properties by setting fields from the configuration.</summary>
 		/// <remarks>
 		/// Update properties by setting fields from the configuration.
-		/// <p>
+		/// <p/>
 		/// If a property is not defined in the configuration, then it is left
 		/// unmodified.
 		/// </remarks>

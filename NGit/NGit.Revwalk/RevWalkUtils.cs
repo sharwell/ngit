@@ -67,7 +67,7 @@ namespace NGit.Revwalk
 		/// until a commit that is reachable from <code>end</code> is encountered. In
 		/// other words, count the number of commits that are in <code>start</code>,
 		/// but not in <code>end</code>.
-		/// <p>
+		/// <p/>
 		/// Note that this method calls
 		/// <see cref="RevWalk.Reset()">RevWalk.Reset()</see>
 		/// at the beginning.

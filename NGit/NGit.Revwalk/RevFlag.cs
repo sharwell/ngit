@@ -52,7 +52,7 @@ namespace NGit.Revwalk
 	/// Application level mark bit for
 	/// <see cref="RevObject">RevObject</see>
 	/// s.
-	/// <p>
+	/// <p/>
 	/// To create a flag use
 	/// <see cref="RevWalk.NewFlag(string)">RevWalk.NewFlag(string)</see>
 	/// .
@@ -64,7 +64,7 @@ namespace NGit.Revwalk
 		/// <see cref="RevWalk.MarkUninteresting(RevCommit)">RevWalk.MarkUninteresting(RevCommit)
 		/// 	</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// We flag commits as uninteresting if the caller does not want commits
 		/// reachable from a commit to
 		/// <see cref="RevWalk.MarkUninteresting(RevCommit)">RevWalk.MarkUninteresting(RevCommit)
@@ -72,7 +72,7 @@ namespace NGit.Revwalk
 		/// .
 		/// This flag is always carried into the commit's parents and is a key part
 		/// of the "rev-list B --not A" feature; A is marked UNINTERESTING.
-		/// <p>
+		/// <p/>
 		/// This is a static flag. Its RevWalk is not available.
 		/// </summary>
 		public static readonly NGit.Revwalk.RevFlag UNINTERESTING = new RevFlag.StaticRevFlag

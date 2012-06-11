@@ -54,12 +54,12 @@ namespace NGit
 	/// A prefix abbreviation of an
 	/// <see cref="ObjectId">ObjectId</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Sometimes Git produces abbreviated SHA-1 strings, using sufficient leading
 	/// digits from the ObjectId name to still be unique within the repository the
 	/// string was generated from. These ids are likely to be unique for a useful
 	/// period of time, especially if they contain at least 6-10 hex digits.
-	/// <p>
+	/// <p/>
 	/// This class converts the hex string into a binary form, to make it more
 	/// efficient for matching against an object.
 	/// </summary>
@@ -71,7 +71,7 @@ namespace NGit
 		/// <summary>Test a string of characters to verify it is a hex format.</summary>
 		/// <remarks>
 		/// Test a string of characters to verify it is a hex format.
-		/// <p>
+		/// <p/>
 		/// If true the string can be parsed with
 		/// <see cref="FromString(string)">FromString(string)</see>
 		/// .
@@ -122,7 +122,7 @@ namespace NGit
 		/// Convert an AbbreviatedObjectId from an
 		/// <see cref="AnyObjectId">AnyObjectId</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This method copies over all bits of the Id, and is therefore complete
 		/// (see
 		/// <see cref="IsComplete()">IsComplete()</see>

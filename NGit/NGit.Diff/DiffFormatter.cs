@@ -683,7 +683,7 @@ namespace NGit.Diff
 		/// <summary>Format a patch script, reusing a previously parsed FileHeader.</summary>
 		/// <remarks>
 		/// Format a patch script, reusing a previously parsed FileHeader.
-		/// <p>
+		/// <p/>
 		/// This formatter is primarily useful for editing an existing patch script
 		/// to increase or reduce the number of lines of context within the script.
 		/// All header lines are reused as-is from the supplied FileHeader.
@@ -893,7 +893,7 @@ namespace NGit.Diff
 		/// <see cref="NGit.Patch.FileHeader">NGit.Patch.FileHeader</see>
 		/// representing the given
 		/// <see cref="DiffEntry">DiffEntry</see>
-		/// <p>
+		/// <p/>
 		/// This method does not use the OutputStream associated with this
 		/// DiffFormatter instance. It is therefore safe to instantiate this
 		/// DiffFormatter instance with a

@@ -55,7 +55,7 @@ namespace NGit.Util
 	/// Specialized Map to present a
 	/// <code>RefDatabase</code>
 	/// namespace.
-	/// <p>
+	/// <p/>
 	/// Although not declared as a
 	/// <see cref="Sharpen.SortedMap{K, V}">Sharpen.SortedMap&lt;K, V&gt;</see>
 	/// , iterators from this
@@ -69,7 +69,7 @@ namespace NGit.Util
 	/// can be as expensive as O(N + log N) while the list expands or contracts.
 	/// Since this is not a general map implementation, all entries must be keyed by
 	/// the reference name.
-	/// <p>
+	/// <p/>
 	/// This class is really intended as a helper for
 	/// <code>RefDatabase</code>
 	/// , which
@@ -84,7 +84,7 @@ namespace NGit.Util
 		/// <summary>Prefix denoting the reference subspace this map contains.</summary>
 		/// <remarks>
 		/// Prefix denoting the reference subspace this map contains.
-		/// <p>
+		/// <p/>
 		/// All reference names in this map must start with this prefix. If the
 		/// prefix is not the empty string, it must end with a '/'.
 		/// </remarks>
@@ -97,7 +97,7 @@ namespace NGit.Util
 		/// <summary>Immutable collection of the loose references at construction time.</summary>
 		/// <remarks>
 		/// Immutable collection of the loose references at construction time.
-		/// <p>
+		/// <p/>
 		/// If an entry appears here and in
 		/// <see cref="packed">packed</see>
 		/// , this entry must take
@@ -110,7 +110,7 @@ namespace NGit.Util
 		/// <summary>Immutable collection of resolved symbolic references.</summary>
 		/// <remarks>
 		/// Immutable collection of resolved symbolic references.
-		/// <p>
+		/// <p/>
 		/// This collection contains only the symbolic references we were able to
 		/// resolve at map construction time. Other loose references must be read
 		/// from

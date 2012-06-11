@@ -53,7 +53,7 @@ namespace NGit
 	/// <summary>A (possibly mutable) SHA-1 abstraction.</summary>
 	/// <remarks>
 	/// A (possibly mutable) SHA-1 abstraction.
-	/// <p>
+	/// <p/>
 	/// If this is an instance of
 	/// <see cref="MutableObjectId">MutableObjectId</see>
 	/// the concept of equality
@@ -579,13 +579,13 @@ namespace NGit
 		/// <summary>Obtain an immutable copy of this current object name value.</summary>
 		/// <remarks>
 		/// Obtain an immutable copy of this current object name value.
-		/// <p>
+		/// <p/>
 		/// Only returns <code>this</code> if this instance is an unsubclassed
 		/// instance of
 		/// <see cref="ObjectId">ObjectId</see>
 		/// ; otherwise a new instance is returned
 		/// holding the same value.
-		/// <p>
+		/// <p/>
 		/// This method is useful to shed any additional memory that may be tied to
 		/// the subclass, yet retain the unique identity of the object id for future
 		/// lookups within maps and repositories.
@@ -603,7 +603,7 @@ namespace NGit
 		/// <summary>Obtain an immutable copy of this current object name value.</summary>
 		/// <remarks>
 		/// Obtain an immutable copy of this current object name value.
-		/// <p>
+		/// <p/>
 		/// See
 		/// <see cref="Copy()">Copy()</see>
 		/// if <code>this</code> is a possibly subclassed (but

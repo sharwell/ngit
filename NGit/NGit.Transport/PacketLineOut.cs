@@ -49,10 +49,10 @@ namespace NGit.Transport
 	/// <summary>Write Git style pkt-line formatting to an output stream.</summary>
 	/// <remarks>
 	/// Write Git style pkt-line formatting to an output stream.
-	/// <p>
+	/// <p/>
 	/// This class is not thread safe and may issue multiple writes to the underlying
 	/// stream for each method call made.
-	/// <p>
+	/// <p/>
 	/// This class performs no buffering on its own. This makes it suitable to
 	/// interleave writes performed by this class with writes performed directly
 	/// against the underlying OutputStream.
@@ -123,10 +123,10 @@ namespace NGit.Transport
 		/// <summary>Write a packet end marker, sometimes referred to as a flush command.</summary>
 		/// <remarks>
 		/// Write a packet end marker, sometimes referred to as a flush command.
-		/// <p>
+		/// <p/>
 		/// Technically this is a magical packet type which can be detected
 		/// separately from an empty string or an empty packet.
-		/// <p>
+		/// <p/>
 		/// Implicitly performs a flush on the underlying OutputStream to ensure the
 		/// peer will receive all data written thus far.
 		/// </remarks>
@@ -147,7 +147,7 @@ namespace NGit.Transport
 		/// <summary>Flush the underlying OutputStream.</summary>
 		/// <remarks>
 		/// Flush the underlying OutputStream.
-		/// <p>
+		/// <p/>
 		/// Performs a flush on the underlying OutputStream to ensure the peer will
 		/// receive all data written thus far.
 		/// </remarks>

@@ -50,7 +50,7 @@ namespace NGit.Revwalk
 	/// <summary>Iterates through an open object list.</summary>
 	/// <remarks>
 	/// Iterates through an open object list.
-	/// <p>
+	/// <p/>
 	/// A cached object list should be constructed by enumerating from a single
 	/// stable commit back to the beginning of the project, using an ObjectWalk:
 	/// <pre>
@@ -63,7 +63,7 @@ namespace NGit.Revwalk
 	/// while ((object == walk.nextObject()) != null)
 	/// list.addObject(object, walk.getPathHasCode());
 	/// </pre>
-	/// <p>
+	/// <p/>
 	/// <see cref="NGit.Storage.Pack.PackWriter">NGit.Storage.Pack.PackWriter</see>
 	/// relies on the list covering a single commit, and going all
 	/// the way back to the root. If a list contains multiple starting commits the
@@ -101,7 +101,7 @@ namespace NGit.Revwalk
 		/// <summary>Pop the next most recent commit.</summary>
 		/// <remarks>
 		/// Pop the next most recent commit.
-		/// <p>
+		/// <p/>
 		/// Commits should be returned in descending commit time order, or in
 		/// topological order. Either ordering is acceptable for a list to use.
 		/// </remarks>
@@ -112,7 +112,7 @@ namespace NGit.Revwalk
 		/// <summary>Pop the next most recent object.</summary>
 		/// <remarks>
 		/// Pop the next most recent object.
-		/// <p>
+		/// <p/>
 		/// Only RevTree and RevBlob may be returned from this method, as these are
 		/// the only non-commit types reachable from a RevCommit. Lists may return
 		/// the objects clustered by type, or clustered by order of first-discovery
@@ -125,7 +125,7 @@ namespace NGit.Revwalk
 		/// <summary>Get the current object's path hash code.</summary>
 		/// <remarks>
 		/// Get the current object's path hash code.
-		/// <p>
+		/// <p/>
 		/// The path hash code should be cached from the ObjectWalk.
 		/// </remarks>
 		/// <returns>path hash code; any integer may be returned.</returns>

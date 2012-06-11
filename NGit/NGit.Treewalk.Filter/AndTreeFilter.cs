@@ -55,7 +55,7 @@ namespace NGit.Treewalk.Filter
 	/// 	</summary>
 	/// <remarks>
 	/// Includes a tree entry only if all subfilters include the same tree entry.
-	/// <p>
+	/// <p/>
 	/// Classic shortcut behavior is used, so evaluation of the
 	/// <see cref="TreeFilter.Include(NGit.Treewalk.TreeWalk)">TreeFilter.Include(NGit.Treewalk.TreeWalk)
 	/// 	</see>

@@ -59,7 +59,7 @@ namespace NGit.Revwalk
 		/// <summary>Create a new sorter and completely spin the generator.</summary>
 		/// <remarks>
 		/// Create a new sorter and completely spin the generator.
-		/// <p>
+		/// <p/>
 		/// When the constructor completes the supplied generator will have no
 		/// commits remaining, as all of the commits will be held inside of this
 		/// generator's internal buffer.

@@ -69,7 +69,7 @@ namespace NGit.Api
 	/// used for one invocation of the command (means: one call to
 	/// <see cref="Call()">Call()</see>
 	/// )
-	/// <p>
+	/// <p/>
 	/// </summary>
 	/// <seealso><a
 	/// *      href="http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html"

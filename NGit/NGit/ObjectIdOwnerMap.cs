@@ -51,17 +51,17 @@ namespace NGit
 	/// Fast, efficient map for
 	/// <see cref="ObjectId">ObjectId</see>
 	/// subclasses in only one map.
-	/// <p>
+	/// <p/>
 	/// To use this map type, applications must have their entry value type extend
 	/// from
 	/// <see cref="Entry">Entry</see>
 	/// , which itself extends from ObjectId.
-	/// <p>
+	/// <p/>
 	/// Object instances may only be stored in <b>ONE</b> ObjectIdOwnerMap. This
 	/// restriction exists because the map stores internal map state within each
 	/// object instance. If an instance is be placed in another ObjectIdOwnerMap it
 	/// could corrupt one or both map's internal state.
-	/// <p>
+	/// <p/>
 	/// If an object instance must be in more than one map, applications may use
 	/// ObjectIdOwnerMap for one of the maps, and
 	/// <see cref="ObjectIdSubclassMap{V}">ObjectIdSubclassMap&lt;V&gt;</see>
@@ -86,7 +86,7 @@ namespace NGit
 		/// <summary>Top level directory of the segments.</summary>
 		/// <remarks>
 		/// Top level directory of the segments.
-		/// <p>
+		/// <p/>
 		/// The low
 		/// <see cref="ObjectIdOwnerMap{V}.bits">ObjectIdOwnerMap&lt;V&gt;.bits</see>
 		/// of the SHA-1 are used to select the segment from
@@ -177,7 +177,7 @@ namespace NGit
 		/// <summary>Store an object for future lookup.</summary>
 		/// <remarks>
 		/// Store an object for future lookup.
-		/// <p>
+		/// <p/>
 		/// An existing mapping for <b>must not</b> be in this map. Callers must
 		/// first call
 		/// <see cref="ObjectIdOwnerMap{V}.Get(AnyObjectId)">ObjectIdOwnerMap&lt;V&gt;.Get(AnyObjectId)
@@ -206,7 +206,7 @@ namespace NGit
 		/// <summary>Store an object for future lookup.</summary>
 		/// <remarks>
 		/// Store an object for future lookup.
-		/// <p>
+		/// <p/>
 		/// Stores
 		/// <code>newValue</code>
 		/// , but only if there is not already an object for

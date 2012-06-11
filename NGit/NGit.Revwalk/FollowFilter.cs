@@ -51,7 +51,7 @@ namespace NGit.Revwalk
 	/// <summary>Updates the internal path filter to follow copy/renames.</summary>
 	/// <remarks>
 	/// Updates the internal path filter to follow copy/renames.
-	/// <p>
+	/// <p/>
 	/// This is a special filter that performs
 	/// <code>AND(path, ANY_DIFF)</code>
 	/// , but also
@@ -60,7 +60,7 @@ namespace NGit.Revwalk
 	/// The renames found will be reported to a
 	/// <see cref="RenameCallback">RenameCallback</see>
 	/// if one is set.
-	/// <p>
+	/// <p/>
 	/// Results with this filter are unpredictable if the path being followed is a
 	/// subdirectory.
 	/// </remarks>
@@ -69,11 +69,11 @@ namespace NGit.Revwalk
 		/// <summary>Create a new tree filter for a user supplied path.</summary>
 		/// <remarks>
 		/// Create a new tree filter for a user supplied path.
-		/// <p>
+		/// <p/>
 		/// Path strings are relative to the root of the repository. If the user's
 		/// input should be assumed relative to a subdirectory of the repository the
 		/// caller must prepend the subdirectory's path prior to creating the filter.
-		/// <p>
+		/// <p/>
 		/// Path strings use '/' to delimit directories on all platforms.
 		/// </remarks>
 		/// <param name="path">

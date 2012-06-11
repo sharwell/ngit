@@ -51,7 +51,7 @@ namespace NGit.Notes
 	/// <summary>Three-way note tree merge.</summary>
 	/// <remarks>
 	/// Three-way note tree merge.
-	/// <p>
+	/// <p/>
 	/// Direct implementation of NoteMap merger without using
 	/// <see cref="NGit.Treewalk.TreeWalk">NGit.Treewalk.TreeWalk</see>
 	/// and

@@ -50,7 +50,7 @@ namespace NGit
 	/// Base class to support constructing a
 	/// <see cref="Repository">Repository</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Applications must set one of
 	/// <see cref="BaseRepositoryBuilder{B, R}.SetGitDir(Sharpen.FilePath)">BaseRepositoryBuilder&lt;B, R&gt;.SetGitDir(Sharpen.FilePath)
 	/// 	</see>
@@ -65,7 +65,7 @@ namespace NGit
 	/// 	</see>
 	/// in order to configure the minimum property set
 	/// necessary to open a repository.
-	/// <p>
+	/// <p/>
 	/// Single repository applications trying to be compatible with other Git
 	/// implementations are encouraged to use a model such as:
 	/// <pre>

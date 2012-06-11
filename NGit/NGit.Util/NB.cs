@@ -52,7 +52,7 @@ namespace NGit.Util
 		/// <summary>Compare a 32 bit unsigned integer stored in a 32 bit signed integer.</summary>
 		/// <remarks>
 		/// Compare a 32 bit unsigned integer stored in a 32 bit signed integer.
-		/// <p>
+		/// <p/>
 		/// This function performs an unsigned compare operation, even though Java
 		/// does not natively support unsigned integer values. Negative numbers are
 		/// treated as larger than positive ones.

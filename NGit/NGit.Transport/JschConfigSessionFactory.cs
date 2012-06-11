@@ -60,11 +60,11 @@ namespace NGit.Transport
 	/// <remarks>
 	/// The base session factory that loads known hosts and private keys from
 	/// <code>$HOME/.ssh</code>.
-	/// <p>
+	/// <p/>
 	/// This is the default implementation used by JGit and provides most of the
 	/// compatibility necessary to match OpenSSH, a popular implementation of SSH
 	/// used by C Git.
-	/// <p>
+	/// <p/>
 	/// The factory does not provide UI behavior. Override the method
 	/// <see cref="Configure(Host, NSch.Session)">Configure(Host, NSch.Session)</see>
 	/// to supply appropriate

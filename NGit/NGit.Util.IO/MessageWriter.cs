@@ -52,23 +52,23 @@ namespace NGit.Util.IO
 	/// 	</summary>
 	/// <remarks>
 	/// Combines messages from an OutputStream (hopefully in UTF-8) and a Writer.
-	/// <p>
+	/// <p/>
 	/// This class is primarily meant for
 	/// <see cref="NGit.Transport.BaseConnection">NGit.Transport.BaseConnection</see>
 	/// in contexts where a
 	/// standard error stream from a command execution, as well as messages from a
 	/// side-band channel, need to be combined together into a buffer to represent
 	/// the complete set of messages from a remote repository.
-	/// <p>
+	/// <p/>
 	/// Writes made to the writer are re-encoded as UTF-8 and interleaved into the
 	/// buffer that
 	/// <see cref="GetRawStream()">GetRawStream()</see>
 	/// also writes to.
-	/// <p>
+	/// <p/>
 	/// <see cref="ToString()">ToString()</see>
 	/// returns all written data, after converting it to a String
 	/// under the assumption of UTF-8 encoding.
-	/// <p>
+	/// <p/>
 	/// Internally
 	/// <see cref="NGit.Util.RawParseUtils.Decode(byte[])">NGit.Util.RawParseUtils.Decode(byte[])
 	/// 	</see>

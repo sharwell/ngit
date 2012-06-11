@@ -55,22 +55,22 @@ namespace NGit.Treewalk
 	/// Walks one or more
 	/// <see cref="AbstractTreeIterator">AbstractTreeIterator</see>
 	/// s in parallel.
-	/// <p>
+	/// <p/>
 	/// This class can perform n-way differences across as many trees as necessary.
-	/// <p>
+	/// <p/>
 	/// Each tree added must have the same root as existing trees in the walk.
-	/// <p>
+	/// <p/>
 	/// A TreeWalk instance can only be used once to generate results. Running a
 	/// second time requires creating a new TreeWalk instance, or invoking
 	/// <see cref="Reset()">Reset()</see>
 	/// and adding new trees before starting again. Resetting an
 	/// existing instance may be faster for some applications as some internal
 	/// buffers may be recycled.
-	/// <p>
+	/// <p/>
 	/// TreeWalk instances are not thread-safe. Applications must either restrict
 	/// usage of a TreeWalk instance to a single thread, or implement their own
 	/// synchronization at a higher level.
-	/// <p>
+	/// <p/>
 	/// Multiple simultaneous TreeWalk instances per
 	/// <see cref="NGit.Repository">NGit.Repository</see>
 	/// are
@@ -84,7 +84,7 @@ namespace NGit.Treewalk
 		/// <summary>Open a tree walk and filter to exactly one path.</summary>
 		/// <remarks>
 		/// Open a tree walk and filter to exactly one path.
-		/// <p>
+		/// <p/>
 		/// The returned tree walk is already positioned on the requested path, so
 		/// the caller should not need to invoke
 		/// <see cref="Next()">Next()</see>
@@ -136,7 +136,7 @@ namespace NGit.Treewalk
 		/// <summary>Open a tree walk and filter to exactly one path.</summary>
 		/// <remarks>
 		/// Open a tree walk and filter to exactly one path.
-		/// <p>
+		/// <p/>
 		/// The returned tree walk is already positioned on the requested path, so
 		/// the caller should not need to invoke
 		/// <see cref="Next()">Next()</see>
@@ -177,7 +177,7 @@ namespace NGit.Treewalk
 		/// <summary>Open a tree walk and filter to exactly one path.</summary>
 		/// <remarks>
 		/// Open a tree walk and filter to exactly one path.
-		/// <p>
+		/// <p/>
 		/// The returned tree walk is already positioned on the requested path, so
 		/// the caller should not need to invoke
 		/// <see cref="Next()">Next()</see>
@@ -256,7 +256,7 @@ namespace NGit.Treewalk
 		/// <summary>Release any resources used by this walker's reader.</summary>
 		/// <remarks>
 		/// Release any resources used by this walker's reader.
-		/// <p>
+		/// <p/>
 		/// A walker that has been released can be used again, but may need to be
 		/// released after the subsequent usage.
 		/// </remarks>
@@ -271,12 +271,12 @@ namespace NGit.Treewalk
 		/// <summary>Set the tree entry filter for this walker.</summary>
 		/// <remarks>
 		/// Set the tree entry filter for this walker.
-		/// <p>
+		/// <p/>
 		/// Multiple filters may be combined by constructing an arbitrary tree of
 		/// <code>AndTreeFilter</code> or <code>OrTreeFilter</code> instances to
 		/// describe the boolean expression required by the application. Custom
 		/// filter implementations may also be constructed by applications.
-		/// <p>
+		/// <p/>
 		/// Note that filters are not thread-safe and may not be shared by concurrent
 		/// TreeWalk instances. Every TreeWalk must be supplied its own unique
 		/// filter, unless the filter implementation specifically states it is (and
@@ -310,13 +310,13 @@ namespace NGit.Treewalk
 
 		/// <summary>
 		/// Is this walker automatically entering into subtrees?
-		/// <p>
+		/// <p/>
 		/// If the walker is recursive then the caller will not see a subtree node
 		/// and instead will only receive file nodes in all relevant subtrees.
 		/// </summary>
 		/// <remarks>
 		/// Is this walker automatically entering into subtrees?
-		/// <p>
+		/// <p/>
 		/// If the walker is recursive then the caller will not see a subtree node
 		/// and instead will only receive file nodes in all relevant subtrees.
 		/// </remarks>
@@ -324,7 +324,7 @@ namespace NGit.Treewalk
 		/// <summary>Set the walker to enter (or not enter) subtrees automatically.</summary>
 		/// <remarks>
 		/// Set the walker to enter (or not enter) subtrees automatically.
-		/// <p>
+		/// <p/>
 		/// If recursive mode is enabled the walker will hide subtree nodes from the
 		/// calling application and will produce only file level nodes. If a tree
 		/// (directory) is deleted then all of the file level nodes will appear to be
@@ -347,13 +347,13 @@ namespace NGit.Treewalk
 
 		/// <summary>
 		/// Does this walker return a tree entry after it exits the subtree?
-		/// <p>
+		/// <p/>
 		/// If post order traversal is enabled then the walker will return a subtree
 		/// after it has returned the last entry within that subtree.
 		/// </summary>
 		/// <remarks>
 		/// Does this walker return a tree entry after it exits the subtree?
-		/// <p>
+		/// <p/>
 		/// If post order traversal is enabled then the walker will return a subtree
 		/// after it has returned the last entry within that subtree. This may cause
 		/// a subtree to be seen by the application twice if
@@ -361,7 +361,7 @@ namespace NGit.Treewalk
 		/// is false, as the application will see it once, call
 		/// <see cref="EnterSubtree()">EnterSubtree()</see>
 		/// , and then see it again as it leaves the subtree.
-		/// <p>
+		/// <p/>
 		/// If an application does not enable
 		/// <see cref="Recursive()">Recursive()</see>
 		/// and it does not
@@ -500,10 +500,10 @@ namespace NGit.Treewalk
 		/// <summary>Add an already existing tree object for walking.</summary>
 		/// <remarks>
 		/// Add an already existing tree object for walking.
-		/// <p>
+		/// <p/>
 		/// The position of this tree is returned to the caller, in case the caller
 		/// has lost track of the order they added the trees into the walker.
-		/// <p>
+		/// <p/>
 		/// The tree must have the same root as existing trees in the walk.
 		/// </remarks>
 		/// <param name="id">identity of the tree object the caller wants walked.</param>
@@ -529,10 +529,10 @@ namespace NGit.Treewalk
 		/// <summary>Add an already created tree iterator for walking.</summary>
 		/// <remarks>
 		/// Add an already created tree iterator for walking.
-		/// <p>
+		/// <p/>
 		/// The position of this tree is returned to the caller, in case the caller
 		/// has lost track of the order they added the trees into the walker.
-		/// <p>
+		/// <p/>
 		/// The tree which the iterator operates on must have the same root as
 		/// existing trees in the walk.
 		/// </remarks>
@@ -652,13 +652,12 @@ namespace NGit.Treewalk
 		/// <summary>Obtain the tree iterator for the current entry.</summary>
 		/// <remarks>
 		/// Obtain the tree iterator for the current entry.
-		/// <p>
+		/// <p/>
 		/// Entering into (or exiting out of) a subtree causes the current tree
 		/// iterator instance to be changed for the nth tree. This allows the tree
 		/// iterators to manage only one list of items, with the diving handled by
 		/// recursive trees.
 		/// </remarks>
-		/// <?></?>
 		/// <param name="nth">tree to obtain the current iterator of.</param>
 		/// <param name="clazz">type of the tree iterator expected by the caller.</param>
 		/// <returns>
@@ -676,7 +675,7 @@ namespace NGit.Treewalk
 		/// Obtain the raw
 		/// <see cref="NGit.FileMode">NGit.FileMode</see>
 		/// bits for the current entry.
-		/// <p>
+		/// <p/>
 		/// Every added tree supplies mode bits, even if the tree does not contain
 		/// the current entry. In the latter case
 		/// <see cref="NGit.FileMode.MISSING">NGit.FileMode.MISSING</see>
@@ -696,7 +695,7 @@ namespace NGit.Treewalk
 		/// Obtain the
 		/// <see cref="NGit.FileMode">NGit.FileMode</see>
 		/// for the current entry.
-		/// <p>
+		/// <p/>
 		/// Every added tree supplies a mode, even if the tree does not contain the
 		/// current entry. In the latter case
 		/// <see cref="NGit.FileMode.MISSING">NGit.FileMode.MISSING</see>
@@ -712,7 +711,7 @@ namespace NGit.Treewalk
 		/// <summary>Obtain the ObjectId for the current entry.</summary>
 		/// <remarks>
 		/// Obtain the ObjectId for the current entry.
-		/// <p>
+		/// <p/>
 		/// Using this method to compare ObjectId values between trees of this walker
 		/// is very inefficient. Applications should try to use
 		/// <see cref="IdEqual(int, int)">IdEqual(int, int)</see>
@@ -720,7 +719,7 @@ namespace NGit.Treewalk
 		/// <see cref="GetObjectId(NGit.MutableObjectId, int)">GetObjectId(NGit.MutableObjectId, int)
 		/// 	</see>
 		/// whenever possible.
-		/// <p>
+		/// <p/>
 		/// Every tree supplies an object id, even if the tree does not contain the
 		/// current entry. In the latter case
 		/// <see cref="NGit.ObjectId.ZeroId()">NGit.ObjectId.ZeroId()</see>
@@ -740,12 +739,12 @@ namespace NGit.Treewalk
 		/// <summary>Obtain the ObjectId for the current entry.</summary>
 		/// <remarks>
 		/// Obtain the ObjectId for the current entry.
-		/// <p>
+		/// <p/>
 		/// Every tree supplies an object id, even if the tree does not contain the
 		/// current entry. In the latter case
 		/// <see cref="NGit.ObjectId.ZeroId()">NGit.ObjectId.ZeroId()</see>
 		/// is supplied.
-		/// <p>
+		/// <p/>
 		/// Applications should try to use
 		/// <see cref="IdEqual(int, int)">IdEqual(int, int)</see>
 		/// when possible
@@ -803,7 +802,7 @@ namespace NGit.Treewalk
 		/// <summary>Get the current entry's name within its parent tree.</summary>
 		/// <remarks>
 		/// Get the current entry's name within its parent tree.
-		/// <p>
+		/// <p/>
 		/// This method is not very efficient and is primarily meant for debugging
 		/// and final output generation. Applications should try to avoid calling it,
 		/// and if invoked do so only once per interesting entry, where the name is
@@ -827,7 +826,7 @@ namespace NGit.Treewalk
 		/// <summary>Get the current entry's complete path.</summary>
 		/// <remarks>
 		/// Get the current entry's complete path.
-		/// <p>
+		/// <p/>
 		/// This method is not very efficient and is primarily meant for debugging
 		/// and final output generation. Applications should try to avoid calling it,
 		/// and if invoked do so only once per interesting entry, where the name is
@@ -874,7 +873,7 @@ namespace NGit.Treewalk
 		/// <summary>Test if the supplied path matches the current entry's path.</summary>
 		/// <remarks>
 		/// Test if the supplied path matches the current entry's path.
-		/// <p>
+		/// <p/>
 		/// This method tests that the supplied path is exactly equal to the current
 		/// entry, or is one of its parent directories. It is faster to use this
 		/// method then to use
@@ -935,7 +934,7 @@ namespace NGit.Treewalk
 		/// <remarks>
 		/// Test if the supplied path matches (being suffix of) the current entry's
 		/// path.
-		/// <p>
+		/// <p/>
 		/// This method tests that the supplied path is exactly equal to the current
 		/// entry, or is relative to one of entry's parent directories. It is faster
 		/// to use this method then to use
@@ -979,13 +978,13 @@ namespace NGit.Treewalk
 
 		/// <summary>
 		/// Is the current entry a subtree?
-		/// <p>
+		/// <p/>
 		/// This method is faster then testing the raw mode bits of all trees to see
 		/// if any of them are a subtree.
 		/// </summary>
 		/// <remarks>
 		/// Is the current entry a subtree?
-		/// <p>
+		/// <p/>
 		/// This method is faster then testing the raw mode bits of all trees to see
 		/// if any of them are a subtree. If at least one is a subtree then this
 		/// method will return true.
@@ -1020,7 +1019,7 @@ namespace NGit.Treewalk
 		/// <summary>Enter into the current subtree.</summary>
 		/// <remarks>
 		/// Enter into the current subtree.
-		/// <p>
+		/// <p/>
 		/// If the current entry is a subtree this method arranges for its children
 		/// to be returned before the next sibling following the subtree is returned.
 		/// </remarks>

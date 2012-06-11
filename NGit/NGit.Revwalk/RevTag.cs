@@ -177,7 +177,7 @@ namespace NGit.Revwalk
 		/// <summary>Parse the tagger identity from the raw buffer.</summary>
 		/// <remarks>
 		/// Parse the tagger identity from the raw buffer.
-		/// <p>
+		/// <p/>
 		/// This method parses and returns the content of the tagger line, after
 		/// taking the tag's character set into account and decoding the tagger
 		/// name and email address. This method is fairly expensive and produces a
@@ -204,7 +204,7 @@ namespace NGit.Revwalk
 		/// <summary>Parse the complete tag message and decode it to a string.</summary>
 		/// <remarks>
 		/// Parse the complete tag message and decode it to a string.
-		/// <p>
+		/// <p/>
 		/// This method parses and returns the message portion of the tag buffer,
 		/// after taking the tag's character set into account and decoding the buffer
 		/// using that character set. This method is a fairly expensive operation and
@@ -226,10 +226,10 @@ namespace NGit.Revwalk
 		/// <summary>Parse the tag message and return the first "line" of it.</summary>
 		/// <remarks>
 		/// Parse the tag message and return the first "line" of it.
-		/// <p>
+		/// <p/>
 		/// The first line is everything up to the first pair of LFs. This is the
 		/// "oneline" format, suitable for output in a single line display.
-		/// <p>
+		/// <p/>
 		/// This method parses and returns the message portion of the tag buffer,
 		/// after taking the tag's character set into account and decoding the buffer
 		/// using that character set. This method is a fairly expensive operation and

@@ -57,14 +57,14 @@ namespace NGit.Transport
 	/// <summary>Connects two Git repositories together and copies objects between them.</summary>
 	/// <remarks>
 	/// Connects two Git repositories together and copies objects between them.
-	/// <p>
+	/// <p/>
 	/// A transport can be used for either fetching (copying objects into the
 	/// caller's repository from the remote repository) or pushing (copying objects
 	/// into the remote repository from the caller's repository). Each transport
 	/// implementation is responsible for the details associated with establishing
 	/// the network connection(s) necessary for the copy, as well as actually
 	/// shuffling data back and forth.
-	/// <p>
+	/// <p/>
 	/// Transport instances and the connections they create are not thread-safe.
 	/// Callers must ensure a transport is accessed by only one thread at a time.
 	/// </remarks>
@@ -222,7 +222,7 @@ namespace NGit.Transport
 		/// <summary>Register a TransportProtocol instance for use during open.</summary>
 		/// <remarks>
 		/// Register a TransportProtocol instance for use during open.
-		/// <p>
+		/// <p/>
 		/// Protocol definitions are held by WeakReference, allowing them to be
 		/// garbage collected when the calling application drops all strongly held
 		/// references to the TransportProtocol. Therefore applications should use a
@@ -231,7 +231,7 @@ namespace NGit.Transport
 		/// 's class
 		/// documentation to ensure their protocol does not get disabled by garbage
 		/// collection earlier than expected.
-		/// <p>
+		/// <p/>
 		/// The new protocol is registered in front of all earlier protocols, giving
 		/// it higher priority than the built-in protocol definitions.
 		/// </remarks>
@@ -244,7 +244,7 @@ namespace NGit.Transport
 		/// <summary>Unregister a TransportProtocol instance.</summary>
 		/// <remarks>
 		/// Unregister a TransportProtocol instance.
-		/// <p>
+		/// <p/>
 		/// Unregistering a protocol usually isn't necessary, as protocols are held
 		/// by weak references and will automatically clear when they are garbage
 		/// collected by the JVM. Matching is handled by reference equality, so the
@@ -291,7 +291,7 @@ namespace NGit.Transport
 		/// <summary>Open a new transport instance to connect two repositories.</summary>
 		/// <remarks>
 		/// Open a new transport instance to connect two repositories.
-		/// <p>
+		/// <p/>
 		/// This method assumes
 		/// <see cref="Operation.FETCH">Operation.FETCH</see>
 		/// .
@@ -355,7 +355,7 @@ namespace NGit.Transport
 		/// <summary>Open new transport instances to connect two repositories.</summary>
 		/// <remarks>
 		/// Open new transport instances to connect two repositories.
-		/// <p>
+		/// <p/>
 		/// This method assumes
 		/// <see cref="Operation.FETCH">Operation.FETCH</see>
 		/// .
@@ -423,7 +423,7 @@ namespace NGit.Transport
 		/// <summary>Open a new transport instance to connect two repositories.</summary>
 		/// <remarks>
 		/// Open a new transport instance to connect two repositories.
-		/// <p>
+		/// <p/>
 		/// This method assumes
 		/// <see cref="Operation.FETCH">Operation.FETCH</see>
 		/// .
@@ -490,7 +490,7 @@ namespace NGit.Transport
 		/// <summary>Open new transport instances to connect two repositories.</summary>
 		/// <remarks>
 		/// Open new transport instances to connect two repositories.
-		/// <p>
+		/// <p/>
 		/// This method assumes
 		/// <see cref="Operation.FETCH">Operation.FETCH</see>
 		/// .
@@ -794,7 +794,7 @@ namespace NGit.Transport
 		/// <see cref="Fetch(NGit.ProgressMonitor, System.Collections.Generic.ICollection{E})
 		/// 	">Fetch(NGit.ProgressMonitor, System.Collections.Generic.ICollection&lt;E&gt;)</see>
 		/// should handle tags.
-		/// <p>
+		/// <p/>
 		/// We default to
 		/// <see cref="TagOpt.NO_TAGS">TagOpt.NO_TAGS</see>
 		/// so as to avoid fetching annotated
@@ -871,7 +871,7 @@ namespace NGit.Transport
 		/// <summary>Get the URI this transport connects to.</summary>
 		/// <remarks>
 		/// Get the URI this transport connects to.
-		/// <p>
+		/// <p/>
 		/// Each transport instance connects to at most one URI at any point in time.
 		/// </remarks>
 		/// <returns>the URI describing the location of the remote repository.</returns>
@@ -1042,11 +1042,11 @@ namespace NGit.Transport
 		/// <summary>Set whether or not to remove refs which no longer exist in the source.</summary>
 		/// <remarks>
 		/// Set whether or not to remove refs which no longer exist in the source.
-		/// <p>
+		/// <p/>
 		/// If true, refs at the destination repository (local for fetch, remote for
 		/// push) are deleted if they no longer exist on the source side (remote for
 		/// fetch, local for push).
-		/// <p>
+		/// <p/>
 		/// False by default, as this may cause data to become unreachable, and
 		/// eventually be deleted on the next GC.
 		/// </remarks>
@@ -1164,7 +1164,7 @@ namespace NGit.Transport
 		/// <summary>Fetch objects and refs from the remote repository to the local one.</summary>
 		/// <remarks>
 		/// Fetch objects and refs from the remote repository to the local one.
-		/// <p>
+		/// <p/>
 		/// This is a utility function providing standard fetch behavior. Local
 		/// tracking refs associated with the remote repository are automatically
 		/// updated if this transport was created from a
@@ -1242,13 +1242,13 @@ namespace NGit.Transport
 		/// <summary>Push objects and refs from the local repository to the remote one.</summary>
 		/// <remarks>
 		/// Push objects and refs from the local repository to the remote one.
-		/// <p>
+		/// <p/>
 		/// This is a utility function providing standard push behavior. It updates
 		/// remote refs and send there necessary objects according to remote ref
 		/// update specification. After successful remote ref update, associated
 		/// locally stored tracking branch is updated if set up accordingly. Detailed
 		/// operation result is provided after execution.
-		/// <p>
+		/// <p/>
 		/// For setting up remote ref update specification from ref spec, see helper
 		/// method
 		/// <see cref="FindRemoteRefUpdatesFor(System.Collections.Generic.ICollection{E})">FindRemoteRefUpdatesFor(System.Collections.Generic.ICollection&lt;E&gt;)
@@ -1262,7 +1262,7 @@ namespace NGit.Transport
 		/// directly
 		/// <see cref="RemoteRefUpdate">RemoteRefUpdate</see>
 		/// for more possibilities.
-		/// <p>
+		/// <p/>
 		/// When
 		/// <see cref="IsDryRun()">IsDryRun()</see>
 		/// is true, result of this operation is just
@@ -1334,7 +1334,7 @@ namespace NGit.Transport
 		/// always set as null. Tracking branch is configured if RefSpec destination
 		/// matches source of any fetch ref spec for this transport remote
 		/// configuration.
-		/// <p>
+		/// <p/>
 		/// Conversion is performed for context of this transport (database, fetch
 		/// specifications).
 		/// </summary>
@@ -1375,7 +1375,7 @@ namespace NGit.Transport
 		/// <summary>Close any resources used by this transport.</summary>
 		/// <remarks>
 		/// Close any resources used by this transport.
-		/// <p>
+		/// <p/>
 		/// If the remote repository is contacted by a network socket this method
 		/// must close that network socket, disconnecting the two peers. If the
 		/// remote repository is actually local (same system) this method must close

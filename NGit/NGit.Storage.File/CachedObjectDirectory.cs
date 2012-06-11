@@ -55,7 +55,7 @@ namespace NGit.Storage.File
 	/// The cached instance of an
 	/// <see cref="ObjectDirectory">ObjectDirectory</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// This class caches the list of loose objects in memory, so the file system is
 	/// not queried with stat calls.
 	/// </summary>

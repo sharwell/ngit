@@ -50,7 +50,7 @@ namespace NGit.Revwalk
 	/// Filters out commits marked
 	/// <see cref="RevWalk.UNINTERESTING">RevWalk.UNINTERESTING</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// This generator is only in front of another generator that has fully buffered
 	/// commits, such that we are called only after the
 	/// <see cref="PendingGenerator">PendingGenerator</see>

@@ -105,7 +105,7 @@ namespace NGit.Events
 		/// <summary>Dispatch an event to all interested listeners.</summary>
 		/// <remarks>
 		/// Dispatch an event to all interested listeners.
-		/// <p>
+		/// <p/>
 		/// Listeners are selected by the type of listener the event delivers to.
 		/// </remarks>
 		/// <param name="event">the event to deliver.</param>

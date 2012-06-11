@@ -55,7 +55,7 @@ namespace NGit.Revwalk
 	/// <summary>Specialized subclass of RevWalk to include trees, blobs and tags.</summary>
 	/// <remarks>
 	/// Specialized subclass of RevWalk to include trees, blobs and tags.
-	/// <p>
+	/// <p/>
 	/// Unlike RevWalk this subclass is able to remember starting roots that include
 	/// annotated tags, or arbitrary trees or blobs. Once commit generation is
 	/// complete and all commits have been popped by the application, individual
@@ -63,7 +63,7 @@ namespace NGit.Revwalk
 	/// method
 	/// <see cref="NextObject()">NextObject()</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Tree and blob objects reachable from interesting commits are automatically
 	/// scheduled for inclusion in the results of
 	/// <see cref="NextObject()">NextObject()</see>
@@ -93,7 +93,7 @@ namespace NGit.Revwalk
 		/// Indicates a non-RevCommit is in
 		/// <see cref="pendingObjects">pendingObjects</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// We can safely reuse
 		/// <see cref="RevWalk.REWRITE">RevWalk.REWRITE</see>
 		/// here for the same value as it
@@ -146,7 +146,7 @@ namespace NGit.Revwalk
 		/// <summary>Mark an object or commit to start graph traversal from.</summary>
 		/// <remarks>
 		/// Mark an object or commit to start graph traversal from.
-		/// <p>
+		/// <p/>
 		/// Callers are encouraged to use
 		/// <see cref="RevWalk.ParseAny(NGit.AnyObjectId)">RevWalk.ParseAny(NGit.AnyObjectId)
 		/// 	</see>
@@ -156,12 +156,12 @@ namespace NGit.Revwalk
 		/// , as this method
 		/// requires the object to be parsed before it can be added as a root for the
 		/// traversal.
-		/// <p>
+		/// <p/>
 		/// The method will automatically parse an unparsed object, but error
 		/// handling may be more difficult for the application to explain why a
 		/// RevObject is not actually valid. The object pool of this walker would
 		/// also be 'poisoned' by the invalid RevObject.
-		/// <p>
+		/// <p/>
 		/// This method will automatically call
 		/// <see cref="RevWalk.MarkStart(RevCommit)">RevWalk.MarkStart(RevCommit)</see>
 		/// if passed RevCommit instance, or a RevTag that directly (or indirectly)
@@ -212,11 +212,11 @@ namespace NGit.Revwalk
 		/// <summary>Mark an object to not produce in the output.</summary>
 		/// <remarks>
 		/// Mark an object to not produce in the output.
-		/// <p>
+		/// <p/>
 		/// Uninteresting objects denote not just themselves but also their entire
 		/// reachable chain, back until the merge base of an uninteresting commit and
 		/// an otherwise interesting commit.
-		/// <p>
+		/// <p/>
 		/// Callers are encouraged to use
 		/// <see cref="RevWalk.ParseAny(NGit.AnyObjectId)">RevWalk.ParseAny(NGit.AnyObjectId)
 		/// 	</see>
@@ -226,12 +226,12 @@ namespace NGit.Revwalk
 		/// , as this method
 		/// requires the object to be parsed before it can be added as a root for the
 		/// traversal.
-		/// <p>
+		/// <p/>
 		/// The method will automatically parse an unparsed object, but error
 		/// handling may be more difficult for the application to explain why a
 		/// RevObject is not actually valid. The object pool of this walker would
 		/// also be 'poisoned' by the invalid RevObject.
-		/// <p>
+		/// <p/>
 		/// This method will automatically call
 		/// <see cref="RevWalk.MarkStart(RevCommit)">RevWalk.MarkStart(RevCommit)</see>
 		/// if passed RevCommit instance, or a RevTag that directly (or indirectly)
@@ -622,14 +622,14 @@ namespace NGit.Revwalk
 		/// <summary>Verify all interesting objects are available, and reachable.</summary>
 		/// <remarks>
 		/// Verify all interesting objects are available, and reachable.
-		/// <p>
+		/// <p/>
 		/// Callers should populate starting points and ending points with
 		/// <see cref="MarkStart(RevObject)">MarkStart(RevObject)</see>
 		/// and
 		/// <see cref="MarkUninteresting(RevObject)">MarkUninteresting(RevObject)</see>
 		/// and then use this method to verify all objects between those two points
 		/// exist in the repository and are readable.
-		/// <p>
+		/// <p/>
 		/// This method returns successfully if everything is connected; it throws an
 		/// exception if there is a connectivity problem. The exception message
 		/// provides some detail about the connectivity failure.
@@ -672,7 +672,7 @@ namespace NGit.Revwalk
 		/// <summary>Get the current object's complete path.</summary>
 		/// <remarks>
 		/// Get the current object's complete path.
-		/// <p>
+		/// <p/>
 		/// This method is not very efficient and is primarily meant for debugging
 		/// and final output generation. Applications should try to avoid calling it,
 		/// and if invoked do so only once per interesting entry, where the name is
@@ -700,7 +700,7 @@ namespace NGit.Revwalk
 		/// <summary>Get the current object's path hash code.</summary>
 		/// <remarks>
 		/// Get the current object's path hash code.
-		/// <p>
+		/// <p/>
 		/// This method computes a hash code on the fly for this path, the hash is
 		/// suitable to cluster objects that may have similar paths together.
 		/// </remarks>

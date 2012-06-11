@@ -54,7 +54,7 @@ namespace NGit.Merge
 	/// 	</summary>
 	/// <remarks>
 	/// A method of combining two or more trees together to form an output tree.
-	/// <p>
+	/// <p/>
 	/// Different strategies may employ different techniques for deciding which paths
 	/// (and ObjectIds) to carry from the input trees into the final output tree.
 	/// </remarks>

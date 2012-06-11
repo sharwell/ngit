@@ -53,45 +53,45 @@ namespace NGit.Storage.File
 	/// Caches slices of a
 	/// <see cref="PackFile">PackFile</see>
 	/// in memory for faster read access.
-	/// <p>
+	/// <p/>
 	/// The WindowCache serves as a Java based "buffer cache", loading segments of a
 	/// PackFile into the JVM heap prior to use. As JGit often wants to do reads of
 	/// only tiny slices of a file, the WindowCache tries to smooth out these tiny
 	/// reads into larger block-sized IO operations.
-	/// <p>
+	/// <p/>
 	/// Whenever a cache miss occurs,
 	/// <see cref="Load(PackFile, long)">Load(PackFile, long)</see>
 	/// is invoked by
 	/// exactly one thread for the given <code>(PackFile,position)</code> key tuple.
 	/// This is ensured by an array of locks, with the tuple hashed to a lock
 	/// instance.
-	/// <p>
+	/// <p/>
 	/// During a miss, older entries are evicted from the cache so long as
 	/// <see cref="IsFull()">IsFull()</see>
 	/// returns true.
-	/// <p>
+	/// <p/>
 	/// Its too expensive during object access to be 100% accurate with a least
 	/// recently used (LRU) algorithm. Strictly ordering every read is a lot of
 	/// overhead that typically doesn't yield a corresponding benefit to the
 	/// application.
-	/// <p>
+	/// <p/>
 	/// This cache implements a loose LRU policy by randomly picking a window
 	/// comprised of roughly 10% of the cache, and evicting the oldest accessed entry
 	/// within that window.
-	/// <p>
+	/// <p/>
 	/// Entities created by the cache are held under SoftReferences, permitting the
 	/// Java runtime's garbage collector to evict entries when heap memory gets low.
 	/// Most JREs implement a loose least recently used algorithm for this eviction.
-	/// <p>
+	/// <p/>
 	/// The internal hash table does not expand at runtime, instead it is fixed in
 	/// size at cache creation time. The internal lock table used to gate load
 	/// invocations is also fixed in size.
-	/// <p>
+	/// <p/>
 	/// The key tuple is passed through to methods as a pair of parameters rather
 	/// than as a single Object, thus reducing the transient memory allocations of
 	/// callers. It is more efficient to avoid the allocation, as we can't be 100%
 	/// sure that a JIT would be able to stack-allocate a key tuple.
-	/// <p>
+	/// <p/>
 	/// This cache has an implementation rule such that:
 	/// <ul>
 	/// <li>
@@ -109,7 +109,7 @@ namespace NGit.Storage.File
 	/// to cleanup any resources associated
 	/// with the (now expired) cached entity.</li>
 	/// </ul>
-	/// <p>
+	/// <p/>
 	/// Therefore, it is safe to perform resource accounting increments during the
 	/// <see cref="Load(PackFile, long)">Load(PackFile, long)</see>
 	/// or
@@ -127,7 +127,7 @@ namespace NGit.Storage.File
 	/// subclass,
 	/// as the cached entity may have already been evicted by the JRE's garbage
 	/// collector.
-	/// <p>
+	/// <p/>
 	/// To maintain higher concurrency workloads, during eviction only one thread
 	/// performs the eviction work, while other threads can continue to insert new
 	/// objects in parallel. This means that the cache can be temporarily over limit,
@@ -163,7 +163,7 @@ namespace NGit.Storage.File
 		/// <summary>Modify the configuration of the window cache.</summary>
 		/// <remarks>
 		/// Modify the configuration of the window cache.
-		/// <p>
+		/// <p/>
 		/// The new configuration is applied immediately. If the new limits are
 		/// smaller than what what is currently cached, older entries will be purged
 		/// as soon as possible to allow the cache to meet the new limit.
@@ -189,7 +189,7 @@ namespace NGit.Storage.File
 		/// <summary>Modify the configuration of the window cache.</summary>
 		/// <remarks>
 		/// Modify the configuration of the window cache.
-		/// <p>
+		/// <p/>
 		/// The new configuration is applied immediately. If the new limits are
 		/// smaller than what what is currently cached, older entries will be purged
 		/// as soon as possible to allow the cache to meet the new limit.
@@ -577,7 +577,7 @@ namespace NGit.Storage.File
 		/// <summary>Clear every entry from the cache.</summary>
 		/// <remarks>
 		/// Clear every entry from the cache.
-		/// <p>
+		/// <p/>
 		/// This is a last-ditch effort to clear out the cache, such as before it
 		/// gets replaced by another cache that is configured differently. This
 		/// method tries to force every cached entry through
@@ -608,7 +608,7 @@ namespace NGit.Storage.File
 		/// <summary>Clear all entries related to a single file.</summary>
 		/// <remarks>
 		/// Clear all entries related to a single file.
-		/// <p>
+		/// <p/>
 		/// Typically this method is invoked during
 		/// <see cref="PackFile.Close()">PackFile.Close()</see>
 		/// , when we
@@ -722,7 +722,7 @@ namespace NGit.Storage.File
 			/// <summary>Marked true when ref.get() returns null and the ref is dead.</summary>
 			/// <remarks>
 			/// Marked true when ref.get() returns null and the ref is dead.
-			/// <p>
+			/// <p/>
 			/// A true here indicates that the ref is no longer accessible, and that
 			/// we therefore need to eventually purge this Entry object out of the
 			/// bucket's chain.

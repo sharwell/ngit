@@ -52,27 +52,27 @@ namespace NGit.Revplot
 	/// <summary>Basic commit graph renderer for graphical user interfaces.</summary>
 	/// <remarks>
 	/// Basic commit graph renderer for graphical user interfaces.
-	/// <p>
+	/// <p/>
 	/// Lanes are drawn as columns left-to-right in the graph, and the commit short
 	/// message is drawn to the right of the lane lines for this cell. It is assumed
 	/// that the commits are being drawn as rows of some sort of table.
-	/// <p>
+	/// <p/>
 	/// Client applications can subclass this implementation to provide the necessary
 	/// drawing primitives required to display a commit graph. Most of the graph
 	/// layout is handled by this class, allowing applications to implement only a
 	/// handful of primitive stubs.
-	/// <p>
+	/// <p/>
 	/// This class is suitable for us within an AWT TableCellRenderer or within a SWT
 	/// PaintListener registered on a Table instance. It is meant to rubber stamp the
 	/// graphics necessary for one row of a plotted commit list.
-	/// <p>
+	/// <p/>
 	/// Subclasses should call
 	/// <see cref="AbstractPlotRenderer{TLane, TColor}.PaintCommit(PlotCommit{L}, int)">AbstractPlotRenderer&lt;TLane, TColor&gt;.PaintCommit(PlotCommit&lt;L&gt;, int)
 	/// 	</see>
 	/// after they have
 	/// otherwise configured their instance to draw one commit into the current
 	/// location.
-	/// <p>
+	/// <p/>
 	/// All drawing methods assume the coordinate space for the current commit's cell
 	/// starts at (upper left corner is) 0,0. If this is not true (like say in SWT)
 	/// the implementation must perform the cell offset computations within the
@@ -183,10 +183,10 @@ namespace NGit.Revplot
 		/// <summary>Obtain the color reference used to paint this lane.</summary>
 		/// <remarks>
 		/// Obtain the color reference used to paint this lane.
-		/// <p>
+		/// <p/>
 		/// Colors returned by this method will be passed to the other drawing
 		/// primitives, so the color returned should be application specific.
-		/// <p>
+		/// <p/>
 		/// If a null lane is supplied the return value must still be acceptable to a
 		/// drawing method. Usually this means the implementation should return a
 		/// default color.
@@ -209,7 +209,7 @@ namespace NGit.Revplot
 		/// <summary>Draw a single commit dot.</summary>
 		/// <remarks>
 		/// Draw a single commit dot.
-		/// <p>
+		/// <p/>
 		/// Usually the commit dot is a filled oval in blue, then a drawn oval in
 		/// black, using the same coordinates for both operations.
 		/// </remarks>
@@ -222,7 +222,7 @@ namespace NGit.Revplot
 		/// <summary>Draw a single boundary commit (aka uninteresting commit) dot.</summary>
 		/// <remarks>
 		/// Draw a single boundary commit (aka uninteresting commit) dot.
-		/// <p>
+		/// <p/>
 		/// Usually a boundary commit dot is a light gray oval with a white center.
 		/// </remarks>
 		/// <param name="x">upper left of the oval's bounding box.</param>
@@ -234,7 +234,7 @@ namespace NGit.Revplot
 		/// <summary>Draw a single line of text.</summary>
 		/// <remarks>
 		/// Draw a single line of text.
-		/// <p>
+		/// <p/>
 		/// The font and colors used to render the text are left up to the
 		/// implementation.
 		/// </remarks>

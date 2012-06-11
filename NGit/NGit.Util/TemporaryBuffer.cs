@@ -54,7 +54,7 @@ namespace NGit.Util
 	/// <summary>A fully buffered output stream.</summary>
 	/// <remarks>
 	/// A fully buffered output stream.
-	/// <p>
+	/// <p/>
 	/// Subclasses determine the behavior when the in-memory buffer capacity has been
 	/// exceeded and additional bytes are still being received for output.
 	/// </remarks>
@@ -71,7 +71,7 @@ namespace NGit.Util
 		/// <summary>Maximum number of bytes we will permit storing in memory.</summary>
 		/// <remarks>
 		/// Maximum number of bytes we will permit storing in memory.
-		/// <p>
+		/// <p/>
 		/// When this limit is reached the data will be shifted to a file on disk,
 		/// preventing the JVM heap from growing out of control.
 		/// </remarks>
@@ -205,7 +205,7 @@ namespace NGit.Util
 		/// <summary>Obtain the length (in bytes) of the buffer.</summary>
 		/// <remarks>
 		/// Obtain the length (in bytes) of the buffer.
-		/// <p>
+		/// <p/>
 		/// The length is only accurate after
 		/// <see cref="Close()">Close()</see>
 		/// has been invoked.
@@ -225,7 +225,7 @@ namespace NGit.Util
 		/// <summary>Convert this buffer's contents into a contiguous byte array.</summary>
 		/// <remarks>
 		/// Convert this buffer's contents into a contiguous byte array.
-		/// <p>
+		/// <p/>
 		/// The buffer is only complete after
 		/// <see cref="Close()">Close()</see>
 		/// has been invoked.
@@ -258,7 +258,7 @@ namespace NGit.Util
 		/// <summary>Send this buffer to an output stream.</summary>
 		/// <remarks>
 		/// Send this buffer to an output stream.
-		/// <p>
+		/// <p/>
 		/// This method may only be invoked after
 		/// <see cref="Close()">Close()</see>
 		/// has completed
@@ -291,7 +291,7 @@ namespace NGit.Util
 		/// <summary>Open an input stream to read from the buffered data.</summary>
 		/// <remarks>
 		/// Open an input stream to read from the buffered data.
-		/// <p>
+		/// <p/>
 		/// This method may only be invoked after
 		/// <see cref="Close()">Close()</see>
 		/// has completed
@@ -409,11 +409,11 @@ namespace NGit.Util
 		/// <summary>A fully buffered output stream using local disk storage for large data.</summary>
 		/// <remarks>
 		/// A fully buffered output stream using local disk storage for large data.
-		/// <p>
+		/// <p/>
 		/// Initially this output stream buffers to memory and is therefore similar
 		/// to ByteArrayOutputStream, but it shifts to using an on disk temporary
 		/// file if the output gets too large.
-		/// <p>
+		/// <p/>
 		/// The content of this buffered stream may be sent to another OutputStream
 		/// only after this stream has been properly closed by
 		/// <see cref="TemporaryBuffer.Close()">TemporaryBuffer.Close()</see>
@@ -428,7 +428,7 @@ namespace NGit.Util
 			/// <summary>Location of our temporary file if we are on disk; otherwise null.</summary>
 			/// <remarks>
 			/// Location of our temporary file if we are on disk; otherwise null.
-			/// <p>
+			/// <p/>
 			/// If we exceeded the
 			/// <see cref="TemporaryBuffer.inCoreLimit">TemporaryBuffer.inCoreLimit</see>
 			/// we nulled out
@@ -587,7 +587,7 @@ namespace NGit.Util
 		/// <summary>A temporary buffer that will never exceed its in-memory limit.</summary>
 		/// <remarks>
 		/// A temporary buffer that will never exceed its in-memory limit.
-		/// <p>
+		/// <p/>
 		/// If the in-memory limit is reached an IOException is thrown, rather than
 		/// attempting to spool to local disk.
 		/// </remarks>

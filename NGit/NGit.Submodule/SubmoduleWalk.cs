@@ -176,11 +176,11 @@ namespace NGit.Submodule
 		/// <summary>Resolve submodule repository URL.</summary>
 		/// <remarks>
 		/// Resolve submodule repository URL.
-		/// <p>
+		/// <p/>
 		/// This handles relative URLs that are typically specified in the
 		/// '.gitmodules' file by resolving them against the remote URL of the parent
 		/// repository.
-		/// <p>
+		/// <p/>
 		/// Relative URLs will be resolved against the parent repository's working
 		/// directory if the parent repository has no configured remote URL.
 		/// </remarks>
@@ -502,7 +502,7 @@ namespace NGit.Submodule
 		/// <summary>Get the resolved remote URL for the current submodule.</summary>
 		/// <remarks>
 		/// Get the resolved remote URL for the current submodule.
-		/// <p>
+		/// <p/>
 		/// This method resolves the value of
 		/// <see cref="GetModulesUrl()">GetModulesUrl()</see>
 		/// to an absolute

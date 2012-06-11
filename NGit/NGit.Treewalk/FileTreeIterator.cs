@@ -51,7 +51,7 @@ namespace NGit.Treewalk
 	/// <summary>Working directory iterator for standard Java IO.</summary>
 	/// <remarks>
 	/// Working directory iterator for standard Java IO.
-	/// <p>
+	/// <p/>
 	/// This iterator uses the standard <code>java.io</code> package to read the
 	/// specified working directory as part of a
 	/// <see cref="TreeWalk">TreeWalk</see>

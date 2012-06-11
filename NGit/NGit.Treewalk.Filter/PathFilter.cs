@@ -53,7 +53,7 @@ namespace NGit.Treewalk.Filter
 	/// <summary>Includes tree entries only if they match the configured path.</summary>
 	/// <remarks>
 	/// Includes tree entries only if they match the configured path.
-	/// <p>
+	/// <p/>
 	/// Applications should use
 	/// <see cref="PathFilterGroup">PathFilterGroup</see>
 	/// to connect these into a tree
@@ -65,11 +65,11 @@ namespace NGit.Treewalk.Filter
 		/// <summary>Create a new tree filter for a user supplied path.</summary>
 		/// <remarks>
 		/// Create a new tree filter for a user supplied path.
-		/// <p>
+		/// <p/>
 		/// Path strings are relative to the root of the repository. If the user's
 		/// input should be assumed relative to a subdirectory of the repository the
 		/// caller must prepend the subdirectory's path prior to creating the filter.
-		/// <p>
+		/// <p/>
 		/// Path strings use '/' to delimit directories on all platforms.
 		/// </remarks>
 		/// <param name="path">

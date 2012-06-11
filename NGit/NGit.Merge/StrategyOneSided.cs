@@ -51,7 +51,7 @@ namespace NGit.Merge
 	/// 	</summary>
 	/// <remarks>
 	/// Trivial merge strategy to make the resulting tree exactly match an input.
-	/// <p>
+	/// <p/>
 	/// This strategy can be used to cauterize an entire side branch of history, by
 	/// setting the output tree to one of the inputs, and ignoring any of the paths
 	/// of the other inputs.

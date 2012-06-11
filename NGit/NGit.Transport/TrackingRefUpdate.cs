@@ -77,7 +77,7 @@ namespace NGit.Transport
 		/// <summary>Get the name of the remote ref.</summary>
 		/// <remarks>
 		/// Get the name of the remote ref.
-		/// <p>
+		/// <p/>
 		/// Usually this is of the form "refs/heads/master".
 		/// </remarks>
 		/// <returns>the name used within the remote repository.</returns>
@@ -89,7 +89,7 @@ namespace NGit.Transport
 		/// <summary>Get the name of the local tracking ref.</summary>
 		/// <remarks>
 		/// Get the name of the local tracking ref.
-		/// <p>
+		/// <p/>
 		/// Usually this is of the form "refs/remotes/origin/master".
 		/// </remarks>
 		/// <returns>the name used within this local repository.</returns>
@@ -109,7 +109,7 @@ namespace NGit.Transport
 		/// <summary>The old value of the ref, prior to the update being attempted.</summary>
 		/// <remarks>
 		/// The old value of the ref, prior to the update being attempted.
-		/// <p>
+		/// <p/>
 		/// This value may differ before and after the update method. Initially it is
 		/// populated with the value of the ref before the lock is taken, but the old
 		/// value may change if someone else modified the ref between the time we

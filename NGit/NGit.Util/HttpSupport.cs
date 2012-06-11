@@ -245,7 +245,7 @@ namespace NGit.Util
 		/// <summary>Get the HTTP response code from the request.</summary>
 		/// <remarks>
 		/// Get the HTTP response code from the request.
-		/// <p>
+		/// <p/>
 		/// Roughly the same as <code>c.getResponseCode()</code> but the
 		/// ConnectException is translated to be more understandable.
 		/// </remarks>

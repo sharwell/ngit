@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// <summary>
 	/// <see cref="UploadPackLogger">UploadPackLogger</see>
 	/// that delegates to a list of other loggers.
-	/// <p>
+	/// <p/>
 	/// loggers are run in the order passed to the constructor.
 	/// </summary>
 	public class UploadPackLoggerChain : UploadPackLogger

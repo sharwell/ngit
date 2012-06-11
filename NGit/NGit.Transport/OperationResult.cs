@@ -68,7 +68,7 @@ namespace NGit.Transport
 		/// <summary>Get the URI this result came from.</summary>
 		/// <remarks>
 		/// Get the URI this result came from.
-		/// <p>
+		/// <p/>
 		/// Each transport instance connects to at most one URI at any point in time.
 		/// </remarks>
 		/// <returns>the URI describing the location of the remote repository.</returns>
@@ -80,7 +80,7 @@ namespace NGit.Transport
 		/// <summary>Get the complete list of refs advertised by the remote.</summary>
 		/// <remarks>
 		/// Get the complete list of refs advertised by the remote.
-		/// <p>
+		/// <p/>
 		/// The returned refs may appear in any order. If the caller needs these to
 		/// be sorted, they should be copied into a new array or List and then sorted
 		/// by the caller as necessary.
@@ -98,7 +98,7 @@ namespace NGit.Transport
 		/// <summary>Get a single advertised ref by name.</summary>
 		/// <remarks>
 		/// Get a single advertised ref by name.
-		/// <p>
+		/// <p/>
 		/// The name supplied should be valid ref name. To get a peeled value for a
 		/// ref (aka <code>refs/tags/v1.0^{}</code>) use the base name (without
 		/// the <code>^{}</code> suffix) and look at the peeled object id.
@@ -148,7 +148,7 @@ namespace NGit.Transport
 		/// <summary>Get the additional messages, if any, returned by the remote process.</summary>
 		/// <remarks>
 		/// Get the additional messages, if any, returned by the remote process.
-		/// <p>
+		/// <p/>
 		/// These messages are most likely informational or error messages, sent by
 		/// the remote peer, to help the end-user correct any problems that may have
 		/// prevented the operation from completing successfully. Application UIs

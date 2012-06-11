@@ -118,7 +118,7 @@ namespace NGit.Api
 		/// <summary>Enable (or disable) following file renames.</summary>
 		/// <remarks>
 		/// Enable (or disable) following file renames.
-		/// <p>
+		/// <p/>
 		/// If true renames are followed using the standard FollowFilter behavior
 		/// used by RevWalk (which matches
 		/// <code>git log --follow</code>

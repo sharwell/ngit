@@ -51,7 +51,7 @@ namespace NGit
 	/// Abstraction of name to
 	/// <see cref="ObjectId">ObjectId</see>
 	/// mapping.
-	/// <p>
+	/// <p/>
 	/// A reference database stores a mapping of reference names to
 	/// <see cref="ObjectId">ObjectId</see>
 	/// .
@@ -67,7 +67,7 @@ namespace NGit
 		/// <summary>Order of prefixes to search when using non-absolute references.</summary>
 		/// <remarks>
 		/// Order of prefixes to search when using non-absolute references.
-		/// <p>
+		/// <p/>
 		/// The implementation's
 		/// <see cref="GetRef(string)">GetRef(string)</see>
 		/// method must take this search
@@ -84,7 +84,7 @@ namespace NGit
 		/// Maximum number of times a
 		/// <see cref="SymbolicRef">SymbolicRef</see>
 		/// can be traversed.
-		/// <p>
+		/// <p/>
 		/// If the reference is nested deeper than this depth, the implementation
 		/// should either fail, or at least claim the reference does not exist.
 		/// </summary>
@@ -115,14 +115,14 @@ namespace NGit
 		/// <summary>Determine if a proposed reference name overlaps with an existing one.</summary>
 		/// <remarks>
 		/// Determine if a proposed reference name overlaps with an existing one.
-		/// <p>
+		/// <p/>
 		/// Reference names use '/' as a component separator, and may be stored in a
 		/// hierarchical storage such as a directory on the local filesystem.
-		/// <p>
+		/// <p/>
 		/// If the reference "refs/heads/foo" exists then "refs/heads/foo/bar" must
 		/// not exist, as a reference cannot have a value and also be a container for
 		/// other references at the same time.
-		/// <p>
+		/// <p/>
 		/// If the reference "refs/heads/foo/bar" exists than the reference
 		/// "refs/heads/foo" cannot exist, for the same reason.
 		/// </remarks>
@@ -169,7 +169,7 @@ namespace NGit
 		/// <summary>Read a single reference.</summary>
 		/// <remarks>
 		/// Read a single reference.
-		/// <p>
+		/// <p/>
 		/// Aside from taking advantage of
 		/// <see cref="SEARCH_PATH">SEARCH_PATH</see>
 		/// , this method may be
@@ -216,7 +216,7 @@ namespace NGit
 		/// <summary>Get the additional reference-like entities from the repository.</summary>
 		/// <remarks>
 		/// Get the additional reference-like entities from the repository.
-		/// <p>
+		/// <p/>
 		/// The result list includes non-ref items such as MERGE_HEAD and
 		/// FETCH_RESULT cast to be refs. The names of these refs are not returned by
 		/// <code>getRefs(ALL)</code> but are accepted by
@@ -229,12 +229,12 @@ namespace NGit
 		/// <summary>Peel a possibly unpeeled reference by traversing the annotated tags.</summary>
 		/// <remarks>
 		/// Peel a possibly unpeeled reference by traversing the annotated tags.
-		/// <p>
+		/// <p/>
 		/// If the reference cannot be peeled (as it does not refer to an annotated
 		/// tag) the peeled id stays null, but
 		/// <see cref="Ref.IsPeeled()">Ref.IsPeeled()</see>
 		/// will be true.
-		/// <p>
+		/// <p/>
 		/// Implementors should check
 		/// <see cref="Ref.IsPeeled()">Ref.IsPeeled()</see>
 		/// before performing any
@@ -258,10 +258,10 @@ namespace NGit
 		/// <summary>Triggers a refresh of all internal data structures.</summary>
 		/// <remarks>
 		/// Triggers a refresh of all internal data structures.
-		/// <p>
+		/// <p/>
 		/// In case the RefDatabase implementation has internal caches this method
 		/// will trigger that all these caches are cleared.
-		/// <p>
+		/// <p/>
 		/// Implementors should overwrite this method if they use any kind of caches.
 		/// </remarks>
 		public virtual void Refresh()

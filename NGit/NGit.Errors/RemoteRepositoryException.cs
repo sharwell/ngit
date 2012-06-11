@@ -50,7 +50,7 @@ namespace NGit.Errors
 	/// <summary>Contains a message from the remote repository indicating a problem.</summary>
 	/// <remarks>
 	/// Contains a message from the remote repository indicating a problem.
-	/// <p>
+	/// <p/>
 	/// Some remote repositories may send customized error messages describing why
 	/// they cannot be accessed. These messages are wrapped up in this exception and
 	/// thrown to the caller of the transport operation.

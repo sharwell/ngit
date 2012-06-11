@@ -227,7 +227,7 @@ namespace NGit.Treewalk
 		/// <summary>Back door to quickly create a subtree iterator for any subtree.</summary>
 		/// <remarks>
 		/// Back door to quickly create a subtree iterator for any subtree.
-		/// <p>
+		/// <p/>
 		/// Don't use this unless you are ObjectWalk. The method is meant to be
 		/// called only once the current entry has been identified as a tree and its
 		/// identity has been converted into an ObjectId.

@@ -60,13 +60,13 @@ namespace NGit.Transport
 	/// <summary>Transport over HTTP and FTP protocols.</summary>
 	/// <remarks>
 	/// Transport over HTTP and FTP protocols.
-	/// <p>
+	/// <p/>
 	/// If the transport is using HTTP and the remote HTTP service is Git-aware
 	/// (speaks the "smart-http protocol") this client will automatically take
 	/// advantage of the additional Git-specific HTTP extensions. If the remote
 	/// service does not support these extensions, the client will degrade to direct
 	/// file fetching.
-	/// <p>
+	/// <p/>
 	/// If the remote (server side) repository does not have the specialized Git
 	/// support, object files are retrieved directly through standard HTTP GET (or
 	/// binary FTP GET) requests. This make it easy to serve a Git repository through
@@ -267,7 +267,7 @@ namespace NGit.Transport
 		/// <summary>Toggle whether or not smart HTTP transport should be used.</summary>
 		/// <remarks>
 		/// Toggle whether or not smart HTTP transport should be used.
-		/// <p>
+		/// <p/>
 		/// This flag exists primarily to support backwards compatibility testing
 		/// within a testing framework, there is no need to modify it in most
 		/// applications.
@@ -930,7 +930,7 @@ namespace NGit.Transport
 		/// <summary>State required to speak multiple HTTP requests with the remote.</summary>
 		/// <remarks>
 		/// State required to speak multiple HTTP requests with the remote.
-		/// <p>
+		/// <p/>
 		/// A service wrapper provides a normal looking InputStream and OutputStream
 		/// pair which are connected via HTTP to the named remote service. Writing to
 		/// the OutputStream is buffered until either the buffer overflows, or
@@ -938,10 +938,10 @@ namespace NGit.Transport
 		/// chunked transfer encoding is used to stream the request data to the
 		/// remote service. If the entire request fits in the memory buffer, the
 		/// older HTTP/1.0 standard and a fixed content length is used instead.
-		/// <p>
+		/// <p/>
 		/// It is an error to attempt to read without there being outstanding data
 		/// ready for transmission on the OutputStream.
-		/// <p>
+		/// <p/>
 		/// No state is preserved between write-read request pairs. The caller is
 		/// responsible for replaying state vector information as part of the request
 		/// data written to the OutputStream. Any session HTTP cookies may or may not

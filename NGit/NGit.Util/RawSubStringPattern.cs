@@ -52,7 +52,7 @@ namespace NGit.Util
 	/// <summary>Searches text using only substring search.</summary>
 	/// <remarks>
 	/// Searches text using only substring search.
-	/// <p>
+	/// <p/>
 	/// Instances are thread-safe. Multiple concurrent threads may perform matches on
 	/// different character sequences at the same time.
 	/// </remarks>

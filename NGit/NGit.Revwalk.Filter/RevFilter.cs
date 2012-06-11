@@ -52,17 +52,17 @@ namespace NGit.Revwalk.Filter
 	/// <summary>Selects interesting revisions during walking.</summary>
 	/// <remarks>
 	/// Selects interesting revisions during walking.
-	/// <p>
+	/// <p/>
 	/// This is an abstract interface. Applications may implement a subclass, or use
 	/// one of the predefined implementations already available within this package.
 	/// Filters may be chained together using <code>AndRevFilter</code> and
 	/// <code>OrRevFilter</code> to create complex boolean expressions.
-	/// <p>
+	/// <p/>
 	/// Applications should install the filter on a RevWalk by
 	/// <see cref="NGit.Revwalk.RevWalk.SetRevFilter(RevFilter)">NGit.Revwalk.RevWalk.SetRevFilter(RevFilter)
 	/// 	</see>
 	/// prior to starting traversal.
-	/// <p>
+	/// <p/>
 	/// Unless specifically noted otherwise a RevFilter implementation is not thread
 	/// safe and may not be shared by different RevWalk instances at the same time.
 	/// This restriction allows RevFilter implementations to cache state within their
@@ -74,7 +74,7 @@ namespace NGit.Revwalk.Filter
 	/// <see cref="Clone()">Clone()</see>
 	/// may be used to
 	/// construct a thread-safe copy of an existing filter.
-	/// <p>
+	/// <p/>
 	/// <b>Message filters:</b>
 	/// <ul>
 	/// <li>Author name/email:
@@ -87,14 +87,14 @@ namespace NGit.Revwalk.Filter
 	/// <see cref="MessageRevFilter">MessageRevFilter</see>
 	/// </li>
 	/// </ul>
-	/// <p>
+	/// <p/>
 	/// <b>Merge filters:</b>
 	/// <ul>
 	/// <li>Skip all merges:
 	/// <see cref="NO_MERGES">NO_MERGES</see>
 	/// .</li>
 	/// </ul>
-	/// <p>
+	/// <p/>
 	/// <b>Boolean modifiers:</b>
 	/// <ul>
 	/// <li>AND:
@@ -194,7 +194,7 @@ namespace NGit.Revwalk.Filter
 		/// <summary>Selects only merge bases of the starting points (thread safe).</summary>
 		/// <remarks>
 		/// Selects only merge bases of the starting points (thread safe).
-		/// <p>
+		/// <p/>
 		/// This is a special case filter that cannot be combined with any other
 		/// filter. Its include method always throws an exception as context
 		/// information beyond the arguments is necessary to determine if the
@@ -278,7 +278,7 @@ namespace NGit.Revwalk.Filter
 		/// <summary>Clone this revision filter, including its parameters.</summary>
 		/// <remarks>
 		/// Clone this revision filter, including its parameters.
-		/// <p>
+		/// <p/>
 		/// This is a deep clone. If this filter embeds objects or other filters it
 		/// must also clone those, to ensure the instances do not share mutable data.
 		/// </remarks>

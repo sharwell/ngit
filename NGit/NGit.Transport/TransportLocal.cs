@@ -58,15 +58,15 @@ namespace NGit.Transport
 	/// <summary>Transport to access a local directory as though it were a remote peer.</summary>
 	/// <remarks>
 	/// Transport to access a local directory as though it were a remote peer.
-	/// <p>
+	/// <p/>
 	/// This transport is suitable for use on the local system, where the caller has
 	/// direct read or write access to the "remote" repository.
-	/// <p>
+	/// <p/>
 	/// By default this transport works by spawning a helper thread within the same
 	/// JVM, and processes the data transfer using a shared memory buffer between the
 	/// calling thread and the helper thread. This is a pure-Java implementation
 	/// which does not require forking an external process.
-	/// <p>
+	/// <p/>
 	/// However, during
 	/// <see cref="OpenFetch()">OpenFetch()</see>
 	/// , if the Transport has configured
@@ -75,7 +75,7 @@ namespace NGit.Transport
 	/// <code>"git-upload-pack"</code> or <code>"git upload-pack"</code>, this
 	/// implementation will fork and execute the external process, using an operating
 	/// system pipe to transfer data.
-	/// <p>
+	/// <p/>
 	/// Similarly, during
 	/// <see cref="OpenPush()">OpenPush()</see>
 	/// , if the Transport has configured

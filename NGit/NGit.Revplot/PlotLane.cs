@@ -49,7 +49,7 @@ namespace NGit.Revplot
 	/// <summary>A line space within the graph.</summary>
 	/// <remarks>
 	/// A line space within the graph.
-	/// <p>
+	/// <p/>
 	/// Commits are strung onto a lane. For many UIs a lane represents a column.
 	/// </remarks>
 	[System.Serializable]

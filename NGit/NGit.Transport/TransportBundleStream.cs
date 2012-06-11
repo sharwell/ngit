@@ -54,7 +54,7 @@ namespace NGit.Transport
 	/// <summary>Single shot fetch from a streamed Git bundle.</summary>
 	/// <remarks>
 	/// Single shot fetch from a streamed Git bundle.
-	/// <p>
+	/// <p/>
 	/// The bundle is read from an unbuffered input stream, which limits the
 	/// transport to opening at most one FetchConnection before needing to recreate
 	/// the transport instance.
@@ -66,11 +66,11 @@ namespace NGit.Transport
 		/// <summary>Create a new transport to fetch objects from a streamed bundle.</summary>
 		/// <remarks>
 		/// Create a new transport to fetch objects from a streamed bundle.
-		/// <p>
+		/// <p/>
 		/// The stream can be unbuffered (buffering is automatically provided
 		/// internally to smooth out short reads) and unpositionable (the stream is
 		/// read from only once, sequentially).
-		/// <p>
+		/// <p/>
 		/// When the FetchConnection or the this instance is closed the supplied
 		/// input stream is also automatically closed. This frees callers from
 		/// needing to keep track of the supplied stream.

@@ -65,7 +65,7 @@ namespace NGit
 		/// <summary>Obtain an Inflater for decompression.</summary>
 		/// <remarks>
 		/// Obtain an Inflater for decompression.
-		/// <p>
+		/// <p/>
 		/// Inflaters obtained through this cache should be returned (if possible) by
 		/// <see cref="Release(ICSharpCode.SharpZipLib.Zip.Compression.Inflater)">Release(ICSharpCode.SharpZipLib.Zip.Compression.Inflater)
 		/// 	</see>

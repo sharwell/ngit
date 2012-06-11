@@ -127,7 +127,7 @@ namespace NGit
 		/// <summary>Construct a new update operation for the reference.</summary>
 		/// <remarks>
 		/// Construct a new update operation for the reference.
-		/// <p>
+		/// <p/>
 		/// <code>ref.getObjectId()</code>
 		/// will be used to seed
 		/// <see cref="GetOldObjectId()">GetOldObjectId()</see>
@@ -151,7 +151,7 @@ namespace NGit
 		/// <summary>Try to acquire the lock on the reference.</summary>
 		/// <remarks>
 		/// Try to acquire the lock on the reference.
-		/// <p>
+		/// <p/>
 		/// If the locking was successful the implementor must set the current
 		/// identity value by calling
 		/// <see cref="SetOldObjectId(ObjectId)">SetOldObjectId(ObjectId)</see>
@@ -293,7 +293,7 @@ namespace NGit
 		/// <summary>Set the identity of the user appearing in the reflog.</summary>
 		/// <remarks>
 		/// Set the identity of the user appearing in the reflog.
-		/// <p>
+		/// <p/>
 		/// The timestamp portion of the identity is ignored. A new identity with the
 		/// current timestamp will be created automatically when the update occurs
 		/// and the log record is written.
@@ -372,7 +372,7 @@ namespace NGit
 		/// <summary>The old value of the ref, prior to the update being attempted.</summary>
 		/// <remarks>
 		/// The old value of the ref, prior to the update being attempted.
-		/// <p>
+		/// <p/>
 		/// This value may differ before and after the update method. Initially it is
 		/// populated with the value of the ref before the lock is taken, but the old
 		/// value may change if someone else modified the ref between the time we
@@ -398,7 +398,7 @@ namespace NGit
 		/// <summary>Get the status of this update.</summary>
 		/// <remarks>
 		/// Get the status of this update.
-		/// <p>
+		/// <p/>
 		/// The same value that was previously returned from an update method.
 		/// </remarks>
 		/// <returns>the status of the update.</returns>
@@ -418,7 +418,7 @@ namespace NGit
 		/// <summary>Force the ref to take the new value.</summary>
 		/// <remarks>
 		/// Force the ref to take the new value.
-		/// <p>
+		/// <p/>
 		/// This is just a convenient helper for setting the force flag, and as such
 		/// the merge test is performed.
 		/// </remarks>
@@ -434,11 +434,11 @@ namespace NGit
 		/// <summary>Gracefully update the ref to the new value.</summary>
 		/// <remarks>
 		/// Gracefully update the ref to the new value.
-		/// <p>
+		/// <p/>
 		/// Merge test will be performed according to
 		/// <see cref="IsForceUpdate()">IsForceUpdate()</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This is the same as:
 		/// <pre>
 		/// return update(new RevWalk(getRepository()));
@@ -463,7 +463,7 @@ namespace NGit
 		/// <summary>Gracefully update the ref to the new value.</summary>
 		/// <remarks>
 		/// Gracefully update the ref to the new value.
-		/// <p>
+		/// <p/>
 		/// Merge test will be performed according to
 		/// <see cref="IsForceUpdate()">IsForceUpdate()</see>
 		/// .
@@ -512,7 +512,7 @@ namespace NGit
 		/// <summary>Delete the ref.</summary>
 		/// <remarks>
 		/// Delete the ref.
-		/// <p>
+		/// <p/>
 		/// This is the same as:
 		/// <pre>
 		/// return delete(new RevWalk(getRepository()));
@@ -586,7 +586,7 @@ namespace NGit
 		/// <summary>Replace this reference with a symbolic reference to another reference.</summary>
 		/// <remarks>
 		/// Replace this reference with a symbolic reference to another reference.
-		/// <p>
+		/// <p/>
 		/// This exact reference (not its traversed leaf) is replaced with a symbolic
 		/// reference to the requested name.
 		/// </remarks>

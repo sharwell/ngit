@@ -300,7 +300,7 @@ namespace NGit.Api
 		/// . The returned value maps the path of a conflicting
 		/// file to a two-dimensional int-array of line-numbers telling where in the
 		/// file conflict markers for which merged commit can be found.
-		/// <p>
+		/// <p/>
 		/// If the returned value contains a mapping "path"-&gt;[x][y]=z then this means
 		/// <ul>
 		/// <li>the file with path "path" contains conflicts</li>
@@ -310,7 +310,7 @@ namespace NGit.Api
 		/// <li>if y == "number of merged commits": the first non-conflicting line
 		/// after conflict number x starts at line number z</li>
 		/// </ul>
-		/// <p>
+		/// <p/>
 		/// Example code how to parse this data:
 		/// <pre> MergeResult m=...;
 		/// Map<String, int[][]> allConflicts = m.getConflicts();

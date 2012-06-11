@@ -51,7 +51,7 @@ namespace NGit.Transport
 	/// Hook invoked by
 	/// <see cref="ReceivePack">ReceivePack</see>
 	/// before any updates are executed.
-	/// <p>
+	/// <p/>
 	/// The hook is called with any commands that are deemed valid after parsing them
 	/// from the client and applying the standard receive configuration options to
 	/// them:
@@ -64,20 +64,20 @@ namespace NGit.Transport
 	/// commands within the hook, see
 	/// <see cref="ReceivePack.GetAllCommands()">ReceivePack.GetAllCommands()</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// As the hook is invoked prior to the commands being executed, the hook may
 	/// choose to block any command by setting its result status with
 	/// <see cref="ReceiveCommand.SetResult(Result)">ReceiveCommand.SetResult(Result)</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// The hook may also choose to perform the command itself (or merely pretend
 	/// that it has performed the command), by setting the result status to
 	/// <see cref="Result.OK">Result.OK</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Hooks should run quickly, as they block the caller thread and the client
 	/// process from completing.
-	/// <p>
+	/// <p/>
 	/// Hooks may send optional messages back to the client via methods on
 	/// <see cref="ReceivePack">ReceivePack</see>
 	/// . Implementors should be aware that not all network
@@ -106,7 +106,7 @@ namespace NGit.Transport
 		/// <summary>Invoked just before commands are executed.</summary>
 		/// <remarks>
 		/// Invoked just before commands are executed.
-		/// <p>
+		/// <p/>
 		/// See the class description for how this method can impact execution.
 		/// </remarks>
 		/// <param name="rp">

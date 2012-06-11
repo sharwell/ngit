@@ -259,7 +259,7 @@ namespace NGit.Revwalk
 		/// <summary>Carry a RevFlag set on this commit to its parents.</summary>
 		/// <remarks>
 		/// Carry a RevFlag set on this commit to its parents.
-		/// <p>
+		/// <p/>
 		/// If this commit is parsed, has parents, and has the supplied flag set on
 		/// it we automatically add it to the parents, grand-parents, and so on until
 		/// an unparsed commit or a commit with no parents is discovered. This
@@ -327,7 +327,7 @@ namespace NGit.Revwalk
 		/// <summary>Obtain an array of all parents (<b>NOTE - THIS IS NOT A COPY</b>).</summary>
 		/// <remarks>
 		/// Obtain an array of all parents (<b>NOTE - THIS IS NOT A COPY</b>).
-		/// <p>
+		/// <p/>
 		/// This method is exposed only to provide very fast, efficient access to
 		/// this commit's parent list. Applications relying on this list should be
 		/// very careful to ensure they do not modify its contents during their use
@@ -345,7 +345,7 @@ namespace NGit.Revwalk
 		/// <summary>Obtain the raw unparsed commit body (<b>NOTE - THIS IS NOT A COPY</b>).</summary>
 		/// <remarks>
 		/// Obtain the raw unparsed commit body (<b>NOTE - THIS IS NOT A COPY</b>).
-		/// <p>
+		/// <p/>
 		/// This method is exposed only to provide very fast, efficient access to
 		/// this commit's message buffer within a RevFilter. Applications relying on
 		/// this buffer should be very careful to ensure they do not modify its
@@ -367,7 +367,7 @@ namespace NGit.Revwalk
 		/// <summary>Parse the author identity from the raw buffer.</summary>
 		/// <remarks>
 		/// Parse the author identity from the raw buffer.
-		/// <p>
+		/// <p/>
 		/// This method parses and returns the content of the author line, after
 		/// taking the commit's character set into account and decoding the author
 		/// name and email address. This method is fairly expensive and produces a
@@ -375,7 +375,7 @@ namespace NGit.Revwalk
 		/// method only if they are certain they will be outputting the result, and
 		/// should cache the return value for as long as necessary to use all
 		/// information from it.
-		/// <p>
+		/// <p/>
 		/// RevFilter implementations should try to use
 		/// <see cref="NGit.Util.RawParseUtils">NGit.Util.RawParseUtils</see>
 		/// to scan
@@ -402,7 +402,7 @@ namespace NGit.Revwalk
 		/// <summary>Parse the committer identity from the raw buffer.</summary>
 		/// <remarks>
 		/// Parse the committer identity from the raw buffer.
-		/// <p>
+		/// <p/>
 		/// This method parses and returns the content of the committer line, after
 		/// taking the commit's character set into account and decoding the committer
 		/// name and email address. This method is fairly expensive and produces a
@@ -410,7 +410,7 @@ namespace NGit.Revwalk
 		/// method only if they are certain they will be outputting the result, and
 		/// should cache the return value for as long as necessary to use all
 		/// information from it.
-		/// <p>
+		/// <p/>
 		/// RevFilter implementations should try to use
 		/// <see cref="NGit.Util.RawParseUtils">NGit.Util.RawParseUtils</see>
 		/// to scan
@@ -437,7 +437,7 @@ namespace NGit.Revwalk
 		/// <summary>Parse the complete commit message and decode it to a string.</summary>
 		/// <remarks>
 		/// Parse the complete commit message and decode it to a string.
-		/// <p>
+		/// <p/>
 		/// This method parses and returns the message portion of the commit buffer,
 		/// after taking the commit's character set into account and decoding the
 		/// buffer using that character set. This method is a fairly expensive
@@ -459,10 +459,10 @@ namespace NGit.Revwalk
 		/// <summary>Parse the commit message and return the first "line" of it.</summary>
 		/// <remarks>
 		/// Parse the commit message and return the first "line" of it.
-		/// <p>
+		/// <p/>
 		/// The first line is everything up to the first pair of LFs. This is the
 		/// "oneline" format, suitable for output in a single line display.
-		/// <p>
+		/// <p/>
 		/// This method parses and returns the message portion of the commit buffer,
 		/// after taking the commit's character set into account and decoding the
 		/// buffer using that character set. This method is a fairly expensive
@@ -506,11 +506,11 @@ namespace NGit.Revwalk
 		/// <summary>Determine the encoding of the commit message buffer.</summary>
 		/// <remarks>
 		/// Determine the encoding of the commit message buffer.
-		/// <p>
+		/// <p/>
 		/// Locates the "encoding" header (if present) and then returns the proper
 		/// character set to apply to this buffer to evaluate its contents as
 		/// character data.
-		/// <p>
+		/// <p/>
 		/// If no encoding header is present,
 		/// <see cref="NGit.Constants.CHARSET">NGit.Constants.CHARSET</see>
 		/// is assumed.
@@ -531,11 +531,11 @@ namespace NGit.Revwalk
 		/// <summary>Parse the footer lines (e.g.</summary>
 		/// <remarks>
 		/// Parse the footer lines (e.g. "Signed-off-by") for machine processing.
-		/// <p>
+		/// <p/>
 		/// This method splits all of the footer lines out of the last paragraph of
 		/// the commit message, providing each line as a key-value pair, ordered by
 		/// the order of the line's appearance in the commit message itself.
-		/// <p>
+		/// <p/>
 		/// A footer line's key must match the pattern
 		/// <code>^[A-Za-z0-9-]+:</code>
 		/// , while
@@ -667,7 +667,7 @@ namespace NGit.Revwalk
 		/// <summary>Reset this commit to allow another RevWalk with the same instances.</summary>
 		/// <remarks>
 		/// Reset this commit to allow another RevWalk with the same instances.
-		/// <p>
+		/// <p/>
 		/// Subclasses <b>must</b> call <code>super.reset()</code> to ensure the
 		/// basic information can be correctly cleared out.
 		/// </remarks>

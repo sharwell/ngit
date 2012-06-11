@@ -61,12 +61,12 @@ namespace NGit.Transport
 	/// Parses a pack stream and imports it for an
 	/// <see cref="NGit.ObjectInserter">NGit.ObjectInserter</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Applications can acquire an instance of a parser from ObjectInserter's
 	/// <see cref="NGit.ObjectInserter.NewPackParser(Sharpen.InputStream)">NGit.ObjectInserter.NewPackParser(Sharpen.InputStream)
 	/// 	</see>
 	/// method.
-	/// <p>
+	/// <p/>
 	/// Implementations of
 	/// <see cref="NGit.ObjectInserter">NGit.ObjectInserter</see>
 	/// should subclass this type and
@@ -135,7 +135,7 @@ namespace NGit.Transport
 		/// <summary>Every object contained within the incoming pack.</summary>
 		/// <remarks>
 		/// Every object contained within the incoming pack.
-		/// <p>
+		/// <p/>
 		/// This is a subset of
 		/// <see cref="entries">entries</see>
 		/// , as thin packs can add additional
@@ -155,7 +155,7 @@ namespace NGit.Transport
 		/// <summary>Objects referenced by their name from deltas, that aren't in this pack.</summary>
 		/// <remarks>
 		/// Objects referenced by their name from deltas, that aren't in this pack.
-		/// <p>
+		/// <p/>
 		/// This is the set of objects that were copied onto the end of this pack to
 		/// make it complete. These objects were not transmitted by the remote peer,
 		/// but instead were assumed to already exist in the local repository.
@@ -207,7 +207,7 @@ namespace NGit.Transport
 		/// <summary>Configure this index pack instance to allow a thin pack.</summary>
 		/// <remarks>
 		/// Configure this index pack instance to allow a thin pack.
-		/// <p>
+		/// <p/>
 		/// Thin packs are sometimes used during network transfers to allow a delta
 		/// to be sent without a base object. Such packs are not permitted on disk.
 		/// </remarks>
@@ -226,7 +226,7 @@ namespace NGit.Transport
 		/// <summary>Enable checking for collisions with existing objects.</summary>
 		/// <remarks>
 		/// Enable checking for collisions with existing objects.
-		/// <p>
+		/// <p/>
 		/// By default PackParser looks for each received object in the repository.
 		/// If the object already exists, the existing object is compared
 		/// byte-for-byte with the newly received copy to ensure they are identical.
@@ -234,7 +234,7 @@ namespace NGit.Transport
 		/// is necessary to prevent an evil attacker from supplying a replacement
 		/// object into this repository in the event that a discovery enabling SHA-1
 		/// collisions is made.
-		/// <p>
+		/// <p/>
 		/// This check may be very costly to perform, and some repositories may have
 		/// other ways to segregate newly received object data. The check is enabled
 		/// by default, but can be explicitly disabled if the implementation can
@@ -250,7 +250,7 @@ namespace NGit.Transport
 		/// <summary>Configure this index pack instance to keep track of new objects.</summary>
 		/// <remarks>
 		/// Configure this index pack instance to keep track of new objects.
-		/// <p>
+		/// <p/>
 		/// By default an index pack doesn't save the new objects that were created
 		/// when it was instantiated. Setting this flag to
 		/// <code>true</code>
@@ -287,7 +287,7 @@ namespace NGit.Transport
 		/// <remarks>
 		/// Configure this index pack instance to keep track of the objects assumed
 		/// for delta bases.
-		/// <p>
+		/// <p/>
 		/// By default an index pack doesn't save the objects that were used as delta
 		/// bases. Setting this flag to
 		/// <code>true</code>
@@ -341,7 +341,7 @@ namespace NGit.Transport
 		/// <summary>Configure the checker used to validate received objects.</summary>
 		/// <remarks>
 		/// Configure the checker used to validate received objects.
-		/// <p>
+		/// <p/>
 		/// Usually object checking isn't necessary, as Git implementations only
 		/// create valid objects in pack files. However, additional checking may be
 		/// useful if processing data from an untrusted source.
@@ -355,11 +355,11 @@ namespace NGit.Transport
 		/// <summary>Configure the checker used to validate received objects.</summary>
 		/// <remarks>
 		/// Configure the checker used to validate received objects.
-		/// <p>
+		/// <p/>
 		/// Usually object checking isn't necessary, as Git implementations only
 		/// create valid objects in pack files. However, additional checking may be
 		/// useful if processing data from an untrusted source.
-		/// <p>
+		/// <p/>
 		/// This is shorthand for:
 		/// <pre>
 		/// setObjectChecker(on ? new ObjectChecker() : null);
@@ -391,7 +391,7 @@ namespace NGit.Transport
 		/// <summary>Set the maximum allowed Git object size.</summary>
 		/// <remarks>
 		/// Set the maximum allowed Git object size.
-		/// <p>
+		/// <p/>
 		/// If an object is larger than the given size the pack-parsing will throw an
 		/// exception aborting the parsing.
 		/// </remarks>
@@ -404,7 +404,7 @@ namespace NGit.Transport
 		/// <summary>Get the number of objects in the stream.</summary>
 		/// <remarks>
 		/// Get the number of objects in the stream.
-		/// <p>
+		/// <p/>
 		/// The object count is only available after
 		/// <see cref="Parse(NGit.ProgressMonitor)">Parse(NGit.ProgressMonitor)</see>
 		/// has returned. The count may have been increased if the stream was a thin
@@ -419,7 +419,7 @@ namespace NGit.Transport
 		/// <summary>Get the information about the requested object.</summary>
 		/// <remarks>
 		/// Get the information about the requested object.
-		/// <p>
+		/// <p/>
 		/// The object information is only available after
 		/// <see cref="Parse(NGit.ProgressMonitor)">Parse(NGit.ProgressMonitor)</see>
 		/// has returned.
@@ -438,11 +438,11 @@ namespace NGit.Transport
 		/// <summary>Get all of the objects, sorted by their name.</summary>
 		/// <remarks>
 		/// Get all of the objects, sorted by their name.
-		/// <p>
+		/// <p/>
 		/// The object information is only available after
 		/// <see cref="Parse(NGit.ProgressMonitor)">Parse(NGit.ProgressMonitor)</see>
 		/// has returned.
-		/// <p>
+		/// <p/>
 		/// To maintain lower memory usage and good runtime performance, this method
 		/// sorts the objects in-place and therefore impacts the ordering presented
 		/// by
@@ -734,13 +734,13 @@ namespace NGit.Transport
 		/// <summary>Read the header of the current object.</summary>
 		/// <remarks>
 		/// Read the header of the current object.
-		/// <p>
+		/// <p/>
 		/// After the header has been parsed, this method automatically invokes
 		/// <see cref="OnObjectHeader(Source, byte[], int, int)">OnObjectHeader(Source, byte[], int, int)
 		/// 	</see>
 		/// to allow the
 		/// implementation to update its internal checksums for the bytes read.
-		/// <p>
+		/// <p/>
 		/// When this method returns the database will be positioned on the first
 		/// byte of the deflated data stream.
 		/// </remarks>
@@ -1362,14 +1362,14 @@ namespace NGit.Transport
 		/// <summary>Store bytes received from the raw stream.</summary>
 		/// <remarks>
 		/// Store bytes received from the raw stream.
-		/// <p>
+		/// <p/>
 		/// This method is invoked during
 		/// <see cref="Parse(NGit.ProgressMonitor)">Parse(NGit.ProgressMonitor)</see>
 		/// as data is
 		/// consumed from the incoming stream. Implementors may use this event to
 		/// archive the raw incoming stream to the destination repository in large
 		/// chunks, without paying attention to object boundaries.
-		/// <p>
+		/// <p/>
 		/// The only component of the pack not supplied to this method is the last 20
 		/// bytes of the pack that comprise the trailing SHA-1 checksum. Those are
 		/// passed to
@@ -1385,7 +1385,7 @@ namespace NGit.Transport
 		/// <summary>Store (and/or checksum) an object header.</summary>
 		/// <remarks>
 		/// Store (and/or checksum) an object header.
-		/// <p>
+		/// <p/>
 		/// Invoked after any of the
 		/// <code>onBegin()</code>
 		/// events. The entire header is
@@ -1402,11 +1402,11 @@ namespace NGit.Transport
 		/// <summary>Store (and/or checksum) a portion of an object's data.</summary>
 		/// <remarks>
 		/// Store (and/or checksum) a portion of an object's data.
-		/// <p>
+		/// <p/>
 		/// This method may be invoked multiple times per object, depending on the
 		/// size of the object, the size of the parser's internal read buffer, and
 		/// the alignment of the object relative to the read buffer.
-		/// <p>
+		/// <p/>
 		/// Invoked after
 		/// <see cref="OnObjectHeader(Source, byte[], int, int)">OnObjectHeader(Source, byte[], int, int)
 		/// 	</see>
@@ -1448,7 +1448,7 @@ namespace NGit.Transport
 		/// <summary>Provide the implementation with a base that was outside of the pack.</summary>
 		/// <remarks>
 		/// Provide the implementation with a base that was outside of the pack.
-		/// <p>
+		/// <p/>
 		/// This event only occurs on a thin pack for base objects that were outside
 		/// of the pack and came from the local repository. Usually an implementation
 		/// uses this event to compress the base and append it onto the end of the
@@ -1478,7 +1478,7 @@ namespace NGit.Transport
 		/// <summary>Event indicating a thin pack has been completely processed.</summary>
 		/// <remarks>
 		/// Event indicating a thin pack has been completely processed.
-		/// <p>
+		/// <p/>
 		/// This event is invoked only if a thin pack has delta references to objects
 		/// external from the pack. The event is called after all of those deltas
 		/// have been resolved.
@@ -1489,7 +1489,7 @@ namespace NGit.Transport
 		/// <summary>Reposition the database to re-read a previously stored object.</summary>
 		/// <remarks>
 		/// Reposition the database to re-read a previously stored object.
-		/// <p>
+		/// <p/>
 		/// If the database is computing CRC-32 checksums for object data, it should
 		/// reset its internal CRC instance during this method call.
 		/// </remarks>
@@ -1513,7 +1513,7 @@ namespace NGit.Transport
 		/// <summary>Reposition the database to re-read a previously stored object.</summary>
 		/// <remarks>
 		/// Reposition the database to re-read a previously stored object.
-		/// <p>
+		/// <p/>
 		/// If the database is computing CRC-32 checksums for object data, it should
 		/// reset its internal CRC instance during this method call.
 		/// </remarks>
@@ -1553,12 +1553,12 @@ namespace NGit.Transport
 		/// <summary>Check the current CRC matches the expected value.</summary>
 		/// <remarks>
 		/// Check the current CRC matches the expected value.
-		/// <p>
+		/// <p/>
 		/// This method is invoked when an object is read back in from the database
 		/// and its data is used during delta resolution. The CRC is validated after
 		/// the object has been fully read, allowing the parser to verify there was
 		/// no silent data corruption.
-		/// <p>
+		/// <p/>
 		/// Implementations are free to ignore this check by always returning true if
 		/// they are performing other data integrity validations at a lower level.
 		/// </remarks>

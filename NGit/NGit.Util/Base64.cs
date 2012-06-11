@@ -50,7 +50,7 @@ namespace NGit.Util
 	/// <summary>Encodes and decodes to and from Base64 notation.</summary>
 	/// <remarks>
 	/// Encodes and decodes to and from Base64 notation.
-	/// <p>
+	/// <p/>
 	/// I am placing this code in the Public Domain. Do with it as you will. This
 	/// software comes with no guarantees or warranties but with plenty of
 	/// well-wishing instead! Please visit &lt;a

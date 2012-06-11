@@ -69,7 +69,7 @@ namespace NGit.Transport
 		/// <summary>A simple hook that advertises the default refs.</summary>
 		/// <remarks>
 		/// A simple hook that advertises the default refs.
-		/// <p>
+		/// <p/>
 		/// The method implementations do nothing to preserve the default behavior; see
 		/// <see cref="UploadPack.SetAdvertisedRefs(System.Collections.Generic.IDictionary{K, V})
 		/// 	">UploadPack.SetAdvertisedRefs(System.Collections.Generic.IDictionary&lt;K, V&gt;)

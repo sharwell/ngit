@@ -60,17 +60,17 @@ namespace NGit.Storage.File
 	/// Traditional file system based
 	/// <see cref="NGit.RefDatabase">NGit.RefDatabase</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// This is the classical reference database representation for a Git repository.
 	/// References are stored in two formats: loose, and packed.
-	/// <p>
+	/// <p/>
 	/// Loose references are stored as individual files within the
 	/// <code>refs/</code>
 	/// directory. The file name matches the reference name and the file contents is
 	/// the current
 	/// <see cref="NGit.ObjectId">NGit.ObjectId</see>
 	/// in string form.
-	/// <p>
+	/// <p/>
 	/// Packed references are stored in a single text file named
 	/// <code>packed-refs</code>
 	/// .
@@ -109,7 +109,7 @@ namespace NGit.Storage.File
 		/// <summary>Immutable sorted list of loose references.</summary>
 		/// <remarks>
 		/// Immutable sorted list of loose references.
-		/// <p>
+		/// <p/>
 		/// Symbolic references in this collection are stored unresolved, that is
 		/// their target appears to be a new reference with no ObjectId. These are
 		/// converted into resolved references during a get operation, ensuring the
@@ -126,7 +126,7 @@ namespace NGit.Storage.File
 		/// <summary>Number of modifications made to this database.</summary>
 		/// <remarks>
 		/// Number of modifications made to this database.
-		/// <p>
+		/// <p/>
 		/// This counter is incremented when a change is made, or detected from the
 		/// filesystem during a read operation.
 		/// </remarks>
@@ -136,7 +136,7 @@ namespace NGit.Storage.File
 		/// Last
 		/// <see cref="modCnt">modCnt</see>
 		/// that we sent to listeners.
-		/// <p>
+		/// <p/>
 		/// This value is compared to
 		/// <see cref="modCnt">modCnt</see>
 		/// , and a notification is sent to

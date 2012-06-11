@@ -58,7 +58,7 @@ namespace NGit.Events
 		/// <summary>Set the repository this event occurred on.</summary>
 		/// <remarks>
 		/// Set the repository this event occurred on.
-		/// <p>
+		/// <p/>
 		/// This method should only be invoked once on each event object, and is
 		/// automatically set by
 		/// <see cref="NGit.Repository.FireEvent(RepositoryEvent{T})">NGit.Repository.FireEvent(RepositoryEvent&lt;T&gt;)

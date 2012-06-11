@@ -51,10 +51,10 @@ namespace NGit
 	/// Fast, efficient map specifically for
 	/// <see cref="ObjectId">ObjectId</see>
 	/// subclasses.
-	/// <p>
+	/// <p/>
 	/// This map provides an efficient translation from any ObjectId instance to a
 	/// cached subclass of ObjectId that has the same value.
-	/// <p>
+	/// <p/>
 	/// If object instances are stored in only one map,
 	/// <see cref="ObjectIdOwnerMap{V}">ObjectIdOwnerMap&lt;V&gt;</see>
 	/// is a
@@ -121,7 +121,7 @@ namespace NGit
 		/// <summary>Store an object for future lookup.</summary>
 		/// <remarks>
 		/// Store an object for future lookup.
-		/// <p>
+		/// <p/>
 		/// An existing mapping for <b>must not</b> be in this map. Callers must
 		/// first call
 		/// <see cref="ObjectIdSubclassMap{V}.Get(AnyObjectId)">ObjectIdSubclassMap&lt;V&gt;.Get(AnyObjectId)
@@ -146,7 +146,7 @@ namespace NGit
 		/// <summary>Store an object for future lookup.</summary>
 		/// <remarks>
 		/// Store an object for future lookup.
-		/// <p>
+		/// <p/>
 		/// Stores
 		/// <code>newValue</code>
 		/// , but only if there is not already an object for

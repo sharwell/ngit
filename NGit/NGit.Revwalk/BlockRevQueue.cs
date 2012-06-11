@@ -79,12 +79,12 @@ namespace NGit.Revwalk
 		/// <summary>Reconfigure this queue to share the same free list as another.</summary>
 		/// <remarks>
 		/// Reconfigure this queue to share the same free list as another.
-		/// <p>
+		/// <p/>
 		/// Multiple revision queues can be connected to the same free list, making
 		/// it less expensive for applications to shuttle commits between them. This
 		/// method arranges for the receiver to take from / return to the same free
 		/// list as the supplied queue.
-		/// <p>
+		/// <p/>
 		/// Free lists are not thread-safe. Applications must ensure that all queues
 		/// sharing the same free list are doing so from only a single thread.
 		/// </remarks>

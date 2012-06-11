@@ -168,11 +168,11 @@ namespace NGit.Transport.Resolver
 		/// <summary>Set whether or not to export all repositories.</summary>
 		/// <remarks>
 		/// Set whether or not to export all repositories.
-		/// <p>
+		/// <p/>
 		/// If false (the default), repositories must have a
 		/// <code>git-daemon-export-ok</code> file to be accessed through this
 		/// daemon.
-		/// <p>
+		/// <p/>
 		/// If true, all repositories are available through the daemon, whether or
 		/// not <code>git-daemon-export-ok</code> exists.
 		/// </remarks>
@@ -185,7 +185,7 @@ namespace NGit.Transport.Resolver
 		/// <summary>Add a single repository to the set that is exported by this daemon.</summary>
 		/// <remarks>
 		/// Add a single repository to the set that is exported by this daemon.
-		/// <p>
+		/// <p/>
 		/// The existence (or lack-thereof) of <code>git-daemon-export-ok</code> is
 		/// ignored by this method. The repository is always published.
 		/// </remarks>
@@ -211,7 +211,7 @@ namespace NGit.Transport.Resolver
 		/// <summary>Check if this repository can be served.</summary>
 		/// <remarks>
 		/// Check if this repository can be served.
-		/// <p>
+		/// <p/>
 		/// The default implementation of this method returns true only if either
 		/// <see cref="FileResolver{C}.IsExportAll()">FileResolver&lt;C&gt;.IsExportAll()</see>
 		/// is true, or the

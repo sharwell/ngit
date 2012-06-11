@@ -49,18 +49,18 @@ namespace NGit.Storage.File
 	/// 	</summary>
 	/// <remarks>
 	/// Caches when a file was last read, making it possible to detect future edits.
-	/// <p>
+	/// <p/>
 	/// This object tracks the last modified time of a file. Later during an
 	/// invocation of
 	/// <see cref="IsModified(Sharpen.FilePath)">IsModified(Sharpen.FilePath)</see>
 	/// the object will return true if the
 	/// file may have been modified and should be re-read from disk.
-	/// <p>
+	/// <p/>
 	/// A snapshot does not "live update" when the underlying filesystem changes.
 	/// Callers must poll for updates by periodically invoking
 	/// <see cref="IsModified(Sharpen.FilePath)">IsModified(Sharpen.FilePath)</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// To work around the "racy git" problem (where a file may be modified multiple
 	/// times within the granularity of the filesystem modification clock) this class
 	/// may return true from isModified(File) if the last modification time of the
@@ -71,7 +71,7 @@ namespace NGit.Storage.File
 		/// <summary>A FileSnapshot that is considered to always be modified.</summary>
 		/// <remarks>
 		/// A FileSnapshot that is considered to always be modified.
-		/// <p>
+		/// <p/>
 		/// This instance is useful for application code that wants to lazily read a
 		/// file, but only after
 		/// <see cref="IsModified(Sharpen.FilePath)">IsModified(Sharpen.FilePath)</see>
@@ -96,7 +96,7 @@ namespace NGit.Storage.File
 		/// <summary>A FileSnapshot that is clean if the file does not exist.</summary>
 		/// <remarks>
 		/// A FileSnapshot that is clean if the file does not exist.
-		/// <p>
+		/// <p/>
 		/// This instance is useful if the application wants to consider a missing
 		/// file to be clean.
 		/// <see cref="IsModified(Sharpen.FilePath)">IsModified(Sharpen.FilePath)</see>
@@ -109,7 +109,7 @@ namespace NGit.Storage.File
 		/// <summary>Record a snapshot for a specific file path.</summary>
 		/// <remarks>
 		/// Record a snapshot for a specific file path.
-		/// <p>
+		/// <p/>
 		/// This method should be invoked before the file is accessed.
 		/// </remarks>
 		/// <param name="path">
@@ -131,7 +131,7 @@ namespace NGit.Storage.File
 		/// <remarks>
 		/// Record a snapshot for a file for which the last modification time is
 		/// already known.
-		/// <p>
+		/// <p/>
 		/// This method should be invoked before the file is accessed.
 		/// </remarks>
 		/// <param name="modified">the last modification time of the file</param>
@@ -184,7 +184,7 @@ namespace NGit.Storage.File
 		/// <summary>Update this snapshot when the content hasn't changed.</summary>
 		/// <remarks>
 		/// Update this snapshot when the content hasn't changed.
-		/// <p>
+		/// <p/>
 		/// If the caller gets true from
 		/// <see cref="IsModified(Sharpen.FilePath)">IsModified(Sharpen.FilePath)</see>
 		/// , re-reads the

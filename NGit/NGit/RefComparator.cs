@@ -50,7 +50,7 @@ namespace NGit
 	/// <summary>Util for sorting (or comparing) Ref instances by name.</summary>
 	/// <remarks>
 	/// Util for sorting (or comparing) Ref instances by name.
-	/// <p>
+	/// <p/>
 	/// Useful for command line tools or writing out refs to file.
 	/// </remarks>
 	public class RefComparator : IComparer<Ref>

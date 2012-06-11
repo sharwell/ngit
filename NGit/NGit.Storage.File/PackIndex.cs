@@ -58,7 +58,7 @@ namespace NGit.Storage.File
 	/// in a
 	/// <see cref="PackFile">PackFile</see>
 	/// .
-	/// <p>
+	/// <p/>
 	/// Indexes are strictly redundant information in that we can rebuild all of the
 	/// data held in the index file from the on disk representation of the pack file
 	/// itself, but it is faster to access for random requests because data is stored
@@ -70,7 +70,7 @@ namespace NGit.Storage.File
 		/// <summary>Open an existing pack <code>.idx</code> file for reading.</summary>
 		/// <remarks>
 		/// Open an existing pack <code>.idx</code> file for reading.
-		/// <p>
+		/// <p/>
 		/// The format of the file will be automatically detected and a proper access
 		/// implementation for that format will be constructed and returned to the
 		/// caller. The file may or may not be held open by the returned instance.
@@ -115,7 +115,7 @@ namespace NGit.Storage.File
 		/// <summary>Read an existing pack index file from a buffered stream.</summary>
 		/// <remarks>
 		/// Read an existing pack index file from a buffered stream.
-		/// <p>
+		/// <p/>
 		/// The format of the file will be automatically detected and a proper access
 		/// implementation for that format will be constructed and returned to the
 		/// caller. The file may or may not be held open by the returned instance.
@@ -185,7 +185,7 @@ namespace NGit.Storage.File
 		/// returns reference to mutable object, the same reference in each call -
 		/// for performance reason. If client needs immutable objects, it must copy
 		/// returned object on its own.
-		/// <p>
+		/// <p/>
 		/// Iterator returns objects in SHA-1 lexicographical order.
 		/// </p>
 		/// </remarks>
@@ -212,7 +212,7 @@ namespace NGit.Storage.File
 		/// Get ObjectId for the n-th object entry returned by
 		/// <see cref="Iterator()">Iterator()</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This method is a constant-time replacement for the following loop:
 		/// <pre>
 		/// Iterator&lt;MutableEntry&gt; eItr = index.iterator();
@@ -237,7 +237,7 @@ namespace NGit.Storage.File
 		/// Get ObjectId for the n-th object entry returned by
 		/// <see cref="Iterator()">Iterator()</see>
 		/// .
-		/// <p>
+		/// <p/>
 		/// This method is a constant-time replacement for the following loop:
 		/// <pre>
 		/// Iterator&lt;MutableEntry&gt; eItr = index.iterator();

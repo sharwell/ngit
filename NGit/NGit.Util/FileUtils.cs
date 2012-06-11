@@ -285,7 +285,7 @@ namespace NGit.Util
 		/// existence of the file and the creation of the file if it does not exist
 		/// are a single operation that is atomic with respect to all other
 		/// filesystem activities that might affect the file.
-		/// <p>
+		/// <p/>
 		/// Note: this method should not be used for file-locking, as the resulting
 		/// protocol cannot be made to work reliably. The
 		/// <see cref="Sharpen.FileLock">Sharpen.FileLock</see>

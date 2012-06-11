@@ -53,12 +53,12 @@ namespace NGit
 	/// <summary>Verifies that an object is formatted correctly.</summary>
 	/// <remarks>
 	/// Verifies that an object is formatted correctly.
-	/// <p>
+	/// <p/>
 	/// Verifications made by this class only check that the fields of an object are
 	/// formatted correctly. The ObjectId checksum of the object is not verified, and
 	/// connectivity links between objects are also not verified. Its assumed that
 	/// the caller can provide both of these validations on its own.
-	/// <p>
+	/// <p/>
 	/// Instances of this class are not thread safe, but they may be reused to
 	/// perform multiple object validations.
 	/// </remarks>

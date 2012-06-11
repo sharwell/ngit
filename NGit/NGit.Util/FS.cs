@@ -153,7 +153,7 @@ namespace NGit.Util
 		/// <summary>Determine if the file is executable (or not).</summary>
 		/// <remarks>
 		/// Determine if the file is executable (or not).
-		/// <p>
+		/// <p/>
 		/// Not all platforms and JREs support executable flags on files. If the
 		/// feature is unsupported this method will always return false.
 		/// </remarks>
@@ -164,7 +164,7 @@ namespace NGit.Util
 		/// <summary>Set a file to be executable by the user.</summary>
 		/// <remarks>
 		/// Set a file to be executable by the user.
-		/// <p>
+		/// <p/>
 		/// Not all platforms and JREs support executable flags on files. If the
 		/// feature is unsupported this method will always return false and no
 		/// changes will be made to the file specified.
@@ -177,12 +177,12 @@ namespace NGit.Util
 		/// <summary>Resolve this file to its actual path name that the JRE can use.</summary>
 		/// <remarks>
 		/// Resolve this file to its actual path name that the JRE can use.
-		/// <p>
+		/// <p/>
 		/// This method can be relatively expensive. Computing a translation may
 		/// require forking an external process per path name translated. Callers
 		/// should try to minimize the number of translations necessary by caching
 		/// the results.
-		/// <p>
+		/// <p/>
 		/// Not all platforms and JREs require path name translation. Currently only
 		/// Cygwin on Win32 require translation for Cygwin based paths.
 		/// </remarks>
@@ -205,10 +205,10 @@ namespace NGit.Util
 		/// <summary>Determine the user's home directory (location where preferences are).</summary>
 		/// <remarks>
 		/// Determine the user's home directory (location where preferences are).
-		/// <p>
+		/// <p/>
 		/// This method can be expensive on the first invocation if path name
 		/// translation is required. Subsequent invocations return a cached result.
-		/// <p>
+		/// <p/>
 		/// Not all platforms and JREs require path name translation. Currently only
 		/// Cygwin on Win32 requires translation of the Cygwin HOME directory.
 		/// </remarks>

@@ -52,11 +52,11 @@ namespace NGit
 	/// Inserts objects into an existing
 	/// <code>ObjectDatabase</code>
 	/// .
-	/// <p>
+	/// <p/>
 	/// An inserter is not thread-safe. Individual threads should each obtain their
 	/// own unique inserter instance, or must arrange for locking at a higher level
 	/// to ensure the inserter is in use by no more than one thread at a time.
-	/// <p>
+	/// <p/>
 	/// Objects written by an inserter may not be immediately visible for reading
 	/// after the insert method completes. Callers must invoke either
 	/// <see cref="Release()">Release()</see>
@@ -114,24 +114,24 @@ namespace NGit
 		/// 	</summary>
 		/// <remarks>
 		/// Obtain a temporary buffer for use by the ObjectInserter or its subclass.
-		/// <p>
+		/// <p/>
 		/// This buffer is supplied by the ObjectInserter base class to itself and
 		/// its subclasses for the purposes of pulling data from a supplied
 		/// InputStream, passing it through a Deflater, or formatting the canonical
 		/// format of a small object like a small tree or commit.
-		/// <p>
+		/// <p/>
 		/// <strong>This buffer IS NOT for translation such as auto-CRLF or content
 		/// filtering and must not be used for such purposes.</strong>
-		/// <p>
+		/// <p/>
 		/// The returned buffer is small, around a few KiBs, and the size may change
 		/// between versions of JGit. Callers using this buffer must always check the
 		/// length of the returned array to ascertain how much space was provided.
-		/// <p>
+		/// <p/>
 		/// There is a single buffer for each ObjectInserter, repeated calls to this
 		/// method will (usually) always return the same buffer. If the caller needs
 		/// more than one buffer, or needs a buffer of a larger size, it must manage
 		/// that buffer on its own.
-		/// <p>
+		/// <p/>
 		/// The buffer is usually on first demand for a buffer.
 		/// </remarks>
 		/// <returns>a temporary byte array for use by the caller.</returns>
@@ -334,7 +334,7 @@ namespace NGit
 		/// <summary>Make all inserted objects visible.</summary>
 		/// <remarks>
 		/// Make all inserted objects visible.
-		/// <p>
+		/// <p/>
 		/// The flush may take some period of time to make the objects available to
 		/// other threads.
 		/// </remarks>
@@ -347,7 +347,7 @@ namespace NGit
 		/// <summary>Release any resources used by this inserter.</summary>
 		/// <remarks>
 		/// Release any resources used by this inserter.
-		/// <p>
+		/// <p/>
 		/// An inserter that has been released can be used again, but may need to be
 		/// released after the subsequent usage.
 		/// </remarks>
